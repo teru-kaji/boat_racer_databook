@@ -1,0 +1,122 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:658255296345367868",
+      "lastPropertyId": "19:4339754572732378508",
+      "name": "Member",
+      "properties": [
+        {
+          "id": "1:5659995356892222369",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:8846676537573119614",
+          "name": "dataTime",
+          "type": 9
+        },
+        {
+          "id": "3:5175693972718858319",
+          "name": "number",
+          "type": 9
+        },
+        {
+          "id": "4:6964318077685775740",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "5:4589279197445247119",
+          "name": "kana3",
+          "type": 9
+        },
+        {
+          "id": "6:6308664108243583555",
+          "name": "blanch",
+          "type": 9
+        },
+        {
+          "id": "7:2356490733601697843",
+          "name": "rank",
+          "type": 9
+        },
+        {
+          "id": "8:919148478547667034",
+          "name": "sex",
+          "type": 9
+        },
+        {
+          "id": "9:728448588195070265",
+          "name": "age",
+          "type": 9
+        },
+        {
+          "id": "10:4629124996623523366",
+          "name": "height",
+          "type": 9
+        },
+        {
+          "id": "11:7616541928478159120",
+          "name": "weight",
+          "type": 9
+        },
+        {
+          "id": "12:4842146869039647723",
+          "name": "blood",
+          "type": 9
+        },
+        {
+          "id": "13:5311703694034200539",
+          "name": "winPointRate",
+          "type": 9
+        },
+        {
+          "id": "14:5563685019089933465",
+          "name": "winRate12",
+          "type": 9
+        },
+        {
+          "id": "15:7386000984543084385",
+          "name": "rankPast1",
+          "type": 9
+        },
+        {
+          "id": "16:3206822075286530144",
+          "name": "rankPast2",
+          "type": 9
+        },
+        {
+          "id": "17:6502025565454242714",
+          "name": "rankPast3",
+          "type": 9
+        },
+        {
+          "id": "18:1007238819144386474",
+          "name": "birthplace",
+          "type": 9
+        },
+        {
+          "id": "19:4339754572732378508",
+          "name": "photo",
+          "type": 9
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "1:658255296345367868",
+  "lastIndexId": "0:0",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}
