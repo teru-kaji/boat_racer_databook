@@ -1,0 +1,74 @@
+{
+  "blue": {
+    "primary": "#2196F3",
+    "background": "#E3F2FD",
+    "surface": "#FFFFFF",
+    "appBar": "#1976D2",
+    "inputFill": "#BBDEFB",
+    "brightness": "light"
+  },
+  "green": {
+    "primary": "#4CAF50",
+    "background": "#E8F5E9",
+    "surface": "#FFFFFF",
+    "appBar": "#388E3C",
+    "inputFill": "#C8E6C9",
+    "brightness": "light"
+  },
+  "dark": {
+    "primary": "#212121",
+    "background": "#303030",
+    "surface": "#424242",
+    "appBar": "#1B1B1B",
+    "inputFill": "#616161",
+    "brightness": "dark"
+  },
+  "midnight": {
+    "primary": "#0D47A1",
+    "background": "#21243B",
+    "surface": "#283593",
+    "appBar": "#1A237E",
+    "inputFill": "#283593",
+    "brightness": "dark"
+  },
+  "ruby": {
+    "primary": "#D32F2F",
+    "background": "#FFEBEE",
+    "surface": "#FFFFFF",
+    "appBar": "#B71C1C",
+    "inputFill": "#FFCDD2",
+    "brightness": "light"
+  },
+  "cyber": {
+    "primary": "#00E5FF",
+    "background": "#11131A",
+    "surface": "#1DE9B6",
+    "appBar": "#00B8D4",
+    "inputFill": "#212B36",
+    "brightness": "dark"
+  },
+  "violet": {
+    "primary": "#9C27B0",
+    "background": "#F3E5F5",
+    "surface": "#FFFFFF",
+    "appBar": "#7B1FA2",
+    "inputFill": "#E1BEE7",
+    "brightness": "light"
+  },
+  "amber": {
+    "primary": "#FFB300",
+    "background": "#FFF8E1",
+    "surface": "#FFFFFF",
+    "appBar": "#FF8F00",
+    "inputFill": "#FFE082",
+    "brightness": "light"
+  },
+  "graphite": {
+    "primary": "#455A64",
+    "background": "#CFD8DC",
+    "surface": "#FFFFFF",
+    "appBar": "#263238",
+    "inputFill": "#B0BEC5",
+    "brightness": "light"
+  }
+}
