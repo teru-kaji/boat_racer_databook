@@ -1,30 +1,26 @@
-//
 // lib/main.dart
-//
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 
 import 'objectbox.dart';
-import 'objectbox.g.dart';  // ← これが必須
 import 'models/member.dart';
+import 'objectbox.g.dart'; // ← Member_ を使うのに必須！
 
 late ObjectBox objectbox;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // 書き込み可能なアプリ専用ディレクトリを取得
+  // 書き込み可能なアプリ専用ディレクトリを使用
   final docDir = await getApplicationDocumentsDirectory();
   final obxDir = p.join(docDir.path, 'objectbox');
 
-  // ★ ストアは1回だけ、明示ディレクトリで開く
   objectbox = await ObjectBox.create(directory: obxDir);
 
-  // 初期投入: members.json（assets）→ DB（空のときだけ）
+  // 初回投入: assets/members.json → DB（空のときだけ）
   await _seedIfEmpty();
 
   runApp(const MyApp());
@@ -37,8 +33,6 @@ Future<void> _seedIfEmpty() async {
     final members = list
         .map((e) => Member.fromJson(e as Map<String, dynamic>))
         .toList();
-
-    // id が 0 の場合は自動採番。number 等でユニーク性があるなら簡易重複除去してもOK
     objectbox.memberBox.putMany(members);
   }
 }
@@ -67,56 +61,138 @@ class MemberListPage extends StatefulWidget {
 }
 
 class _MemberListPageState extends State<MemberListPage> {
-  final _controller = TextEditingController();
+  // 入力コントロール
+  final _numberCtrl = TextEditingController(); // 登録番号
+  final _nameCtrl = TextEditingController();   // 名前（部分一致）
+  String? _selectedSeason; // 期（DataSeason）
+  String? _selectedSex;    // 性別（"1"=男, "2"=女 などデータ準拠）
+  String? _selectedRank;   // 級別（A1/A2/B1/B2 等）
+
+  // 一覧表示
   List<Member> _items = [];
+
+  // プルダウン候補
+  List<String> _seasonOptions = [];
+  List<String> _sexOptions = [];
+  List<String> _rankOptions = [];
 
   @override
   void initState() {
     super.initState();
-    _refresh();
+    _loadInitial();
   }
 
-  void _refresh() {
-    // 全件（必要に応じてソート）
+  void _loadInitial() {
+    // 全件ロード（簡易ソート）
     final all = objectbox.memberBox.getAll();
-    all.sort((a, b) {
-      final an = (a.number ?? '');
-      final bn = (b.number ?? '');
-      return an.compareTo(bn);
-    });
+    all.sort((a, b) => (a.number ?? '').compareTo(b.number ?? ''));
     setState(() => _items = all);
+
+    // 候補をDBから抽出（null/空は除外、表示順は昇順）
+    _seasonOptions = _distinctNonEmpty(all.map((m) => m.dataSeason));
+    _sexOptions = _distinctNonEmpty(all.map((m) => m.sex));
+    _rankOptions = _distinctNonEmpty(all.map((m) => m.rank));
   }
 
-  void _search(String q) {
-    final keyword = q.trim();
-    if (keyword.isEmpty) {
-      _refresh();
-      return;
+  List<String> _distinctNonEmpty(Iterable<String?> source) {
+    final set = <String>{};
+    for (final v in source) {
+      final s = (v ?? '').trim();
+      if (s.isNotEmpty) set.add(s);
+    }
+    final list = set.toList()..sort();
+    return list;
+  }
+
+  void _resetFilters() {
+    _numberCtrl.clear();
+    _nameCtrl.clear();
+    setState(() {
+      _selectedSeason = null;
+      _selectedSex = null;
+      _selectedRank = null;
+    });
+    _applyFilters();
+  }
+
+  void _applyFilters() {
+    // 文字列パラメータを取得
+    final number = _numberCtrl.text.trim();
+    final name = _nameCtrl.text.trim();
+    final season = _selectedSeason?.trim() ?? '';
+    final sex = _selectedSex?.trim() ?? '';
+    final rank = _selectedRank?.trim() ?? '';
+
+    // 条件を積み上げる
+    Condition<Member>? cond;
+
+    // 期（完全一致）
+    if (season.isNotEmpty) {
+      final c = Member_.dataSeason.equals(season);
+      cond = (cond == null) ? c : (cond & c);
     }
 
-    // 簡易全文検索（必要ならクエリビルダで最適化）
-    final res = objectbox.memberBox
-        .query(
-      Member_.name.contains(keyword, caseSensitive: false) |
-      Member_.nameKana.contains(keyword, caseSensitive: false) |
-      Member_.number.contains(keyword, caseSensitive: false) |
-      Member_.kana3.contains(keyword, caseSensitive: false),
-    )
-        .build()
-        .find();
+    // 登録番号（完全一致 or 前方一致にするなら startsWith に変更）
+    if (number.isNotEmpty) {
+      final c = Member_.number.equals(number);
+      cond = (cond == null) ? c : (cond & c);
+    }
+
+    // 名前（部分一致）
+    if (name.isNotEmpty) {
+      final c = Member_.name.contains(name, caseSensitive: false);
+      cond = (cond == null) ? c : (cond & c);
+    }
+
+    // 性別（完全一致）
+    if (sex.isNotEmpty) {
+      final c = Member_.sex.equals(sex);
+      cond = (cond == null) ? c : (cond & c);
+    }
+
+    // 級別（完全一致）
+    if (rank.isNotEmpty) {
+      final c = Member_.rank.equals(rank);
+      cond = (cond == null) ? c : (cond & c);
+    }
+
+    // クエリ実行
+    final qb = objectbox.memberBox.query(cond).build();
+    final res = qb.find();
+    qb.close();
+
+    // 表示用にソート（登録番号 → 名前）
+    res.sort((a, b) {
+      final n = (a.number ?? '').compareTo(b.number ?? '');
+      if (n != 0) return n;
+      return (a.name ?? '').compareTo(b.name ?? '');
+    });
 
     setState(() => _items = res);
   }
 
   @override
+  void dispose() {
+    _numberCtrl.dispose();
+    _nameCtrl.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Members'),
         actions: [
           IconButton(
-            onPressed: _refresh,
+            onPressed: () {
+              _loadInitial();
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('一覧を再読み込みしました')),
+              );
+            },
             icon: const Icon(Icons.refresh),
             tooltip: 'Reload',
           ),
@@ -124,30 +200,94 @@ class _MemberListPageState extends State<MemberListPage> {
       ),
       body: Column(
         children: [
+          // ---- フィルタUI ----
           Padding(
             padding: const EdgeInsets.fromLTRB(12, 12, 12, 8),
-            child: TextField(
-              controller: _controller,
-              decoration: InputDecoration(
-                hintText: '番号・名前・カナで検索',
-                prefixIcon: const Icon(Icons.search),
-                border: const OutlineInputBorder(),
-                suffixIcon: (_controller.text.isNotEmpty)
-                    ? IconButton(
-                  onPressed: () {
-                    _controller.clear();
-                    _search('');
-                  },
-                  icon: const Icon(Icons.clear),
-                )
-                    : null,
-              ),
-              onChanged: _search,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Wrap(
+                  spacing: 12,
+                  runSpacing: 12,
+                  alignment: WrapAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: 160,
+                      child: TextField(
+                        controller: _numberCtrl,
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(
+                          labelText: '登録番号',
+                          border: OutlineInputBorder(),
+                          isDense: true,
+                        ),
+                        onChanged: (_) => _applyFilters(),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 240,
+                      child: TextField(
+                        controller: _nameCtrl,
+                        decoration: const InputDecoration(
+                          labelText: '名前（部分一致）',
+                          border: OutlineInputBorder(),
+                          isDense: true,
+                        ),
+                        onChanged: (_) => _applyFilters(),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 160,
+                      child: _buildDropdown(
+                        label: '期',
+                        value: _selectedSeason,
+                        items: _seasonOptions,
+                        onChanged: (v) {
+                          setState(() => _selectedSeason = v);
+                          _applyFilters();
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      width: 160,
+                      child: _buildDropdown(
+                        label: '性別',
+                        value: _selectedSex,
+                        items: _sexOptions,
+                        // 表示はラベル変換（"1"→"男","2"→"女"）したい場合はここで加工してもOK
+                        onChanged: (v) {
+                          setState(() => _selectedSex = v);
+                          _applyFilters();
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      width: 160,
+                      child: _buildDropdown(
+                        label: '級別',
+                        value: _selectedRank,
+                        items: _rankOptions,
+                        onChanged: (v) {
+                          setState(() => _selectedRank = v);
+                          _applyFilters();
+                        },
+                      ),
+                    ),
+                    FilledButton.tonalIcon(
+                      onPressed: _resetFilters,
+                      icon: const Icon(Icons.clear_all),
+                      label: const Text('条件クリア'),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
+          const Divider(height: 1),
+          // ---- リスト ----
           Expanded(
             child: _items.isEmpty
-                ? const Center(child: Text('データがありません'))
+                ? const Center(child: Text('該当データがありません'))
                 : ListView.separated(
               itemCount: _items.length,
               separatorBuilder: (_, __) => const Divider(height: 1),
@@ -155,15 +295,20 @@ class _MemberListPageState extends State<MemberListPage> {
                 final m = _items[index];
                 return ListTile(
                   leading: CircleAvatar(
-                    child: Text((m.kana3 ?? (m.nameKana ?? ' ')).isNotEmpty
-                        ? (m.kana3 ?? m.nameKana!)!.characters.first
-                        : '?'),
+                    child: Text(
+                      ((m.name ?? m.number ?? '?').isNotEmpty)
+                          ? (m.name ?? m.number ?? '?')
+                          .characters
+                          .first
+                          : '?',
+                    ),
                   ),
-                  title: Text(m.name ?? m.number ?? '(no name)'),
+                  title: Text(m.name ?? '(no name)'),
                   subtitle: Text([
                     if ((m.number ?? '').isNotEmpty) 'No.${m.number}',
-                    if ((m.rank ?? '').isNotEmpty) 'Rank:${m.rank}',
-                    if (m.scoreRate != null) 'Score:${m.scoreRate}',
+                    if ((m.rank ?? '').isNotEmpty) '級別:${m.rank}',
+                    if ((m.sex ?? '').isNotEmpty) '性別:${m.sex}',
+                    if ((m.dataSeason ?? '').isNotEmpty) '期:${m.dataSeason}',
                   ].join('  ')),
                 );
               },
@@ -173,10 +318,10 @@ class _MemberListPageState extends State<MemberListPage> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          // 簡易的に DB を空にして再投入（デモ用）
+          // デモ用: DB を空にして再投入
           objectbox.memberBox.removeAll();
           await _seedIfEmpty();
-          _refresh();
+          _loadInitial();
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('members.json を再投入しました')),
@@ -186,6 +331,34 @@ class _MemberListPageState extends State<MemberListPage> {
         label: const Text('Reset & Seed'),
         icon: const Icon(Icons.replay),
       ),
+    );
+  }
+
+  // 共通ドロップダウン
+  Widget _buildDropdown({
+    required String label,
+    required String? value,
+    required List<String> items,
+    required ValueChanged<String?> onChanged,
+  }) {
+    return DropdownButtonFormField<String>(
+      value: value,
+      isDense: true,
+      decoration: InputDecoration(
+        labelText: label,
+        border: const OutlineInputBorder(),
+      ),
+      items: [
+        const DropdownMenuItem<String>(
+          value: null,
+          child: Text('（すべて）'),
+        ),
+        ...items.map((e) => DropdownMenuItem<String>(
+          value: e,
+          child: Text(e),
+        )),
+      ],
+      onChanged: onChanged,
     );
   }
 }
