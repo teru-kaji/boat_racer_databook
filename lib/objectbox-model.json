@@ -5,14 +5,14 @@
   "entities": [
     {
       "id": "1:658255296345367868",
-      "lastPropertyId": "19:4339754572732378508",
+      "lastPropertyId": "38:5943826483361680632",
       "name": "Member",
       "properties": [
         {
           "id": "1:5659995356892222369",
           "name": "id",
           "type": 6,
-          "flags": 1
+          "flags": 129
         },
         {
           "id": "2:8846676537573119614",
@@ -70,11 +70,6 @@
           "type": 9
         },
         {
-          "id": "13:5311703694034200539",
-          "name": "winPointRate",
-          "type": 9
-        },
-        {
           "id": "14:5563685019089933465",
           "name": "winRate12",
           "type": 9
@@ -103,6 +98,101 @@
           "id": "19:4339754572732378508",
           "name": "photo",
           "type": 9
+        },
+        {
+          "id": "20:2990073746427575158",
+          "name": "kana",
+          "type": 9
+        },
+        {
+          "id": "21:7416923834742774636",
+          "name": "kana2",
+          "type": 9
+        },
+        {
+          "id": "22:7523426013340749203",
+          "name": "wBirthday",
+          "type": 9
+        },
+        {
+          "id": "23:4680132511344749913",
+          "name": "gBirthday",
+          "type": 9
+        },
+        {
+          "id": "24:6256213729802997996",
+          "name": "firstPlaceCount",
+          "type": 6
+        },
+        {
+          "id": "25:8410614239284623814",
+          "name": "secondPlaceCount",
+          "type": 6
+        },
+        {
+          "id": "26:4283913435647663899",
+          "name": "numberOfRace",
+          "type": 6
+        },
+        {
+          "id": "27:74188166824651822",
+          "name": "numberOfFinals",
+          "type": 6
+        },
+        {
+          "id": "28:6922586012684142459",
+          "name": "numberOfWins",
+          "type": 6
+        },
+        {
+          "id": "29:4987575879291559776",
+          "name": "startTiming",
+          "type": 8
+        },
+        {
+          "id": "30:2651612065980842304",
+          "name": "pastAbilityScore",
+          "type": 6
+        },
+        {
+          "id": "31:8420951689126147285",
+          "name": "lastAbilityScore",
+          "type": 6
+        },
+        {
+          "id": "32:2798287411165930578",
+          "name": "dataYear",
+          "type": 9
+        },
+        {
+          "id": "33:4283040212613205218",
+          "name": "dataSeason",
+          "type": 9
+        },
+        {
+          "id": "34:7065929595543637105",
+          "name": "startDate",
+          "type": 9
+        },
+        {
+          "id": "35:8356694847231549499",
+          "name": "endDate",
+          "type": 9
+        },
+        {
+          "id": "36:4307778047163282611",
+          "name": "generation",
+          "type": 9
+        },
+        {
+          "id": "37:492538227565874537",
+          "name": "nameKana",
+          "type": 9
+        },
+        {
+          "id": "38:5943826483361680632",
+          "name": "scoreRate",
+          "type": 8
         }
       ],
       "relations": []
@@ -116,7 +206,9 @@
   "modelVersionParserMinimum": 5,
   "retiredEntityUids": [],
   "retiredIndexUids": [],
-  "retiredPropertyUids": [],
+  "retiredPropertyUids": [
+    5311703694034200539
+  ],
   "retiredRelationUids": [],
   "version": 1
 }
