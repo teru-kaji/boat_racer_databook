@@ -7,20 +7,18 @@ import 'package:path/path.dart' as p;
 
 import 'objectbox.dart';
 import 'models/member.dart';
-import 'objectbox.g.dart'; // ← Member_ を使うのに必須！
+import 'objectbox.g.dart'; // ← Member_ を使うのに必須
 
 late ObjectBox objectbox;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // 書き込み可能なアプリ専用ディレクトリを使用
   final docDir = await getApplicationDocumentsDirectory();
   final obxDir = p.join(docDir.path, 'objectbox');
 
   objectbox = await ObjectBox.create(directory: obxDir);
 
-  // 初回投入: assets/members.json → DB（空のときだけ）
   await _seedIfEmpty();
 
   runApp(const MyApp());
@@ -63,16 +61,16 @@ class MemberListPage extends StatefulWidget {
 class _MemberListPageState extends State<MemberListPage> {
   // 入力コントロール
   final _numberCtrl = TextEditingController(); // 登録番号
-  final _nameCtrl = TextEditingController();   // 名前（部分一致）
-  String? _selectedSeason; // 期（DataSeason）
-  String? _selectedSex;    // 性別（"1"=男, "2"=女 などデータ準拠）
-  String? _selectedRank;   // 級別（A1/A2/B1/B2 等）
+  final _nameCtrl = TextEditingController();   // 名前
+  String? _selectedDataTime; // 期 (DataTime)
+  String? _selectedSex;      // 性別
+  String? _selectedRank;     // 級別
 
   // 一覧表示
   List<Member> _items = [];
 
-  // プルダウン候補
-  List<String> _seasonOptions = [];
+  // ドロップダウン候補
+  List<String> _dataTimeOptions = [];
   List<String> _sexOptions = [];
   List<String> _rankOptions = [];
 
@@ -83,17 +81,22 @@ class _MemberListPageState extends State<MemberListPage> {
   }
 
   void _loadInitial() {
-    // 全件ロード（簡易ソート）
     final all = objectbox.memberBox.getAll();
-    all.sort((a, b) => (a.number ?? '').compareTo(b.number ?? ''));
-    setState(() => _items = all);
 
-    // 候補をDBから抽出（null/空は除外、表示順は昇順）
-    _seasonOptions = _distinctNonEmpty(all.map((m) => m.dataSeason));
+    _dataTimeOptions = _distinctNonEmpty(all.map((m) => m.dataTime));
     _sexOptions = _distinctNonEmpty(all.map((m) => m.sex));
     _rankOptions = _distinctNonEmpty(all.map((m) => m.rank));
+
+    // ★ dataTime の最大値を初期値にセット
+    if (_dataTimeOptions.isNotEmpty) {
+      _selectedDataTime =
+          _dataTimeOptions.reduce((a, b) => a.compareTo(b) > 0 ? a : b);
+    }
+
+    _applyFilters();
   }
 
+  /// null や空文字を除去して、重複しないソート済みリストを返す
   List<String> _distinctNonEmpty(Iterable<String?> source) {
     final set = <String>{};
     for (final v in source) {
@@ -108,7 +111,11 @@ class _MemberListPageState extends State<MemberListPage> {
     _numberCtrl.clear();
     _nameCtrl.clear();
     setState(() {
-      _selectedSeason = null;
+      // DataTime はリセットしても最新期を残す
+      if (_dataTimeOptions.isNotEmpty) {
+        _selectedDataTime =
+            _dataTimeOptions.reduce((a, b) => a.compareTo(b) > 0 ? a : b);
+      }
       _selectedSex = null;
       _selectedRank = null;
     });
@@ -116,58 +123,44 @@ class _MemberListPageState extends State<MemberListPage> {
   }
 
   void _applyFilters() {
-    // 文字列パラメータを取得
     final number = _numberCtrl.text.trim();
     final name = _nameCtrl.text.trim();
-    final season = _selectedSeason?.trim() ?? '';
+    final dataTime = _selectedDataTime?.trim() ?? '';
     final sex = _selectedSex?.trim() ?? '';
     final rank = _selectedRank?.trim() ?? '';
 
-    // 条件を積み上げる
     Condition<Member>? cond;
 
-    // 期（完全一致）
-    if (season.isNotEmpty) {
-      final c = Member_.dataSeason.equals(season);
+    if (dataTime.isNotEmpty) {
+      final c = Member_.dataTime.equals(dataTime);
       cond = (cond == null) ? c : (cond & c);
     }
 
-    // 登録番号（完全一致 or 前方一致にするなら startsWith に変更）
     if (number.isNotEmpty) {
       final c = Member_.number.equals(number);
       cond = (cond == null) ? c : (cond & c);
     }
 
-    // 名前（部分一致）
     if (name.isNotEmpty) {
       final c = Member_.name.contains(name, caseSensitive: false);
       cond = (cond == null) ? c : (cond & c);
     }
 
-    // 性別（完全一致）
     if (sex.isNotEmpty) {
       final c = Member_.sex.equals(sex);
       cond = (cond == null) ? c : (cond & c);
     }
 
-    // 級別（完全一致）
     if (rank.isNotEmpty) {
       final c = Member_.rank.equals(rank);
       cond = (cond == null) ? c : (cond & c);
     }
 
-    // クエリ実行
     final qb = objectbox.memberBox.query(cond).build();
     final res = qb.find();
     qb.close();
 
-    // 表示用にソート（登録番号 → 名前）
-    res.sort((a, b) {
-      final n = (a.number ?? '').compareTo(b.number ?? '');
-      if (n != 0) return n;
-      return (a.name ?? '').compareTo(b.name ?? '');
-    });
-
+    res.sort((a, b) => (a.number ?? '').compareTo(b.number ?? ''));
     setState(() => _items = res);
   }
 
@@ -180,8 +173,6 @@ class _MemberListPageState extends State<MemberListPage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Members'),
@@ -200,7 +191,6 @@ class _MemberListPageState extends State<MemberListPage> {
       ),
       body: Column(
         children: [
-          // ---- フィルタUI ----
           Padding(
             padding: const EdgeInsets.fromLTRB(12, 12, 12, 8),
             child: Column(
@@ -209,7 +199,6 @@ class _MemberListPageState extends State<MemberListPage> {
                 Wrap(
                   spacing: 12,
                   runSpacing: 12,
-                  alignment: WrapAlignment.start,
                   children: [
                     SizedBox(
                       width: 160,
@@ -239,11 +228,11 @@ class _MemberListPageState extends State<MemberListPage> {
                     SizedBox(
                       width: 160,
                       child: _buildDropdown(
-                        label: '期',
-                        value: _selectedSeason,
-                        items: _seasonOptions,
+                        label: '期 (DataTime)',
+                        value: _selectedDataTime,
+                        items: _dataTimeOptions,
                         onChanged: (v) {
-                          setState(() => _selectedSeason = v);
+                          setState(() => _selectedDataTime = v);
                           _applyFilters();
                         },
                       ),
@@ -254,7 +243,6 @@ class _MemberListPageState extends State<MemberListPage> {
                         label: '性別',
                         value: _selectedSex,
                         items: _sexOptions,
-                        // 表示はラベル変換（"1"→"男","2"→"女"）したい場合はここで加工してもOK
                         onChanged: (v) {
                           setState(() => _selectedSex = v);
                           _applyFilters();
@@ -284,7 +272,6 @@ class _MemberListPageState extends State<MemberListPage> {
             ),
           ),
           const Divider(height: 1),
-          // ---- リスト ----
           Expanded(
             child: _items.isEmpty
                 ? const Center(child: Text('該当データがありません'))
@@ -306,9 +293,9 @@ class _MemberListPageState extends State<MemberListPage> {
                   title: Text(m.name ?? '(no name)'),
                   subtitle: Text([
                     if ((m.number ?? '').isNotEmpty) 'No.${m.number}',
-                    if ((m.rank ?? '').isNotEmpty) '級別:${m.rank}',
+                    if ((m.dataTime ?? '').isNotEmpty) '期:${m.dataTime}',
                     if ((m.sex ?? '').isNotEmpty) '性別:${m.sex}',
-                    if ((m.dataSeason ?? '').isNotEmpty) '期:${m.dataSeason}',
+                    if ((m.rank ?? '').isNotEmpty) '級別:${m.rank}',
                   ].join('  ')),
                 );
               },
@@ -318,7 +305,6 @@ class _MemberListPageState extends State<MemberListPage> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          // デモ用: DB を空にして再投入
           objectbox.memberBox.removeAll();
           await _seedIfEmpty();
           _loadInitial();
