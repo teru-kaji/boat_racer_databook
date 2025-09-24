@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:658255296345367868",
-      "lastPropertyId": "38:5943826483361680632",
+      "lastPropertyId": "75:4434854291132245090",
       "name": "Member",
       "properties": [
         {
@@ -122,42 +122,42 @@
         {
           "id": "24:6256213729802997996",
           "name": "firstPlaceCount",
-          "type": 6
+          "type": 9
         },
         {
           "id": "25:8410614239284623814",
           "name": "secondPlaceCount",
-          "type": 6
+          "type": 9
         },
         {
           "id": "26:4283913435647663899",
           "name": "numberOfRace",
-          "type": 6
+          "type": 9
         },
         {
           "id": "27:74188166824651822",
           "name": "numberOfFinals",
-          "type": 6
+          "type": 9
         },
         {
           "id": "28:6922586012684142459",
           "name": "numberOfWins",
-          "type": 6
+          "type": 9
         },
         {
           "id": "29:4987575879291559776",
           "name": "startTiming",
-          "type": 8
+          "type": 9
         },
         {
           "id": "30:2651612065980842304",
           "name": "pastAbilityScore",
-          "type": 6
+          "type": 9
         },
         {
           "id": "31:8420951689126147285",
           "name": "lastAbilityScore",
-          "type": 6
+          "type": 9
         },
         {
           "id": "32:2798287411165930578",
@@ -190,9 +190,189 @@
           "type": 9
         },
         {
-          "id": "38:5943826483361680632",
-          "name": "scoreRate",
-          "type": 8
+          "id": "39:3979181640722378541",
+          "name": "winPointRate",
+          "type": 9
+        },
+        {
+          "id": "40:5966712961733619181",
+          "name": "numberOfEntries1",
+          "type": 9
+        },
+        {
+          "id": "41:7272732033736783100",
+          "name": "numberOfEntries2",
+          "type": 9
+        },
+        {
+          "id": "42:2730201868099992915",
+          "name": "numberOfEntries3",
+          "type": 9
+        },
+        {
+          "id": "43:2017482494582044620",
+          "name": "numberOfEntries4",
+          "type": 9
+        },
+        {
+          "id": "44:8716060082646541934",
+          "name": "numberOfEntries5",
+          "type": 9
+        },
+        {
+          "id": "45:6382160429419102654",
+          "name": "numberOfEntries6",
+          "type": 9
+        },
+        {
+          "id": "46:1223201796261136228",
+          "name": "winRate121",
+          "type": 9
+        },
+        {
+          "id": "47:2851744903952615279",
+          "name": "winRate122",
+          "type": 9
+        },
+        {
+          "id": "48:7922308525436750562",
+          "name": "winRate123",
+          "type": 9
+        },
+        {
+          "id": "49:1303214568481979397",
+          "name": "winRate124",
+          "type": 9
+        },
+        {
+          "id": "50:7772243949855843816",
+          "name": "winRate125",
+          "type": 9
+        },
+        {
+          "id": "51:2279802080753274566",
+          "name": "winRate126",
+          "type": 9
+        },
+        {
+          "id": "52:1831683497203200924",
+          "name": "startTime1",
+          "type": 9
+        },
+        {
+          "id": "53:1179079118307699268",
+          "name": "startTime2",
+          "type": 9
+        },
+        {
+          "id": "54:1084632100062748686",
+          "name": "startTime3",
+          "type": 9
+        },
+        {
+          "id": "55:986312834272600920",
+          "name": "startTime4",
+          "type": 9
+        },
+        {
+          "id": "56:5511977770703529733",
+          "name": "startTime5",
+          "type": 9
+        },
+        {
+          "id": "57:1992376159236877062",
+          "name": "startTime6",
+          "type": 9
+        },
+        {
+          "id": "58:5625168110149993217",
+          "name": "firstPlace1",
+          "type": 9
+        },
+        {
+          "id": "59:3501619423687194436",
+          "name": "firstPlace2",
+          "type": 9
+        },
+        {
+          "id": "60:9101012003075018622",
+          "name": "firstPlace3",
+          "type": 9
+        },
+        {
+          "id": "61:186986859415417884",
+          "name": "firstPlace4",
+          "type": 9
+        },
+        {
+          "id": "62:140611906653012731",
+          "name": "firstPlace5",
+          "type": 9
+        },
+        {
+          "id": "63:5451532050764726811",
+          "name": "firstPlace6",
+          "type": 9
+        },
+        {
+          "id": "64:160162591682594195",
+          "name": "secondPlace1",
+          "type": 9
+        },
+        {
+          "id": "65:2085641624420259172",
+          "name": "secondPlace2",
+          "type": 9
+        },
+        {
+          "id": "66:4835017876073647929",
+          "name": "secondPlace3",
+          "type": 9
+        },
+        {
+          "id": "67:8808233909118200040",
+          "name": "secondPlace4",
+          "type": 9
+        },
+        {
+          "id": "68:3096648577534871017",
+          "name": "secondPlace5",
+          "type": 9
+        },
+        {
+          "id": "69:7148786480683683442",
+          "name": "secondPlace6",
+          "type": 9
+        },
+        {
+          "id": "70:4328845138461386045",
+          "name": "thirdPlace1",
+          "type": 9
+        },
+        {
+          "id": "71:355604752468557213",
+          "name": "thirdPlace2",
+          "type": 9
+        },
+        {
+          "id": "72:1511689575722365925",
+          "name": "thirdPlace3",
+          "type": 9
+        },
+        {
+          "id": "73:8679674068635237079",
+          "name": "thirdPlace4",
+          "type": 9
+        },
+        {
+          "id": "74:3679817684675493004",
+          "name": "thirdPlace5",
+          "type": 9
+        },
+        {
+          "id": "75:4434854291132245090",
+          "name": "thirdPlace6",
+          "type": 9
         }
       ],
       "relations": []
@@ -207,7 +387,8 @@
   "retiredEntityUids": [],
   "retiredIndexUids": [],
   "retiredPropertyUids": [
-    5311703694034200539
+    5311703694034200539,
+    5943826483361680632
   ],
   "retiredRelationUids": [],
   "version": 1

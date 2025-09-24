@@ -1,87 +1,112 @@
-// lib/models/member.dart
 import 'package:objectbox/objectbox.dart';
 
-/// ObjectBox エンティティ
-/// - UI/検索側で使用している nameKana / scoreRate を「実フィールド」として定義
-/// - members.json の主要フィールドは可能な範囲で保持
 @Entity()
 class Member {
   @Id(assignable: true)
   int id;
 
-  // ===== 検索/UIで使う主要フィールド =====
-  String? number;       // Number
-  String? name;         // Name
-  String? nameKana;     // ← UI/検索が参照（Kana2 相当・全角カナを想定）
-  String? kana3;        // ひらがな相当（必要に応じて検索対象にしてもOK）
-  String? dataSeason;   // DataSeason（期）
-  double? scoreRate;    // ← UIが参照（WinPointRate を流し込み）
+  // 基本情報
+  String? dataTime;
+  String? number;
+  String? name;
+  String? nameKana;
+  String? kana;
+  String? kana2;
+  String? kana3;
+  String? blanch;
+  String? rank;
+  String? wBirthday;
+  String? gBirthday;
+  String? sex;
+  String? age;
+  String? height;
+  String? weight;
+  String? blood;
+  String? birthplace;
+  String? photo;
 
-  // ===== その他: JSON由来の主な属性 =====
-  String? dataTime;     // DataTime
-  String? kana;         // Kana（半角カナ）
-  String? kana2;        // Kana2（全角カナ）
-  String? blanch;       // 支部 (Blanch)
-  String? rank;         // Rank
-  String? wBirthday;    // 和暦生年月日 (WBirthday)
-  String? gBirthday;    // 西暦生年月日 (GBirthday)
-  String? sex;          // Sex (1=男, 2=女)
-  String? age;     // 既存ストア互換：String
-  String? height;  // 既存ストア互換：String
-  String? weight;  // 既存ストア互換：String
-  String? blood;        // Blood
-  String? birthplace;   // Birthplace
-  String? photo;        // Photo URL
+  // 成績関連
+  String? winPointRate;
+  String? winRate12;
+  String? firstPlaceCount;
+  String? secondPlaceCount;
+  String? numberOfRace;
+  String? numberOfFinals;
+  String? numberOfWins;
+  String? startTiming;
 
-  // 成績/統計
-  String? winRate12;      // ← 既存DBに合わせる
-  int? firstPlaceCount;     // 1着回数
-  int? secondPlaceCount;    // 2着回数
-  int? numberOfRace;        // 出走数
-  int? numberOfFinals;      // 優出回数
-  int? numberOfWins;        // 優勝回数
-  double? startTiming;      // ST平均 (StartTiming)
-
-  // ランク履歴/能力
+  // 過去ランク・能力値
   String? rankPast1;
   String? rankPast2;
   String? rankPast3;
-  int? pastAbilityScore;
-  int? lastAbilityScore;
+  String? pastAbilityScore;
+  String? lastAbilityScore;
 
-  // データ期間など
+  // データ年度・期
   String? dataYear;
+  String? dataSeason;
   String? startDate;
   String? endDate;
-  String? generation; // Genetation（原文の綴りに合わせて保持）
+  String? generation;
 
-  // ===== インデックス（検索高速化） =====
-  @Index()
-  String? get idx_number => number;
+  // ===== コース別 =====
+  // 出走数
+  String? numberOfEntries1;
+  String? numberOfEntries2;
+  String? numberOfEntries3;
+  String? numberOfEntries4;
+  String? numberOfEntries5;
+  String? numberOfEntries6;
 
-  @Index()
-  String? get idx_name => name;
+  // 複勝率
+  String? winRate121;
+  String? winRate122;
+  String? winRate123;
+  String? winRate124;
+  String? winRate125;
+  String? winRate126;
 
-  @Index()
-  String? get idx_nameKana => nameKana;
+  // ST平均
+  String? startTime1;
+  String? startTime2;
+  String? startTime3;
+  String? startTime4;
+  String? startTime5;
+  String? startTime6;
 
-  @Index()
-  String? get idx_kana3 => kana3;
+  // 1着回数
+  String? firstPlace1;
+  String? firstPlace2;
+  String? firstPlace3;
+  String? firstPlace4;
+  String? firstPlace5;
+  String? firstPlace6;
 
-  @Index()
-  String? get idx_dataSeason => dataSeason;
+  // 2着回数
+  String? secondPlace1;
+  String? secondPlace2;
+  String? secondPlace3;
+  String? secondPlace4;
+  String? secondPlace5;
+  String? secondPlace6;
+
+  // 3着回数
+  String? thirdPlace1;
+  String? thirdPlace2;
+  String? thirdPlace3;
+  String? thirdPlace4;
+  String? thirdPlace5;
+  String? thirdPlace6;
 
   Member({
     this.id = 0,
+    this.dataTime,
     this.number,
     this.name,
     this.nameKana,
-    this.kana3,
-    this.dataSeason,
-    this.scoreRate,
-    this.dataTime,
     this.kana,
     this.kana2,
+    this.kana3,
     this.blanch,
     this.rank,
     this.wBirthday,
@@ -93,6 +118,7 @@ class Member {
     this.blood,
     this.birthplace,
     this.photo,
+    this.winPointRate,
     this.winRate12,
     this.firstPlaceCount,
     this.secondPlaceCount,
@@ -106,41 +132,55 @@ class Member {
     this.pastAbilityScore,
     this.lastAbilityScore,
     this.dataYear,
+    this.dataSeason,
     this.startDate,
     this.endDate,
     this.generation,
+    this.numberOfEntries1,
+    this.numberOfEntries2,
+    this.numberOfEntries3,
+    this.numberOfEntries4,
+    this.numberOfEntries5,
+    this.numberOfEntries6,
+    this.winRate121,
+    this.winRate122,
+    this.winRate123,
+    this.winRate124,
+    this.winRate125,
+    this.winRate126,
+    this.startTime1,
+    this.startTime2,
+    this.startTime3,
+    this.startTime4,
+    this.startTime5,
+    this.startTime6,
+    this.firstPlace1,
+    this.firstPlace2,
+    this.firstPlace3,
+    this.firstPlace4,
+    this.firstPlace5,
+    this.firstPlace6,
+    this.secondPlace1,
+    this.secondPlace2,
+    this.secondPlace3,
+    this.secondPlace4,
+    this.secondPlace5,
+    this.secondPlace6,
+    this.thirdPlace1,
+    this.thirdPlace2,
+    this.thirdPlace3,
+    this.thirdPlace4,
+    this.thirdPlace5,
+    this.thirdPlace6,
   });
 
-  // ===== JSON 取込み =====
   factory Member.fromJson(Map<String, dynamic> json) {
-    double? parseDouble(dynamic v) {
-      if (v == null) return null;
-      if (v is num) return v.toDouble();
-      if (v is String) {
-        final sv = v.trim().replaceAll('%', '');
-        return double.tryParse(sv);
-      }
-      return null;
-    }
-
-    int? parseInt(dynamic v) {
-      if (v == null) return null;
-      if (v is int) return v;
-      if (v is String) return int.tryParse(v);
-      return null;
-    }
-
-    // WinPointRate -> scoreRate（UIで参照するためエイリアスとして保持）
-    final winPointRate = parseDouble(json['WinPointRate']);
-
     return Member(
-      id: parseInt(json['Id']) ?? 0,
+      id: int.tryParse(json['Id']?.toString() ?? '') ?? 0,
       dataTime: json['DataTime']?.toString(),
       number: json['Number']?.toString(),
       name: json['Name']?.toString(),
-      // 可能なら NameKana を最優先 → 無ければ Kana2（全角） → 無ければ Kana（半角）
-      nameKana: (json['NameKana'] ?? json['Kana2'] ?? json['Kana'])?.toString(),
-      // そのまま別名も保持（必要なら UI からも使える）
+      nameKana: json['NameKana']?.toString(),
       kana: json['Kana']?.toString(),
       kana2: json['Kana2']?.toString(),
       kana3: json['Kana3']?.toString(),
@@ -155,65 +195,60 @@ class Member {
       blood: json['Blood']?.toString(),
       birthplace: json['Birthplace']?.toString(),
       photo: json['Photo']?.toString(),
-      scoreRate: winPointRate,                       // ← ここでエイリアス設定
+      winPointRate: json['WinPointRate']?.toString(),
       winRate12: json['WinRate12']?.toString(),
-      firstPlaceCount: parseInt(json['1stPlaceCount']),
-      secondPlaceCount: parseInt(json['2ndPlaceCount']),
-      numberOfRace: parseInt(json['NumberOfRace']),
-      numberOfFinals: parseInt(json['NumberOfFinals']),
-      numberOfWins: parseInt(json['NumberOfWins']),
-      startTiming: parseDouble(json['StartTiming']),
+      firstPlaceCount: json['1stPlaceCount']?.toString(),
+      secondPlaceCount: json['2ndPlaceCount']?.toString(),
+      numberOfRace: json['NumberOfRace']?.toString(),
+      numberOfFinals: json['NumberOfFinals']?.toString(),
+      numberOfWins: json['NumberOfWins']?.toString(),
+      startTiming: json['StartTiming']?.toString(),
       rankPast1: json['RankPast1']?.toString(),
       rankPast2: json['RankPast2']?.toString(),
       rankPast3: json['RankPast3']?.toString(),
-      pastAbilityScore: parseInt(json['PastAbilityScore']),
-      lastAbilityScore: parseInt(json['LastAbilityScore']),
+      pastAbilityScore: json['PastAbilityScore']?.toString(),
+      lastAbilityScore: json['LastAbilityScore']?.toString(),
       dataYear: json['DataYear']?.toString(),
       dataSeason: json['DataSeason']?.toString(),
       startDate: json['StartDate']?.toString(),
       endDate: json['EndDate']?.toString(),
       generation: json['Genetation']?.toString(),
+      numberOfEntries1: json['NumberOfEntries#1']?.toString(),
+      numberOfEntries2: json['NumberOfEntries#2']?.toString(),
+      numberOfEntries3: json['NumberOfEntries#3']?.toString(),
+      numberOfEntries4: json['NumberOfEntries#4']?.toString(),
+      numberOfEntries5: json['NumberOfEntries#5']?.toString(),
+      numberOfEntries6: json['NumberOfEntries#6']?.toString(),
+      winRate121: json['WinRate12#1']?.toString(),
+      winRate122: json['WinRate12#2']?.toString(),
+      winRate123: json['WinRate12#3']?.toString(),
+      winRate124: json['WinRate12#4']?.toString(),
+      winRate125: json['WinRate12#5']?.toString(),
+      winRate126: json['WinRate12#6']?.toString(),
+      startTime1: json['StartTime#1']?.toString(),
+      startTime2: json['StartTime#2']?.toString(),
+      startTime3: json['StartTime#3']?.toString(),
+      startTime4: json['StartTime#4']?.toString(),
+      startTime5: json['StartTime#5']?.toString(),
+      startTime6: json['StartTime#6']?.toString(),
+      firstPlace1: json['1stPlace#1']?.toString(),
+      firstPlace2: json['1stPlace#2']?.toString(),
+      firstPlace3: json['1stPlace#3']?.toString(),
+      firstPlace4: json['1stPlace#4']?.toString(),
+      firstPlace5: json['1stPlace#5']?.toString(),
+      firstPlace6: json['1stPlace#6']?.toString(),
+      secondPlace1: json['2ndPlace#1']?.toString(),
+      secondPlace2: json['2ndPlace#2']?.toString(),
+      secondPlace3: json['2ndPlace#3']?.toString(),
+      secondPlace4: json['2ndPlace#4']?.toString(),
+      secondPlace5: json['2ndPlace#5']?.toString(),
+      secondPlace6: json['2ndPlace#6']?.toString(),
+      thirdPlace1: json['3rdPlace#1']?.toString(),
+      thirdPlace2: json['3rdPlace#2']?.toString(),
+      thirdPlace3: json['3rdPlace#3']?.toString(),
+      thirdPlace4: json['3rdPlace#4']?.toString(),
+      thirdPlace5: json['3rdPlace#5']?.toString(),
+      thirdPlace6: json['3rdPlace#6']?.toString(),
     );
   }
-
-  // ===== 逆変換（デバッグ/エクスポート用） =====
-  Map<String, dynamic> toJson() => {
-    'Id': id,
-    'Number': number,
-    'Name': name,
-    'NameKana': nameKana,
-    'Kana': kana,
-    'Kana2': kana2,
-    'Kana3': kana3,
-    'Blanch': blanch,
-    'Rank': rank,
-    'WBirthday': wBirthday,
-    'GBirthday': gBirthday,
-    'Sex': sex,
-    'Age': age,
-    'Height': height,
-    'Weight': weight,
-    'Blood': blood,
-    'Birthplace': birthplace,
-    'Photo': photo,
-    'WinPointRate': scoreRate, // エイリアスを戻す
-    'WinRate12': winRate12,
-    '1stPlaceCount': firstPlaceCount,
-    '2ndPlaceCount': secondPlaceCount,
-    'NumberOfRace': numberOfRace,
-    'NumberOfFinals': numberOfFinals,
-    'NumberOfWins': numberOfWins,
-    'StartTiming': startTiming,
-    'RankPast1': rankPast1,
-    'RankPast2': rankPast2,
-    'RankPast3': rankPast3,
-    'PastAbilityScore': pastAbilityScore,
-    'LastAbilityScore': lastAbilityScore,
-    'DataYear': dataYear,
-    'DataSeason': dataSeason,
-    'StartDate': startDate,
-    'EndDate': endDate,
-    'Genetation': generation,
-    'DataTime': dataTime,
-  };
 }

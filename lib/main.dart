@@ -8,6 +8,7 @@ import 'package:path/path.dart' as p;
 import 'objectbox.dart';
 import 'models/member.dart';
 import 'objectbox.g.dart'; // ← Member_ を使うのに必須
+import 'member_detail_page.dart';
 
 late ObjectBox objectbox;
 
@@ -297,6 +298,14 @@ class _MemberListPageState extends State<MemberListPage> {
                     if ((m.sex ?? '').isNotEmpty) '性別:${m.sex}',
                     if ((m.rank ?? '').isNotEmpty) '級別:${m.rank}',
                   ].join('  ')),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => MemberDetailPage(member: m),
+                      ),
+                    );
+                  },
                 );
               },
             ),
