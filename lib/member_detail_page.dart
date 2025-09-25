@@ -279,69 +279,97 @@ class MemberDetailPage extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(12, 16, 16, 8),
-        child: SizedBox(
-          height: 260,
-          child: BarChart(
-            BarChartData(
-              maxY: maxY,
-              minY: 0,
-              gridData: FlGridData(show: true),
-              borderData: FlBorderData(show: false),
-              titlesData: FlTitlesData(
-                leftTitles: AxisTitles(
-                  sideTitles: SideTitles(
-                    showTitles: true,
-                    reservedSize: 36,
-                    getTitlesWidget: (v, meta) => Text(
-                      v.toInt().toString(),
-                      style: const TextStyle(fontSize: 11),
+        child: Column(
+          children: [
+            SizedBox(
+              height: 260,
+              child: BarChart(
+                BarChartData(
+                  maxY: maxY,
+                  minY: 0,
+                  gridData: FlGridData(show: true),
+                  borderData: FlBorderData(show: false),
+                  titlesData: FlTitlesData(
+                    leftTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        reservedSize: 36,
+                        getTitlesWidget: (v, meta) => Text(
+                          v.toInt().toString(),
+                          style: const TextStyle(fontSize: 11),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                bottomTitles: AxisTitles(
-                  sideTitles: SideTitles(
-                    showTitles: true,
-                    getTitlesWidget: (v, meta) => Padding(
-                      padding: const EdgeInsets.only(top: 6),
-                      child: Text('${v.toInt() + 1}',
-                          style: const TextStyle(fontSize: 11)),
+                    bottomTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        interval: 1, // ★1コースごとだけ
+                        getTitlesWidget: (v, meta) {
+                          if (v < 0 || v > 5) return const SizedBox.shrink();
+                          return Padding(
+                            padding: const EdgeInsets.only(top: 6),
+                            child: Text('${v.toInt() + 1}',
+                                style: const TextStyle(fontSize: 11)),
+                          );
+                        },
+                      ),
                     ),
+                    topTitles: const AxisTitles(
+                        sideTitles: SideTitles(showTitles: false)),
+                    rightTitles: const AxisTitles(
+                        sideTitles: SideTitles(showTitles: false)),
                   ),
-                ),
-                topTitles:
-                const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                rightTitles:
-                const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-              ),
-              barGroups: List.generate(6, (laneIdx) {
-                final f =
-                (firsts.length > laneIdx ? firsts[laneIdx] : 0).toDouble();
-                final s =
-                (seconds.length > laneIdx ? seconds[laneIdx] : 0).toDouble();
-                final t =
-                (thirds.length > laneIdx ? thirds[laneIdx] : 0).toDouble();
+                  barGroups: List.generate(6, (laneIdx) {
+                    final f = (firsts.length > laneIdx ? firsts[laneIdx] : 0).toDouble();
+                    final s = (seconds.length > laneIdx ? seconds[laneIdx] : 0).toDouble();
+                    final t = (thirds.length > laneIdx ? thirds[laneIdx] : 0).toDouble();
 
-                return BarChartGroupData(
-                  x: laneIdx,
-                  barRods: [
-                    BarChartRodData(
-                      toY: f + s + t,
-                      width: 20,
-                      rodStackItems: [
-                        BarChartRodStackItem(0, f, Colors.blue),   // 1着
-                        BarChartRodStackItem(f, f + s, Colors.green), // 2着
-                        BarChartRodStackItem(f + s, f + s + t, Colors.orange), // 3着
+                    return BarChartGroupData(
+                      x: laneIdx,
+                      barRods: [
+                        BarChartRodData(
+                          toY: f + s + t,
+                          width: 20,
+                          rodStackItems: [
+                            BarChartRodStackItem(0, f, Colors.blue),      // 1着
+                            BarChartRodStackItem(f, f + s, Colors.green), // 2着
+                            BarChartRodStackItem(f + s, f + s + t, Colors.orange), // 3着
+                          ],
+                        ),
                       ],
-                    ),
-                  ],
-                );
-              }),
+                    );
+                  }),
+                ),
+              ),
             ),
-          ),
+            const SizedBox(height: 8),
+            // ★ 凡例を追加
+            Wrap(
+              spacing: 16,
+              children: [
+                _legendItem(color: Colors.blue, label: '1着'),
+                _legendItem(color: Colors.green, label: '2着'),
+                _legendItem(color: Colors.orange, label: '3着'),
+              ],
+            ),
+          ],
         ),
       ),
     );
   }
+
+  /// 凡例の小部品
+  Widget _legendItem({required Color color, required String label}) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(width: 12, height: 12, color: color),
+        const SizedBox(width: 4),
+        Text(label),
+      ],
+    );
+  }
+
   // ===== データ変換 =====
   List<_CourseRow> _buildCourseRows(Member m) {
     int? toInt(String? s) => int.tryParse((s ?? '').trim());
@@ -476,12 +504,21 @@ class _Totals {
 }
 
 // ===== プロットグラフ（スタートタイミング * -1） =====
+// ===== プロットグラフ（スタートタイミング * -1） =====
 Widget _lineChartPoints({
   required BuildContext context,
   required List<double> values,
 }) {
   final theme = Theme.of(context);
-  final negValues = values.map((e) => -e).toList(); // -1倍にする
+
+  // -1倍にして、0は除外
+  final spots = <FlSpot>[];
+  for (int i = 0; i < values.length; i++) {
+    final v = values[i];
+    if (v != 0 && !v.isNaN) {
+      spots.add(FlSpot(i.toDouble(), -v));
+    }
+  }
 
   return Card(
     elevation: 0,
@@ -495,11 +532,12 @@ Widget _lineChartPoints({
         height: 260,
         child: LineChart(
           LineChartData(
-            minX: 0,
-            maxX: (negValues.length - 1).toDouble(),
-            minY: negValues.reduce((a, b) => a < b ? a : b) * 1.2,
+            minX: -0.5, // 左にマージン
+            maxX: (values.length - 1).toDouble() + 0.5, // 右にマージン
+            minY: -0.4,
             maxY: 0,
             gridData: FlGridData(show: true),
+            borderData: FlBorderData(show: false),
             titlesData: FlTitlesData(
               leftTitles: AxisTitles(
                 sideTitles: SideTitles(
@@ -507,32 +545,33 @@ Widget _lineChartPoints({
                   reservedSize: 44,
                   getTitlesWidget: (v, meta) =>
                       Text(v.toStringAsFixed(2), style: const TextStyle(fontSize: 11)),
+                  interval: 0.1,
                 ),
               ),
               bottomTitles: AxisTitles(
                 sideTitles: SideTitles(
                   showTitles: true,
-                  getTitlesWidget: (v, meta) => Padding(
-                    padding: const EdgeInsets.only(top: 6),
-                    child: Text('${v.toInt() + 1}',
-                        style: const TextStyle(fontSize: 11)),
-                  ),
+                  interval: 1,
+                  getTitlesWidget: (v, meta) {
+                    if (v < 0 || v > values.length - 1) return const SizedBox.shrink();
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 6),
+                      child: Text('${v.toInt() + 1}',
+                          style: const TextStyle(fontSize: 11)),
+                    );
+                  },
                 ),
               ),
-              topTitles: const AxisTitles(
-                  sideTitles: SideTitles(showTitles: false)),
-              rightTitles: const AxisTitles(
-                  sideTitles: SideTitles(showTitles: false)),
+              topTitles:
+              const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+              rightTitles:
+              const AxisTitles(sideTitles: SideTitles(showTitles: false)),
             ),
-            borderData: FlBorderData(show: false),
             lineBarsData: [
               LineChartBarData(
-                spots: [
-                  for (int i = 0; i < negValues.length; i++)
-                    FlSpot(i.toDouble(), negValues[i]),
-                ],
+                spots: spots,
                 isCurved: false,
-                barWidth: 0,
+                barWidth: 0, // 線は表示せず
                 dotData: FlDotData(show: true),
                 color: Colors.red,
               ),
