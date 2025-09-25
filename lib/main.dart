@@ -1,27 +1,26 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart'; // 追加
 import 'objectbox.g.dart';
 import 'objectbox.dart';
 import 'models/member.dart';
 import 'member_detail_page.dart';
-import 'package:path_provider/path_provider.dart';
-
-late ObjectBox objectbox;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // アプリ用の保存ディレクトリを取得
+  // ObjectBox の保存先ディレクトリを取得
   final dir = await getApplicationDocumentsDirectory();
 
-  // ★ directory を指定して呼ぶ
+  // ★ runApp の前に初期化する
   objectbox = await ObjectBox.create(directory: dir.path);
 
+  // JSON を読み込んで初期データ投入（空の場合のみ）
   await _importJsonIfEmpty();
+
   runApp(const MyApp());
 }
-
 
 Future<void> _importJsonIfEmpty() async {
   if (objectbox.memberBox.isEmpty()) {
@@ -169,7 +168,6 @@ class _MemberListPageState extends State<MemberListPage> {
                 ),
                 const SizedBox(width: 8),
                 Expanded(
-                  // ★ 性別プルダウン修正版
                   child: DropdownButton<String>(
                     value: _selectedSex,
                     hint: const Text('性別を選択'),
