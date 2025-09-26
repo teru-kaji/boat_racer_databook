@@ -1,3 +1,6 @@
+//
+// lib/member_detail_page.dart
+//
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'models/member.dart';
@@ -261,8 +264,16 @@ class MemberDetailPage extends StatelessWidget {
               spots: negSpots,
               isCurved: false,
               barWidth: 0,
-              dotData: FlDotData(show: true),
               color: Colors.red,
+              dotData: FlDotData(
+                show: true,
+                getDotPainter: (spot, percent, barData, index) =>
+                    FlDotCirclePainter(                // ← 丸点
+                      radius: 6,                        // ★ 半径を大きく
+                      color: Colors.red,
+                      strokeWidth: 0,
+                    ),
+              ),
             ),
           ],
         ),

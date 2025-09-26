@@ -1,3 +1,6 @@
+//
+// lib/objectbox.dart
+//
 import 'objectbox.g.dart';
 import 'models/member.dart';
 

@@ -1,8 +1,10 @@
+//
+// lib/main.dart
+//
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart'; // 追加
-import 'objectbox.g.dart';
 import 'objectbox.dart';
 import 'models/member.dart';
 import 'member_detail_page.dart';
@@ -191,6 +193,13 @@ class _MemberListPageState extends State<MemberListPage> {
                   child: TextField(
                     controller: _numberController,
                     decoration: const InputDecoration(labelText: '登録番号'),
+                    keyboardType: const TextInputType.numberWithOptions(
+                      decimal: false,
+                      signed: false,
+                    ), // ★ テンキーを表示
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly, // ★ 数字のみ許可
+                    ],
                     onChanged: (v) => _applyFilters(),
                   ),
                 ),
