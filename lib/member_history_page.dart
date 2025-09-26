@@ -8,7 +8,6 @@ import 'objectbox.dart'; // グローバル objectbox を利用
 
 class MemberHistoryPage extends StatelessWidget {
   final Member member;
-
   const MemberHistoryPage({super.key, required this.member});
 
   @override
@@ -62,30 +61,24 @@ class MemberHistoryPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              '得点率 (winPointRate)',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
+            const Text('得点率 (winPointRate)',
+                style: TextStyle(fontWeight: FontWeight.bold)),
             SizedBox(
               height: 220,
               child: _lineChart(terms, scoreRates, '得点率', Colors.blue),
             ),
 
             const SizedBox(height: 24),
-            const Text(
-              '複勝率 (winRate12)',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
+            const Text('複勝率 (winRate12)',
+                style: TextStyle(fontWeight: FontWeight.bold)),
             SizedBox(
               height: 220,
               child: _lineChart(terms, winRates, '複勝率', Colors.green),
             ),
 
             const SizedBox(height: 24),
-            const Text(
-              '級別の推移',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
+            const Text('級別の推移',
+                style: TextStyle(fontWeight: FontWeight.bold)),
             SizedBox(
               height: 220,
               child: _rankChart(terms, ranks),
@@ -111,7 +104,7 @@ class MemberHistoryPage extends StatelessWidget {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: SizedBox(
-        width: terms.length * 50, // データ数に応じて横幅を確保
+        width: terms.length * 50,
         child: LineChart(
           LineChartData(
             minX: 0,
@@ -119,20 +112,16 @@ class MemberHistoryPage extends StatelessWidget {
             minY: 0,
             maxY: values.map((e) => e.toDouble()).reduce((a, b) => a > b ? a : b) * 1.2,
             gridData: FlGridData(show: true),
-            borderData: FlBorderData(
-              show: true,
-              border: Border.all(color: Colors.black, width: 1),
-            ),
+            borderData: FlBorderData(show: false), // ★ 外枠を非表示
             titlesData: FlTitlesData(
               bottomTitles: AxisTitles(
                 sideTitles: SideTitles(
                   showTitles: true,
-                  interval: 1, // ★ X軸間隔を固定
+                  interval: 1,
                   getTitlesWidget: (v, meta) {
                     if (v < 0 || v > terms.length - 1) {
                       return const SizedBox.shrink();
                     }
-                    // ★ 降順で表示
                     final reversedIndex = terms.length - 1 - v.toInt();
                     return Padding(
                       padding: const EdgeInsets.only(top: 6),
@@ -148,20 +137,16 @@ class MemberHistoryPage extends StatelessWidget {
                 sideTitles: SideTitles(
                   showTitles: true,
                   reservedSize: 40,
-                  getTitlesWidget: (v, meta) {
-                    return Text(
-                      isInt ? v.toInt().toString() : v.toStringAsFixed(1),
-                      style: const TextStyle(fontSize: 10),
-                    );
-                  },
+                  getTitlesWidget: (v, meta) => Text(
+                    isInt ? v.toInt().toString() : v.toStringAsFixed(1),
+                    style: const TextStyle(fontSize: 10),
+                  ),
                 ),
               ),
-              topTitles: const AxisTitles(
-                sideTitles: SideTitles(showTitles: false),
-              ),
-              rightTitles: const AxisTitles(
-                sideTitles: SideTitles(showTitles: false),
-              ),
+              topTitles:
+              const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+              rightTitles:
+              const AxisTitles(sideTitles: SideTitles(showTitles: false)),
             ),
             lineBarsData: [
               LineChartBarData(
@@ -198,10 +183,7 @@ class MemberHistoryPage extends StatelessWidget {
             minY: 1,
             maxY: 4,
             gridData: FlGridData(show: true),
-            borderData: FlBorderData(
-              show: true,
-              border: Border.all(color: Colors.black, width: 1),
-            ),
+            borderData: FlBorderData(show: false), // ★ 外枠を非表示
             titlesData: FlTitlesData(
               bottomTitles: AxisTitles(
                 sideTitles: SideTitles(
@@ -211,7 +193,6 @@ class MemberHistoryPage extends StatelessWidget {
                     if (v < 0 || v > terms.length - 1) {
                       return const SizedBox.shrink();
                     }
-                    // ★ 降順で表示
                     final reversedIndex = terms.length - 1 - v.toInt();
                     return Padding(
                       padding: const EdgeInsets.only(top: 6),
@@ -244,12 +225,10 @@ class MemberHistoryPage extends StatelessWidget {
                   },
                 ),
               ),
-              topTitles: const AxisTitles(
-                sideTitles: SideTitles(showTitles: false),
-              ),
-              rightTitles: const AxisTitles(
-                sideTitles: SideTitles(showTitles: false),
-              ),
+              topTitles:
+              const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+              rightTitles:
+              const AxisTitles(sideTitles: SideTitles(showTitles: false)),
             ),
             lineBarsData: [
               LineChartBarData(
