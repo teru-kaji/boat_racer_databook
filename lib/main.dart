@@ -1,6 +1,4 @@
-//
 // lib/main.dart
-//
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -105,19 +103,19 @@ class _MemberListPageState extends State<MemberListPage> {
           .toList();
     }
     if (_nameController.text.isNotEmpty) {
-      results = results
-          .where((m) =>
-      (m.name ?? '').contains(_nameController.text.trim()) ||
-          (m.nameKana ?? '').contains(_nameController.text.trim()))
-          .toList();
+      final q = _nameController.text.trim();
+      results = results.where((m) {
+        return (m.name ?? '').contains(q) ||
+            (m.nameKana ?? '').contains(q) ||
+            (m.kana2 ?? '').contains(q) ||   // ★ kana2 追加
+            (m.kana ?? '').contains(q);      // ★ kana 追加
+      }).toList();
     }
     if (_selectedRank != null && _selectedRank!.isNotEmpty) {
-      results =
-          results.where((m) => m.rank == _selectedRank).toList();
+      results = results.where((m) => m.rank == _selectedRank).toList();
     }
     if (_selectedSex != null && _selectedSex!.isNotEmpty) {
-      results =
-          results.where((m) => m.sex == _selectedSex).toList();
+      results = results.where((m) => m.sex == _selectedSex).toList();
     }
 
     setState(() {
@@ -157,6 +155,7 @@ class _MemberListPageState extends State<MemberListPage> {
                     hint: const Text('級別を選択'),
                     isExpanded: true,
                     items: const [
+                      DropdownMenuItem(value: '', child: Text('')), // ★ 空文字追加
                       DropdownMenuItem(value: 'A1', child: Text('A1')),
                       DropdownMenuItem(value: 'A2', child: Text('A2')),
                       DropdownMenuItem(value: 'B1', child: Text('B1')),
@@ -175,6 +174,7 @@ class _MemberListPageState extends State<MemberListPage> {
                     hint: const Text('性別を選択'),
                     isExpanded: true,
                     items: const [
+                      DropdownMenuItem(value: '', child: Text('')), // ★ 空文字追加
                       DropdownMenuItem(value: '1', child: Text('男性')),
                       DropdownMenuItem(value: '2', child: Text('女性')),
                     ],
@@ -222,12 +222,18 @@ class _MemberListPageState extends State<MemberListPage> {
                   final m = _results[index];
                   return ListTile(
                     leading: CircleAvatar(
+                      backgroundColor: (m.sex == "1")
+                          ? Colors.blue
+                          : (m.sex == "2")
+                          ? Colors.pink
+                          : Colors.grey,
                       child: Text(
                         ((m.name ?? m.number ?? '?').isNotEmpty)
                             ? (m.name ?? m.number ?? '?')
                             .characters
                             .first
                             : '?',
+                        style: const TextStyle(color: Colors.white),
                       ),
                     ),
                     title: Text(m.name ?? '(no name)'),
