@@ -1,4 +1,5 @@
 // lib/models/member.dart
+//
 import 'package:objectbox/objectbox.dart';
 
 @Entity()
