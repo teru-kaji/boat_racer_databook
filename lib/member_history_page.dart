@@ -83,6 +83,7 @@ class MemberHistoryPage extends StatelessWidget {
               height: 220,
               child: _rankChart(terms, ranks),
             ),
+            const SizedBox(height: 24),
           ],
         ),
       ),
@@ -180,8 +181,8 @@ class MemberHistoryPage extends StatelessWidget {
           LineChartData(
             minX: 0,
             maxX: (terms.length - 1).toDouble(),
-            minY: 1,
-            maxY: 4,
+            minY: 0,
+            maxY: 5,
             gridData: FlGridData(show: true),
             borderData: FlBorderData(show: false), // ★ 外枠を非表示
             titlesData: FlTitlesData(
