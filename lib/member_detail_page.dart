@@ -1,72 +1,181 @@
-//
 // lib/member_detail_page.dart
-//
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'models/member.dart';
 import 'member_history_page.dart';
+import 'objectbox.dart';
 
-class MemberDetailPage extends StatelessWidget {
+class MemberDetailPage extends StatefulWidget {
   final Member member;
   const MemberDetailPage({super.key, required this.member});
 
   @override
+  State<MemberDetailPage> createState() => _MemberDetailPageState();
+}
+
+class _MemberDetailPageState extends State<MemberDetailPage> {
+  late List<Member> _history;
+  late List<String> _dataTimeOptions;
+  String? _selectedDataTime;
+  late Member _selectedMember;
+
+  @override
+  void initState() {
+    super.initState();
+    // 同じ登録番号の履歴を取得
+    _history = objectbox.memberBox
+        .getAll()
+        .where((m) => m.number == widget.member.number)
+        .toList();
+
+    // dataTime順にソート
+    _history.sort((a, b) => (a.dataTime ?? '').compareTo(b.dataTime ?? ''));
+
+    // プルダウン用の期リスト
+    _dataTimeOptions = _history
+        .map((m) => m.dataTime ?? '')
+        .where((s) => s.isNotEmpty)
+        .toList();
+
+    // 初期値: 最新の期
+    if (_dataTimeOptions.isNotEmpty) {
+      _selectedDataTime = _dataTimeOptions.last;
+      _selectedMember =
+          _history.firstWhere((m) => m.dataTime == _selectedDataTime);
+    } else {
+      _selectedMember = widget.member;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final rows = _buildCourseRows(member);
+    final rows = _buildCourseRows(_selectedMember);
     final totals = _calcTotals(rows);
 
-    // グラフ用データ
-    final winRates = rows.map((r) => r.winRate12 ?? 0).toList();
-    final starts   = rows.map((r) => r.startTime ?? 0).toList();
-    final firsts   = rows.map((r) => r.first ?? 0).toList();
-    final seconds  = rows.map((r) => r.second ?? 0).toList();
-    final thirds   = rows.map((r) => r.third ?? 0).toList();
+    final List<double> winRates =
+    rows.map((r) => r.winRate12 ?? 0.0).toList();
+    final List<double> starts =
+    rows.map((r) => r.startTime ?? 0.0).toList();
+    final List<int> firsts =
+    rows.map((r) => r.first ?? 0).toList();
+    final List<int> seconds =
+    rows.map((r) => r.second ?? 0).toList();
+    final List<int> thirds =
+    rows.map((r) => r.third ?? 0).toList();
 
     return Scaffold(
-      appBar: AppBar(title: Text(member.name ?? '詳細情報')),
+      appBar: AppBar(title: Text(_selectedMember.name ?? '詳細情報')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if ((member.photo ?? '').isNotEmpty)
+            // === 期選択プルダウン + ボタン ===
+            if (_dataTimeOptions.isNotEmpty)
+              Row(
+                children: [
+                  const Text("期を選択: "),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: DropdownButton<String>(
+                      value: _selectedDataTime,
+                      isExpanded: true,
+                      items: _dataTimeOptions
+                          .map((dt) =>
+                          DropdownMenuItem(value: dt, child: Text(dt)))
+                          .toList(),
+                      onChanged: (value) {
+                        if (value == null) return;
+                        setState(() {
+                          _selectedDataTime = value;
+                          _selectedMember = _history
+                              .firstWhere((m) => m.dataTime == value);
+                        });
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) =>
+                              MemberHistoryPage(member: _selectedMember),
+                        ),
+                      );
+                    },
+                    child: const Text('期ごとの成績を表示'),
+                  ),
+                ],
+              ),
+
+            const SizedBox(height: 12),
+
+            if ((_selectedMember.photo ?? '').isNotEmpty)
               Center(
                 child: Image.network(
-                  member.photo!,
+                  _selectedMember.photo!,
                   height: 180,
                   errorBuilder: (_, __, ___) =>
                   const Icon(Icons.person, size: 96),
                 ),
               ),
-            Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => MemberHistoryPage(member: member),
-                    ),
-                  );
-                },
-                child: const Text('期ごとの成績を表示'),
-              ),
+
+            const SizedBox(height: 16),
+
+            const SizedBox(height: 16),
+
+// === プロフィール（シンプル2列表示） ===
+            GridView.count(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              crossAxisCount: 2,
+              childAspectRatio: 6.0, // 行の高さを少し余裕ありに
+              crossAxisSpacing: 8,
+              mainAxisSpacing: 4,
+              children: [
+                _infoText('登録番号', _selectedMember.number),
+                _infoText(
+                  '級',
+                  '${_selectedMember.rank ?? "-"} / ${_selectedMember.rankPast1 ?? "-"} / ${_selectedMember.rankPast2 ?? "-"} / ${_selectedMember.rankPast3 ?? "-"}',
+                ),
+                _infoText('名前', _selectedMember.name),
+                _infoText('かな', _selectedMember.kana3),
+                _infoText('支部', _selectedMember.blanch),
+                _infoText('出身地', _selectedMember.birthplace),
+                _infoText('誕生日', _selectedMember.gBirthday),
+                _infoText(
+                  '性別',
+                  _selectedMember.sex == "1"
+                      ? "男性"
+                      : _selectedMember.sex == "2"
+                      ? "女性"
+                      : _selectedMember.sex,
+                ),
+                _infoText('年齢', _selectedMember.age),
+                _infoText('身長', _selectedMember.height),
+                _infoText('体重', _selectedMember.weight),
+                _infoText('血液', _selectedMember.blood),
+                _infoText('勝率', _selectedMember.winPointRate),
+                _infoText('複勝率', _selectedMember.winRate12),
+                _infoText('1着回数', _selectedMember.firstPlaceCount),
+                _infoText('2着回数', _selectedMember.secondPlaceCount),
+                _infoText('出走回数', _selectedMember.numberOfRace),
+                _infoText('優出回数', _selectedMember.numberOfFinals),
+                _infoText('優勝回数', _selectedMember.numberOfWins),
+                _infoText('平均ST', _selectedMember.startTiming),
+                _infoText(
+                  '能力指数',
+                    '${_selectedMember.lastAbilityScore ?? "-"} / ${_selectedMember.pastAbilityScore ?? "-"}',
+                )
+        //        _infoText('前期能力指数', _selectedMember.pastAbilityScore),
+        //        _infoText('今期能力指数', _selectedMember.lastAbilityScore),
+              ],
             ),
-            const SizedBox(height: 12),
-            _field('登録番号', member.number),
-            _field('名前', member.name),
-            _field('カナ', member.nameKana ?? member.kana2 ?? member.kana),
-            _field('期 (DataTime)', member.dataTime),
-            _field(
-              '性別',
-              member.sex == "1"
-                  ? "男性"
-                  : member.sex == "2"
-                  ? "女性"
-                  : member.sex,
-            ),
-            _field('級別', member.rank),
 
             const SizedBox(height: 24),
+
             Text('コース別 成績（表）',
                 style: Theme.of(context).textTheme.titleLarge),
             _courseTable(context, rows, totals),
@@ -108,21 +217,19 @@ class MemberDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _field(String label, String? value) {
-    if (value == null || value.isEmpty) return const SizedBox.shrink();
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(width: 120, child: Text(label, style: const TextStyle(fontWeight: FontWeight.bold))),
-          Expanded(child: Text(value)),
-        ],
-      ),
+  /// === プロフィール表示ヘルパー（2列タイル） ===
+  Widget _infoText(String label, String? value) {
+    return Text(
+      "$label : ${(value == null || value.isEmpty) ? '-' : value}",
+      style: const TextStyle(fontSize: 15),
     );
   }
 
+  // === 以下は従来のメソッド（_courseTable, グラフ系, _buildCourseRows, _calcTotals, etc.） ===
+  // （前回提示したものと同じですので省略せずそのまま残してください）
+
   Widget _courseTable(BuildContext context, List<_CourseRow> rows, _Totals totals) {
+    // ...（従来通り）
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: DataTable(
@@ -146,13 +253,20 @@ class MemberDetailPage extends StatelessWidget {
               DataCell(Text(_fmtInt(r.first))),
               DataCell(Text(_fmtInt(r.second))),
               DataCell(Text(_fmtInt(r.third))),
-              DataCell(Text('${(r.first ?? 0) + (r.second ?? 0) + (r.third ?? 0)}')),
+              DataCell(Text(
+                  '${(r.first ?? 0) + (r.second ?? 0) + (r.third ?? 0)}')),
             ]),
         ],
       ),
     );
   }
 
+// グラフ描画メソッド (_barChartSingle, _lineChartPoints, _barChartStacked, _legendItem)
+// _buildCourseRows, _calcTotals, _fmtInt/_fmtDouble/_fmtPercent/_niceMax
+// は前回提示した完全版と同じです。
+}
+
+/// === グラフ描画メソッド ===
   Widget _barChartSingle({
     required BuildContext context,
     required String titleY,
@@ -164,7 +278,6 @@ class MemberDetailPage extends StatelessWidget {
       height: 260,
       child: BarChart(
         BarChartData(
-          //maxY: maxY,
           maxY: 100,
           minY: 0,
           gridData: FlGridData(show: true),
@@ -174,7 +287,8 @@ class MemberDetailPage extends StatelessWidget {
               sideTitles: SideTitles(
                 showTitles: true,
                 reservedSize: 44,
-                getTitlesWidget: (v, meta) => Text(formatY(v), style: const TextStyle(fontSize: 11)),
+                getTitlesWidget: (v, meta) =>
+                    Text(formatY(v), style: const TextStyle(fontSize: 11)),
               ),
             ),
             bottomTitles: AxisTitles(
@@ -182,16 +296,21 @@ class MemberDetailPage extends StatelessWidget {
                 showTitles: true,
                 interval: 1,
                 getTitlesWidget: (v, meta) {
-                  if (v < 0 || v > values.length - 1) return const SizedBox.shrink();
+                  if (v < 0 || v > values.length - 1) {
+                    return const SizedBox.shrink();
+                  }
                   return Padding(
                     padding: const EdgeInsets.only(top: 6),
-                    child: Text('${v.toInt() + 1}', style: const TextStyle(fontSize: 11)),
+                    child: Text('${v.toInt() + 1}',
+                        style: const TextStyle(fontSize: 11)),
                   );
                 },
               ),
             ),
-            topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-            rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+            topTitles:
+            const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+            rightTitles:
+            const AxisTitles(sideTitles: SideTitles(showTitles: false)),
           ),
           barGroups: List.generate(values.length, (i) {
             final y = values[i].isNaN ? 0.0 : values[i];
@@ -201,7 +320,7 @@ class MemberDetailPage extends StatelessWidget {
                 BarChartRodData(
                   toY: y,
                   width: 20,
-                  color: Colors.blue, // ★ 棒の色を青に固定
+                  color: Colors.blue,
                 ),
               ],
             );
@@ -211,7 +330,6 @@ class MemberDetailPage extends StatelessWidget {
     );
   }
 
-  /// -1倍プロット
   Widget _lineChartPoints({
     required BuildContext context,
     required List<double> values,
@@ -240,7 +358,9 @@ class MemberDetailPage extends StatelessWidget {
                 showTitles: true,
                 reservedSize: 44,
                 interval: 0.1,
-                getTitlesWidget: (v, meta) => Text(v.toStringAsFixed(2), style: const TextStyle(fontSize: 11)),
+                getTitlesWidget: (v, meta) =>
+                    Text(v.toStringAsFixed(2),
+                        style: const TextStyle(fontSize: 11)),
               ),
             ),
             bottomTitles: AxisTitles(
@@ -248,16 +368,21 @@ class MemberDetailPage extends StatelessWidget {
                 showTitles: true,
                 interval: 1,
                 getTitlesWidget: (v, meta) {
-                  if (v < 0 || v > values.length - 1) return const SizedBox.shrink();
+                  if (v < 0 || v > values.length - 1) {
+                    return const SizedBox.shrink();
+                  }
                   return Padding(
                     padding: const EdgeInsets.only(top: 6),
-                    child: Text('${v.toInt() + 1}', style: const TextStyle(fontSize: 11)),
+                    child: Text('${v.toInt() + 1}',
+                        style: const TextStyle(fontSize: 11)),
                   );
                 },
               ),
             ),
-            topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-            rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+            topTitles:
+            const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+            rightTitles:
+            const AxisTitles(sideTitles: SideTitles(showTitles: false)),
           ),
           lineBarsData: [
             LineChartBarData(
@@ -268,8 +393,8 @@ class MemberDetailPage extends StatelessWidget {
               dotData: FlDotData(
                 show: true,
                 getDotPainter: (spot, percent, barData, index) =>
-                    FlDotCirclePainter(                // ← 丸点
-                      radius: 6,                        // ★ 半径を大きく
+                    FlDotCirclePainter(
+                      radius: 6,
                       color: Colors.red,
                       strokeWidth: 0,
                     ),
@@ -294,13 +419,12 @@ class MemberDetailPage extends StatelessWidget {
           height: 260,
           child: BarChart(
             BarChartData(
-          //    maxY: maxY,
               maxY: 50,
               minY: 0,
               gridData: FlGridData(show: true),
               borderData: FlBorderData(
                 show: false,
-                border: Border.all(color: Colors.black, width: 1), // 外枠
+                border: Border.all(color: Colors.black, width: 1),
               ),
               titlesData: FlTitlesData(
                 leftTitles: AxisTitles(
@@ -343,9 +467,9 @@ class MemberDetailPage extends StatelessWidget {
                       toY: f + s + t,
                       width: 20,
                       rodStackItems: [
-                        BarChartRodStackItem(0, f, Colors.blue),       // 1着
-                        BarChartRodStackItem(f, f + s, Colors.green),  // 2着
-                        BarChartRodStackItem(f + s, f + s + t, Colors.orange), // 3着
+                        BarChartRodStackItem(0, f, Colors.blue),
+                        BarChartRodStackItem(f, f + s, Colors.green),
+                        BarChartRodStackItem(f + s, f + s + t, Colors.orange),
                       ],
                     ),
                   ],
@@ -355,7 +479,6 @@ class MemberDetailPage extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 8),
-        // ==== 凡例 ====
         Wrap(
           spacing: 16,
           children: [
@@ -368,7 +491,6 @@ class MemberDetailPage extends StatelessWidget {
     );
   }
 
-  /// 凡例用ウィジェット
   Widget _legendItem({required Color color, required String label}) {
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -379,6 +501,8 @@ class MemberDetailPage extends StatelessWidget {
       ],
     );
   }
+
+  /// === 補助メソッド ===
 
   List<_CourseRow> _buildCourseRows(Member m) {
     int? toInt(String? s) => int.tryParse((s ?? '').trim());
@@ -429,7 +553,7 @@ class MemberDetailPage extends StatelessWidget {
     final mul = (padded / step).ceil();
     return (mul * step).clamp(minMax, double.infinity);
   }
-}
+
 
 class _CourseRow {
   final int lane;

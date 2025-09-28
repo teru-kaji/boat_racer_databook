@@ -107,7 +107,7 @@ class _MemberListPageState extends State<MemberListPage> {
       results = results.where((m) {
         return (m.name ?? '').contains(q) ||
             (m.nameKana ?? '').contains(q) ||
-            (m.kana2 ?? '').contains(q) ||   // ★ kana2 追加
+            (m.kana3 ?? '').contains(q) ||   // ★ kana3 追加
             (m.kana ?? '').contains(q);      // ★ kana 追加
       }).toList();
     }
@@ -207,7 +207,7 @@ class _MemberListPageState extends State<MemberListPage> {
                 Expanded(
                   child: TextField(
                     controller: _nameController,
-                    decoration: const InputDecoration(labelText: '名前/カナ'),
+                    decoration: const InputDecoration(labelText: '名前/かな'),
                     onChanged: (v) => _applyFilters(),
                   ),
                 ),
