@@ -180,6 +180,17 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                 style: Theme.of(context).textTheme.titleLarge),
             _courseTable(context, rows, totals),
 
+            SizedBox(height: 20),
+            Text(
+              "コース別事故件数",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: _buildAccidentTable(_selectedMember), // ← 修正
+            ),
+
+
             const SizedBox(height: 24),
             Text('コース別 複勝率（%）',
                 style: Theme.of(context).textTheme.titleLarge),
@@ -565,4 +576,90 @@ class _CourseRow {
 class _Totals {
   final int entries, first, second, third;
   _Totals({required this.entries, required this.first, required this.second, required this.third});
+}
+
+// コース別事故件数テーブルを作成するWidget
+Widget _buildAccidentTable(Member member) {
+  return DataTable(
+    columnSpacing: 12,
+    columns: const [
+      DataColumn(label: Text("コース")),
+      DataColumn(label: Text("F")),
+      DataColumn(label: Text("L0")),
+      DataColumn(label: Text("L1")),
+      DataColumn(label: Text("K0")),
+      DataColumn(label: Text("K1")),
+      DataColumn(label: Text("S0")),
+      DataColumn(label: Text("S1")),
+      DataColumn(label: Text("S2")),
+    ],
+    rows: [
+      DataRow(cells: [
+        const DataCell(Text("1")),
+        DataCell(Text(member.falseStart1.toString())),
+        DataCell(Text(member.lateStartNoResponsibility1.toString())),
+        DataCell(Text(member.lateStartOnResponsibility1.toString())),
+        DataCell(Text(member.withdrawNoResponsibility1.toString())),
+        DataCell(Text(member.withdrawOnResponsibility1.toString())),
+        DataCell(Text(member.invalidNoResponsibility1.toString())),
+        DataCell(Text(member.invalidOnResponsibility1.toString())),
+        DataCell(Text(member.invalidOnObstruction1.toString())),
+      ]),
+      DataRow(cells: [
+        const DataCell(Text("2")),
+        DataCell(Text(member.falseStart2.toString())),
+        DataCell(Text(member.lateStartNoResponsibility2.toString())),
+        DataCell(Text(member.lateStartOnResponsibility2.toString())),
+        DataCell(Text(member.withdrawNoResponsibility2.toString())),
+        DataCell(Text(member.withdrawOnResponsibility2.toString())),
+        DataCell(Text(member.invalidNoResponsibility2.toString())),
+        DataCell(Text(member.invalidOnResponsibility2.toString())),
+        DataCell(Text(member.invalidOnObstruction2.toString())),
+      ]),
+      DataRow(cells: [
+        const DataCell(Text("3")),
+        DataCell(Text(member.falseStart3.toString())),
+        DataCell(Text(member.lateStartNoResponsibility3.toString())),
+        DataCell(Text(member.lateStartOnResponsibility3.toString())),
+        DataCell(Text(member.withdrawNoResponsibility3.toString())),
+        DataCell(Text(member.withdrawOnResponsibility3.toString())),
+        DataCell(Text(member.invalidNoResponsibility3.toString())),
+        DataCell(Text(member.invalidOnResponsibility3.toString())),
+        DataCell(Text(member.invalidOnObstruction3.toString())),
+      ]),
+      DataRow(cells: [
+        const DataCell(Text("4")),
+        DataCell(Text(member.falseStart4.toString())),
+        DataCell(Text(member.lateStartNoResponsibility4.toString())),
+        DataCell(Text(member.lateStartOnResponsibility4.toString())),
+        DataCell(Text(member.withdrawNoResponsibility4.toString())),
+        DataCell(Text(member.withdrawOnResponsibility4.toString())),
+        DataCell(Text(member.invalidNoResponsibility4.toString())),
+        DataCell(Text(member.invalidOnResponsibility4.toString())),
+        DataCell(Text(member.invalidOnObstruction4.toString())),
+      ]),
+      DataRow(cells: [
+        const DataCell(Text("5")),
+        DataCell(Text(member.falseStart5.toString())),
+        DataCell(Text(member.lateStartNoResponsibility5.toString())),
+        DataCell(Text(member.lateStartOnResponsibility5.toString())),
+        DataCell(Text(member.withdrawNoResponsibility5.toString())),
+        DataCell(Text(member.withdrawOnResponsibility5.toString())),
+        DataCell(Text(member.invalidNoResponsibility5.toString())),
+        DataCell(Text(member.invalidOnResponsibility5.toString())),
+        DataCell(Text(member.invalidOnObstruction5.toString())),
+      ]),
+      DataRow(cells: [
+        const DataCell(Text("6")),
+        DataCell(Text(member.falseStart6.toString())),
+        DataCell(Text(member.lateStartNoResponsibility6.toString())),
+        DataCell(Text(member.lateStartOnResponsibility6.toString())),
+        DataCell(Text(member.withdrawNoResponsibility6.toString())),
+        DataCell(Text(member.withdrawOnResponsibility6.toString())),
+        DataCell(Text(member.invalidNoResponsibility6.toString())),
+        DataCell(Text(member.invalidOnResponsibility6.toString())),
+        DataCell(Text(member.invalidOnObstruction6.toString())),
+      ]),
+    ],
+  );
 }
