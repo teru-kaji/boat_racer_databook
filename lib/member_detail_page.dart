@@ -236,11 +236,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
     );
   }
 
-  // === 以下は従来のメソッド（_courseTable, グラフ系, _buildCourseRows, _calcTotals, etc.） ===
-  // （前回提示したものと同じですので省略せずそのまま残してください）
-
   Widget _courseTable(BuildContext context, List<_CourseRow> rows, _Totals totals) {
-    // ...（従来通り）
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: DataTable(
@@ -255,6 +251,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
           DataColumn(label: Text('1-3合計')),
         ],
         rows: [
+          // === 各コースごとの行 ===
           for (final r in rows)
             DataRow(cells: [
               DataCell(Text('${r.lane}')),
@@ -267,6 +264,30 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
               DataCell(Text(
                   '${(r.first ?? 0) + (r.second ?? 0) + (r.third ?? 0)}')),
             ]),
+
+          // === 合計行 ===
+          DataRow(
+            color: MaterialStateProperty.all(Colors.grey[200]),
+            cells: [
+              const DataCell(Text('合計', style: TextStyle(fontWeight: FontWeight.bold))),
+              DataCell(Text(_fmtInt(totals.entries),
+                  style: const TextStyle(fontWeight: FontWeight.bold))),
+              const DataCell(Text('-')), // ST平均は合計ではなくダッシュ
+              const DataCell(Text('-')), // 複勝率もここではダッシュ
+              DataCell(Text(_fmtInt(totals.first),
+                  style: const TextStyle(fontWeight: FontWeight.bold))),
+              DataCell(Text(_fmtInt(totals.second),
+                  style: const TextStyle(fontWeight: FontWeight.bold))),
+              DataCell(Text(_fmtInt(totals.third),
+                  style: const TextStyle(fontWeight: FontWeight.bold))),
+              DataCell(
+                Text(
+                  '${totals.first + totals.second + totals.third}',
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );
@@ -579,7 +600,87 @@ class _Totals {
 }
 
 // コース別事故件数テーブルを作成するWidget
+/// === コース別事故件数表 ===
 Widget _buildAccidentTable(Member member) {
+  int? toInt(String? s) => int.tryParse((s ?? '').trim());
+  int sum(List<String?> values) =>
+      values.fold(0, (a, b) => a + (toInt(b) ?? 0));
+
+  Text _styledCell(String? value) {
+    final intVal = toInt(value) ?? 0;
+    return Text(
+      value ?? "-",
+      style: TextStyle(
+        color: intVal == 0 ? Colors.grey : Colors.black,
+      ),
+    );
+  }
+
+  final totalF = sum([
+    member.falseStart1,
+    member.falseStart2,
+    member.falseStart3,
+    member.falseStart4,
+    member.falseStart5,
+    member.falseStart6,
+  ]);
+  final totalL0 = sum([
+    member.lateStartNoResponsibility1,
+    member.lateStartNoResponsibility2,
+    member.lateStartNoResponsibility3,
+    member.lateStartNoResponsibility4,
+    member.lateStartNoResponsibility5,
+    member.lateStartNoResponsibility6,
+  ]);
+  final totalL1 = sum([
+    member.lateStartOnResponsibility1,
+    member.lateStartOnResponsibility2,
+    member.lateStartOnResponsibility3,
+    member.lateStartOnResponsibility4,
+    member.lateStartOnResponsibility5,
+    member.lateStartOnResponsibility6,
+  ]);
+  final totalK0 = sum([
+    member.withdrawNoResponsibility1,
+    member.withdrawNoResponsibility2,
+    member.withdrawNoResponsibility3,
+    member.withdrawNoResponsibility4,
+    member.withdrawNoResponsibility5,
+    member.withdrawNoResponsibility6,
+  ]);
+  final totalK1 = sum([
+    member.withdrawOnResponsibility1,
+    member.withdrawOnResponsibility2,
+    member.withdrawOnResponsibility3,
+    member.withdrawOnResponsibility4,
+    member.withdrawOnResponsibility5,
+    member.withdrawOnResponsibility6,
+  ]);
+  final totalS0 = sum([
+    member.invalidNoResponsibility1,
+    member.invalidNoResponsibility2,
+    member.invalidNoResponsibility3,
+    member.invalidNoResponsibility4,
+    member.invalidNoResponsibility5,
+    member.invalidNoResponsibility6,
+  ]);
+  final totalS1 = sum([
+    member.invalidOnResponsibility1,
+    member.invalidOnResponsibility2,
+    member.invalidOnResponsibility3,
+    member.invalidOnResponsibility4,
+    member.invalidOnResponsibility5,
+    member.invalidOnResponsibility6,
+  ]);
+  final totalS2 = sum([
+    member.invalidOnObstruction1,
+    member.invalidOnObstruction2,
+    member.invalidOnObstruction3,
+    member.invalidOnObstruction4,
+    member.invalidOnObstruction5,
+    member.invalidOnObstruction6,
+  ]);
+
   return DataTable(
     columnSpacing: 12,
     columns: const [
@@ -596,70 +697,86 @@ Widget _buildAccidentTable(Member member) {
     rows: [
       DataRow(cells: [
         const DataCell(Text("1")),
-        DataCell(Text(member.falseStart1.toString())),
-        DataCell(Text(member.lateStartNoResponsibility1.toString())),
-        DataCell(Text(member.lateStartOnResponsibility1.toString())),
-        DataCell(Text(member.withdrawNoResponsibility1.toString())),
-        DataCell(Text(member.withdrawOnResponsibility1.toString())),
-        DataCell(Text(member.invalidNoResponsibility1.toString())),
-        DataCell(Text(member.invalidOnResponsibility1.toString())),
-        DataCell(Text(member.invalidOnObstruction1.toString())),
+        DataCell(_styledCell(member.falseStart1)),
+        DataCell(_styledCell(member.lateStartNoResponsibility1)),
+        DataCell(_styledCell(member.lateStartOnResponsibility1)),
+        DataCell(_styledCell(member.withdrawNoResponsibility1)),
+        DataCell(_styledCell(member.withdrawOnResponsibility1)),
+        DataCell(_styledCell(member.invalidNoResponsibility1)),
+        DataCell(_styledCell(member.invalidOnResponsibility1)),
+        DataCell(_styledCell(member.invalidOnObstruction1)),
       ]),
       DataRow(cells: [
         const DataCell(Text("2")),
-        DataCell(Text(member.falseStart2.toString())),
-        DataCell(Text(member.lateStartNoResponsibility2.toString())),
-        DataCell(Text(member.lateStartOnResponsibility2.toString())),
-        DataCell(Text(member.withdrawNoResponsibility2.toString())),
-        DataCell(Text(member.withdrawOnResponsibility2.toString())),
-        DataCell(Text(member.invalidNoResponsibility2.toString())),
-        DataCell(Text(member.invalidOnResponsibility2.toString())),
-        DataCell(Text(member.invalidOnObstruction2.toString())),
+        DataCell(_styledCell(member.falseStart2)),
+        DataCell(_styledCell(member.lateStartNoResponsibility2)),
+        DataCell(_styledCell(member.lateStartOnResponsibility2)),
+        DataCell(_styledCell(member.withdrawNoResponsibility2)),
+        DataCell(_styledCell(member.withdrawOnResponsibility2)),
+        DataCell(_styledCell(member.invalidNoResponsibility2)),
+        DataCell(_styledCell(member.invalidOnResponsibility2)),
+        DataCell(_styledCell(member.invalidOnObstruction2)),
       ]),
       DataRow(cells: [
         const DataCell(Text("3")),
-        DataCell(Text(member.falseStart3.toString())),
-        DataCell(Text(member.lateStartNoResponsibility3.toString())),
-        DataCell(Text(member.lateStartOnResponsibility3.toString())),
-        DataCell(Text(member.withdrawNoResponsibility3.toString())),
-        DataCell(Text(member.withdrawOnResponsibility3.toString())),
-        DataCell(Text(member.invalidNoResponsibility3.toString())),
-        DataCell(Text(member.invalidOnResponsibility3.toString())),
-        DataCell(Text(member.invalidOnObstruction3.toString())),
+        DataCell(_styledCell(member.falseStart3)),
+        DataCell(_styledCell(member.lateStartNoResponsibility3)),
+        DataCell(_styledCell(member.lateStartOnResponsibility3)),
+        DataCell(_styledCell(member.withdrawNoResponsibility3)),
+        DataCell(_styledCell(member.withdrawOnResponsibility3)),
+        DataCell(_styledCell(member.invalidNoResponsibility3)),
+        DataCell(_styledCell(member.invalidOnResponsibility3)),
+        DataCell(_styledCell(member.invalidOnObstruction3)),
       ]),
       DataRow(cells: [
         const DataCell(Text("4")),
-        DataCell(Text(member.falseStart4.toString())),
-        DataCell(Text(member.lateStartNoResponsibility4.toString())),
-        DataCell(Text(member.lateStartOnResponsibility4.toString())),
-        DataCell(Text(member.withdrawNoResponsibility4.toString())),
-        DataCell(Text(member.withdrawOnResponsibility4.toString())),
-        DataCell(Text(member.invalidNoResponsibility4.toString())),
-        DataCell(Text(member.invalidOnResponsibility4.toString())),
-        DataCell(Text(member.invalidOnObstruction4.toString())),
+        DataCell(_styledCell(member.falseStart4)),
+        DataCell(_styledCell(member.lateStartNoResponsibility4)),
+        DataCell(_styledCell(member.lateStartOnResponsibility4)),
+        DataCell(_styledCell(member.withdrawNoResponsibility4)),
+        DataCell(_styledCell(member.withdrawOnResponsibility4)),
+        DataCell(_styledCell(member.invalidNoResponsibility4)),
+        DataCell(_styledCell(member.invalidOnResponsibility4)),
+        DataCell(_styledCell(member.invalidOnObstruction4)),
       ]),
       DataRow(cells: [
         const DataCell(Text("5")),
-        DataCell(Text(member.falseStart5.toString())),
-        DataCell(Text(member.lateStartNoResponsibility5.toString())),
-        DataCell(Text(member.lateStartOnResponsibility5.toString())),
-        DataCell(Text(member.withdrawNoResponsibility5.toString())),
-        DataCell(Text(member.withdrawOnResponsibility5.toString())),
-        DataCell(Text(member.invalidNoResponsibility5.toString())),
-        DataCell(Text(member.invalidOnResponsibility5.toString())),
-        DataCell(Text(member.invalidOnObstruction5.toString())),
+        DataCell(_styledCell(member.falseStart5)),
+        DataCell(_styledCell(member.lateStartNoResponsibility5)),
+        DataCell(_styledCell(member.lateStartOnResponsibility5)),
+        DataCell(_styledCell(member.withdrawNoResponsibility5)),
+        DataCell(_styledCell(member.withdrawOnResponsibility5)),
+        DataCell(_styledCell(member.invalidNoResponsibility5)),
+        DataCell(_styledCell(member.invalidOnResponsibility5)),
+        DataCell(_styledCell(member.invalidOnObstruction5)),
       ]),
       DataRow(cells: [
         const DataCell(Text("6")),
-        DataCell(Text(member.falseStart6.toString())),
-        DataCell(Text(member.lateStartNoResponsibility6.toString())),
-        DataCell(Text(member.lateStartOnResponsibility6.toString())),
-        DataCell(Text(member.withdrawNoResponsibility6.toString())),
-        DataCell(Text(member.withdrawOnResponsibility6.toString())),
-        DataCell(Text(member.invalidNoResponsibility6.toString())),
-        DataCell(Text(member.invalidOnResponsibility6.toString())),
-        DataCell(Text(member.invalidOnObstruction6.toString())),
+        DataCell(_styledCell(member.falseStart6)),
+        DataCell(_styledCell(member.lateStartNoResponsibility6)),
+        DataCell(_styledCell(member.lateStartOnResponsibility6)),
+        DataCell(_styledCell(member.withdrawNoResponsibility6)),
+        DataCell(_styledCell(member.withdrawOnResponsibility6)),
+        DataCell(_styledCell(member.invalidNoResponsibility6)),
+        DataCell(_styledCell(member.invalidOnResponsibility6)),
+        DataCell(_styledCell(member.invalidOnObstruction6)),
       ]),
+
+      // === 合計行 ===
+      DataRow(
+        color: MaterialStateProperty.all(Colors.grey[200]),
+        cells: [
+          const DataCell(Text("合計", style: TextStyle(fontWeight: FontWeight.bold))),
+          DataCell(Text(totalF.toString(), style: const TextStyle(fontWeight: FontWeight.bold))),
+          DataCell(Text(totalL0.toString(), style: const TextStyle(fontWeight: FontWeight.bold))),
+          DataCell(Text(totalL1.toString(), style: const TextStyle(fontWeight: FontWeight.bold))),
+          DataCell(Text(totalK0.toString(), style: const TextStyle(fontWeight: FontWeight.bold))),
+          DataCell(Text(totalK1.toString(), style: const TextStyle(fontWeight: FontWeight.bold))),
+          DataCell(Text(totalS0.toString(), style: const TextStyle(fontWeight: FontWeight.bold))),
+          DataCell(Text(totalS1.toString(), style: const TextStyle(fontWeight: FontWeight.bold))),
+          DataCell(Text(totalS2.toString(), style: const TextStyle(fontWeight: FontWeight.bold))),
+        ],
+      ),
     ],
   );
 }
