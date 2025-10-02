@@ -599,7 +599,6 @@ class _Totals {
   _Totals({required this.entries, required this.first, required this.second, required this.third});
 }
 
-// コース別事故件数テーブルを作成するWidget
 /// === コース別事故件数表 ===
 Widget _buildAccidentTable(Member member) {
   int? toInt(String? s) => int.tryParse((s ?? '').trim());

@@ -239,12 +239,17 @@ class _MemberListPageState extends State<MemberListPage> {
                     ),
                     title: Text(m.name ?? '(no name)'),
                     subtitle: Text([
-                      if ((m.number ?? '').isNotEmpty) 'No.${m.number}',
-                      if ((m.dataTime ?? '').isNotEmpty)
-                        '期:${m.dataTime}',
-                      if ((m.sex ?? '').isNotEmpty)
-                        '性別:${m.sex == "1" ? "男性" : m.sex == "2" ? "女性" : m.sex}',
-                      if ((m.rank ?? '').isNotEmpty) '級別:${m.rank}',
+                      if ((m.number ?? '').isNotEmpty) '${m.number}',
+                      // if ((m.dataTime ?? '').isNotEmpty)
+                      //   '期:${m.dataTime}',
+                      // if ((m.sex ?? '').isNotEmpty)
+                      //   '性別:${m.sex == "1" ? "男性" : m.sex == "2" ? "女性" : m.sex}',
+                      if ((m.rank ?? '').isNotEmpty) '　${m.rank}',
+                      if ((m.rankPast1 ?? '').isNotEmpty) '/${m.rankPast1}',
+                      if ((m.rankPast2 ?? '').isNotEmpty) '/${m.rankPast2}',
+                      if ((m.winPointRate ?? '').isNotEmpty) ' ${m.winPointRate}',
+                      if ((m.age ?? '').isNotEmpty) ' ${m.age}',
+                      if ((m.blanch ?? '').isNotEmpty) ' ${m.blanch}',
                     ].join('  ')),
                     onTap: () {
                       Navigator.push(
