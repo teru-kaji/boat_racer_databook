@@ -22,22 +22,18 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
   @override
   void initState() {
     super.initState();
-    // 同じ登録番号の履歴を取得
     _history = objectbox.memberBox
         .getAll()
         .where((m) => m.number == widget.member.number)
         .toList();
 
-    // dataTime順にソート
     _history.sort((a, b) => (a.dataTime ?? '').compareTo(b.dataTime ?? ''));
 
-    // プルダウン用の期リスト
     _dataTimeOptions = _history
         .map((m) => m.dataTime ?? '')
         .where((s) => s.isNotEmpty)
         .toList();
 
-    // 初期値: 最新の期
     if (_dataTimeOptions.isNotEmpty) {
       _selectedDataTime = _dataTimeOptions.last;
       _selectedMember =
@@ -70,7 +66,6 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // === 期選択プルダウン + ボタン ===
             if (_dataTimeOptions.isNotEmpty)
               Row(
                 children: [
@@ -124,14 +119,11 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
 
             const SizedBox(height: 16),
 
-            const SizedBox(height: 16),
-
-// === プロフィール（シンプル2列表示） ===
             GridView.count(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               crossAxisCount: 2,
-              childAspectRatio: 6.0, // 行の高さを少し余裕ありに
+              childAspectRatio: 6.0,
               crossAxisSpacing: 8,
               mainAxisSpacing: 4,
               children: [
@@ -167,29 +159,21 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                 _infoText('平均ST', _selectedMember.startTiming),
                 _infoText(
                   '能力指数',
-                    '${_selectedMember.lastAbilityScore ?? "-"} / ${_selectedMember.pastAbilityScore ?? "-"}',
-                )
-        //        _infoText('前期能力指数', _selectedMember.pastAbilityScore),
-        //        _infoText('今期能力指数', _selectedMember.lastAbilityScore),
+                  '${_selectedMember.lastAbilityScore ?? "-"} / ${_selectedMember.pastAbilityScore ?? "-"}',
+                ),
               ],
             ),
 
             const SizedBox(height: 24),
-
             Text('コース別 成績（表）',
                 style: Theme.of(context).textTheme.titleLarge),
             _courseTable(context, rows, totals),
 
-            SizedBox(height: 20),
-            Text(
-              "コース別事故件数",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: _buildAccidentTable(_selectedMember), // ← 修正
-            ),
-
+            const SizedBox(height: 24),
+            Text("コース別事故数",
+                //style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                style: Theme.of(context).textTheme.titleLarge),
+            _buildAccidentTable(_selectedMember),
 
             const SizedBox(height: 24),
             Text('コース別 複勝率（%）',
@@ -228,7 +212,6 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
     );
   }
 
-  /// === プロフィール表示ヘルパー（2列タイル） ===
   Widget _infoText(String label, String? value) {
     return Text(
       "$label : ${(value == null || value.isEmpty) ? '-' : value}",
@@ -236,6 +219,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
     );
   }
 
+  /// コース別成績表（合計行付き）
   Widget _courseTable(BuildContext context, List<_CourseRow> rows, _Totals totals) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
@@ -251,7 +235,6 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
           DataColumn(label: Text('1-3合計')),
         ],
         rows: [
-          // === 各コースごとの行 ===
           for (final r in rows)
             DataRow(cells: [
               DataCell(Text('${r.lane}')),
@@ -264,28 +247,20 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
               DataCell(Text(
                   '${(r.first ?? 0) + (r.second ?? 0) + (r.third ?? 0)}')),
             ]),
-
-          // === 合計行 ===
           DataRow(
             color: MaterialStateProperty.all(Colors.grey[200]),
             cells: [
               const DataCell(Text('合計', style: TextStyle(fontWeight: FontWeight.bold))),
-              DataCell(Text(_fmtInt(totals.entries),
-                  style: const TextStyle(fontWeight: FontWeight.bold))),
-              const DataCell(Text('-')), // ST平均は合計ではなくダッシュ
-              const DataCell(Text('-')), // 複勝率もここではダッシュ
-              DataCell(Text(_fmtInt(totals.first),
-                  style: const TextStyle(fontWeight: FontWeight.bold))),
-              DataCell(Text(_fmtInt(totals.second),
-                  style: const TextStyle(fontWeight: FontWeight.bold))),
-              DataCell(Text(_fmtInt(totals.third),
-                  style: const TextStyle(fontWeight: FontWeight.bold))),
-              DataCell(
-                Text(
-                  '${totals.first + totals.second + totals.third}',
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ),
+              DataCell(Text(_fmtInt(totals.entries), style: const TextStyle(fontWeight: FontWeight.bold))),
+              const DataCell(Text('-')),
+              const DataCell(Text('-')),
+              DataCell(Text(_fmtInt(totals.first), style: const TextStyle(fontWeight: FontWeight.bold))),
+              DataCell(Text(_fmtInt(totals.second), style: const TextStyle(fontWeight: FontWeight.bold))),
+              DataCell(Text(_fmtInt(totals.third), style: const TextStyle(fontWeight: FontWeight.bold))),
+              DataCell(Text(
+                '${totals.first + totals.second + totals.third}',
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              )),
             ],
           ),
         ],
@@ -293,12 +268,158 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
     );
   }
 
-// グラフ描画メソッド (_barChartSingle, _lineChartPoints, _barChartStacked, _legendItem)
-// _buildCourseRows, _calcTotals, _fmtInt/_fmtDouble/_fmtPercent/_niceMax
-// は前回提示した完全版と同じです。
-}
+  /// コース別事故件数表（幅統一・ゼロはグレー・合計行あり）
+  Widget _buildAccidentTable(Member member) {
+    int? toInt(String? s) => int.tryParse((s ?? '').trim());
+    int sum(List<String?> values) =>
+        values.fold(0, (a, b) => a + (toInt(b) ?? 0));
 
-/// === グラフ描画メソッド ===
+    Widget _fixedCell(String? val, {bool bold = false}) {
+      final intVal = toInt(val) ?? 0;
+      final txt = val ?? "-";
+      return SizedBox(
+        width: 40,
+        child: Text(
+          txt,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontWeight: bold ? FontWeight.bold : FontWeight.normal,
+            color: (!bold && intVal == 0) ? Colors.grey : Colors.black,
+          ),
+        ),
+      );
+    }
+
+    List<List<String?>> courseValues = [
+      [
+        member.falseStart1,
+        member.lateStartNoResponsibility1,
+        member.lateStartOnResponsibility1,
+        member.withdrawNoResponsibility1,
+        member.withdrawOnResponsibility1,
+        member.invalidNoResponsibility1,
+        member.invalidOnResponsibility1,
+        member.invalidOnObstruction1,
+      ],
+      [
+        member.falseStart2,
+        member.lateStartNoResponsibility2,
+        member.lateStartOnResponsibility2,
+        member.withdrawNoResponsibility2,
+        member.withdrawOnResponsibility2,
+        member.invalidNoResponsibility2,
+        member.invalidOnResponsibility2,
+        member.invalidOnObstruction2,
+      ],
+      [
+        member.falseStart3,
+        member.lateStartNoResponsibility3,
+        member.lateStartOnResponsibility3,
+        member.withdrawNoResponsibility3,
+        member.withdrawOnResponsibility3,
+        member.invalidNoResponsibility3,
+        member.invalidOnResponsibility3,
+        member.invalidOnObstruction3,
+      ],
+      [
+        member.falseStart4,
+        member.lateStartNoResponsibility4,
+        member.lateStartOnResponsibility4,
+        member.withdrawNoResponsibility4,
+        member.withdrawOnResponsibility4,
+        member.invalidNoResponsibility4,
+        member.invalidOnResponsibility4,
+        member.invalidOnObstruction4,
+      ],
+      [
+        member.falseStart5,
+        member.lateStartNoResponsibility5,
+        member.lateStartOnResponsibility5,
+        member.withdrawNoResponsibility5,
+        member.withdrawOnResponsibility5,
+        member.invalidNoResponsibility5,
+        member.invalidOnResponsibility5,
+        member.invalidOnObstruction5,
+      ],
+      [
+        member.falseStart6,
+        member.lateStartNoResponsibility6,
+        member.lateStartOnResponsibility6,
+        member.withdrawNoResponsibility6,
+        member.withdrawOnResponsibility6,
+        member.invalidNoResponsibility6,
+        member.invalidOnResponsibility6,
+        member.invalidOnObstruction6,
+      ],
+    ];
+
+    final totals = List.generate(8, (i) => sum(courseValues.map((c) => c[i]).toList()));
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minWidth: constraints.maxWidth),
+            child: DataTable(
+              columnSpacing: 0,
+              columns: const [
+                DataColumn(label: Center(child: Text("コース"))),
+                DataColumn(label: Padding(
+                  padding: EdgeInsets.only(left: 10), // ← 右にずらす
+                  child: Text("F"),
+                )),
+                DataColumn(label: Padding(
+                  padding: EdgeInsets.only(left: 10),
+                  child: Text("L0"),
+                )),
+                DataColumn(label: Padding(
+                  padding: EdgeInsets.only(left: 10),
+                  child: Text("L1"),
+                )),
+                DataColumn(label: Padding(
+                  padding: EdgeInsets.only(left: 10),
+                  child: Text("K0"),
+                )),
+                DataColumn(label: Padding(
+                  padding: EdgeInsets.only(left: 10),
+                  child: Text("K1"),
+                )),
+                DataColumn(label: Padding(
+                  padding: EdgeInsets.only(left: 10),
+                  child: Text("S0"),
+                )),
+                DataColumn(label: Padding(
+                  padding: EdgeInsets.only(left: 10),
+                  child: Text("S1"),
+                )),
+                DataColumn(label: Padding(
+                  padding: EdgeInsets.only(left: 10),
+                  child: Text("S2"),
+                )),
+              ],
+              rows: [
+                for (int lane = 0; lane < 6; lane++)
+                  DataRow(cells: [
+                    DataCell(Center(child: Text("${lane + 1}"))),
+                    for (int j = 0; j < 8; j++) DataCell(_fixedCell(courseValues[lane][j])),
+                  ]),
+                DataRow(
+                  color: MaterialStateProperty.all(Colors.grey[200]),
+                  cells: [
+                    const DataCell(Center(child: Text("合計", style: TextStyle(fontWeight: FontWeight.bold)))),
+                    for (final t in totals) DataCell(_fixedCell(t.toString(), bold: true)),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  // === 単棒グラフ（複勝率用）
   Widget _barChartSingle({
     required BuildContext context,
     required String titleY,
@@ -310,7 +431,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
       height: 260,
       child: BarChart(
         BarChartData(
-          maxY: 100,
+          maxY: maxY,
           minY: 0,
           gridData: FlGridData(show: true),
           borderData: FlBorderData(show: false),
@@ -339,10 +460,10 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                 },
               ),
             ),
-            topTitles:
-            const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-            rightTitles:
-            const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+            topTitles: const AxisTitles(
+                sideTitles: SideTitles(showTitles: false)),
+            rightTitles: const AxisTitles(
+                sideTitles: SideTitles(showTitles: false)),
           ),
           barGroups: List.generate(values.length, (i) {
             final y = values[i].isNaN ? 0.0 : values[i];
@@ -362,6 +483,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
     );
   }
 
+  // === 折れ線グラフ（STタイミング）
   Widget _lineChartPoints({
     required BuildContext context,
     required List<double> values,
@@ -411,10 +533,10 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                 },
               ),
             ),
-            topTitles:
-            const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-            rightTitles:
-            const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+            topTitles: const AxisTitles(
+                sideTitles: SideTitles(showTitles: false)),
+            rightTitles: const AxisTitles(
+                sideTitles: SideTitles(showTitles: false)),
           ),
           lineBarsData: [
             LineChartBarData(
@@ -438,6 +560,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
     );
   }
 
+  // === 積み上げ棒グラフ（1着・2着・3着数）
   Widget _barChartStacked({
     required BuildContext context,
     required List<int> firsts,
@@ -451,13 +574,11 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
           height: 260,
           child: BarChart(
             BarChartData(
+              //maxY: maxY,
               maxY: 50,
               minY: 0,
               gridData: FlGridData(show: true),
-              borderData: FlBorderData(
-                show: false,
-                border: Border.all(color: Colors.black, width: 1),
-              ),
+              borderData: FlBorderData(show: false),
               titlesData: FlTitlesData(
                 leftTitles: AxisTitles(
                   sideTitles: SideTitles(
@@ -483,10 +604,10 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                     },
                   ),
                 ),
-                topTitles:
-                const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                rightTitles:
-                const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                topTitles: const AxisTitles(
+                    sideTitles: SideTitles(showTitles: false)),
+                rightTitles: const AxisTitles(
+                    sideTitles: SideTitles(showTitles: false)),
               ),
               barGroups: List.generate(6, (i) {
                 final f = (firsts.length > i ? firsts[i] : 0).toDouble();
@@ -533,8 +654,6 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
       ],
     );
   }
-
-  /// === 補助メソッド ===
 
   List<_CourseRow> _buildCourseRows(Member m) {
     int? toInt(String? s) => int.tryParse((s ?? '').trim());
@@ -585,7 +704,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
     final mul = (padded / step).ceil();
     return (mul * step).clamp(minMax, double.infinity);
   }
-
+}
 
 class _CourseRow {
   final int lane;
@@ -597,185 +716,4 @@ class _CourseRow {
 class _Totals {
   final int entries, first, second, third;
   _Totals({required this.entries, required this.first, required this.second, required this.third});
-}
-
-/// === コース別事故件数表 ===
-Widget _buildAccidentTable(Member member) {
-  int? toInt(String? s) => int.tryParse((s ?? '').trim());
-  int sum(List<String?> values) =>
-      values.fold(0, (a, b) => a + (toInt(b) ?? 0));
-
-  Text _styledCell(String? value) {
-    final intVal = toInt(value) ?? 0;
-    return Text(
-      value ?? "-",
-      style: TextStyle(
-        color: intVal == 0 ? Colors.grey : Colors.black,
-      ),
-    );
-  }
-
-  final totalF = sum([
-    member.falseStart1,
-    member.falseStart2,
-    member.falseStart3,
-    member.falseStart4,
-    member.falseStart5,
-    member.falseStart6,
-  ]);
-  final totalL0 = sum([
-    member.lateStartNoResponsibility1,
-    member.lateStartNoResponsibility2,
-    member.lateStartNoResponsibility3,
-    member.lateStartNoResponsibility4,
-    member.lateStartNoResponsibility5,
-    member.lateStartNoResponsibility6,
-  ]);
-  final totalL1 = sum([
-    member.lateStartOnResponsibility1,
-    member.lateStartOnResponsibility2,
-    member.lateStartOnResponsibility3,
-    member.lateStartOnResponsibility4,
-    member.lateStartOnResponsibility5,
-    member.lateStartOnResponsibility6,
-  ]);
-  final totalK0 = sum([
-    member.withdrawNoResponsibility1,
-    member.withdrawNoResponsibility2,
-    member.withdrawNoResponsibility3,
-    member.withdrawNoResponsibility4,
-    member.withdrawNoResponsibility5,
-    member.withdrawNoResponsibility6,
-  ]);
-  final totalK1 = sum([
-    member.withdrawOnResponsibility1,
-    member.withdrawOnResponsibility2,
-    member.withdrawOnResponsibility3,
-    member.withdrawOnResponsibility4,
-    member.withdrawOnResponsibility5,
-    member.withdrawOnResponsibility6,
-  ]);
-  final totalS0 = sum([
-    member.invalidNoResponsibility1,
-    member.invalidNoResponsibility2,
-    member.invalidNoResponsibility3,
-    member.invalidNoResponsibility4,
-    member.invalidNoResponsibility5,
-    member.invalidNoResponsibility6,
-  ]);
-  final totalS1 = sum([
-    member.invalidOnResponsibility1,
-    member.invalidOnResponsibility2,
-    member.invalidOnResponsibility3,
-    member.invalidOnResponsibility4,
-    member.invalidOnResponsibility5,
-    member.invalidOnResponsibility6,
-  ]);
-  final totalS2 = sum([
-    member.invalidOnObstruction1,
-    member.invalidOnObstruction2,
-    member.invalidOnObstruction3,
-    member.invalidOnObstruction4,
-    member.invalidOnObstruction5,
-    member.invalidOnObstruction6,
-  ]);
-
-  return DataTable(
-    columnSpacing: 12,
-    columns: const [
-      DataColumn(label: Text("コース")),
-      DataColumn(label: Text("F")),
-      DataColumn(label: Text("L0")),
-      DataColumn(label: Text("L1")),
-      DataColumn(label: Text("K0")),
-      DataColumn(label: Text("K1")),
-      DataColumn(label: Text("S0")),
-      DataColumn(label: Text("S1")),
-      DataColumn(label: Text("S2")),
-    ],
-    rows: [
-      DataRow(cells: [
-        const DataCell(Text("1")),
-        DataCell(_styledCell(member.falseStart1)),
-        DataCell(_styledCell(member.lateStartNoResponsibility1)),
-        DataCell(_styledCell(member.lateStartOnResponsibility1)),
-        DataCell(_styledCell(member.withdrawNoResponsibility1)),
-        DataCell(_styledCell(member.withdrawOnResponsibility1)),
-        DataCell(_styledCell(member.invalidNoResponsibility1)),
-        DataCell(_styledCell(member.invalidOnResponsibility1)),
-        DataCell(_styledCell(member.invalidOnObstruction1)),
-      ]),
-      DataRow(cells: [
-        const DataCell(Text("2")),
-        DataCell(_styledCell(member.falseStart2)),
-        DataCell(_styledCell(member.lateStartNoResponsibility2)),
-        DataCell(_styledCell(member.lateStartOnResponsibility2)),
-        DataCell(_styledCell(member.withdrawNoResponsibility2)),
-        DataCell(_styledCell(member.withdrawOnResponsibility2)),
-        DataCell(_styledCell(member.invalidNoResponsibility2)),
-        DataCell(_styledCell(member.invalidOnResponsibility2)),
-        DataCell(_styledCell(member.invalidOnObstruction2)),
-      ]),
-      DataRow(cells: [
-        const DataCell(Text("3")),
-        DataCell(_styledCell(member.falseStart3)),
-        DataCell(_styledCell(member.lateStartNoResponsibility3)),
-        DataCell(_styledCell(member.lateStartOnResponsibility3)),
-        DataCell(_styledCell(member.withdrawNoResponsibility3)),
-        DataCell(_styledCell(member.withdrawOnResponsibility3)),
-        DataCell(_styledCell(member.invalidNoResponsibility3)),
-        DataCell(_styledCell(member.invalidOnResponsibility3)),
-        DataCell(_styledCell(member.invalidOnObstruction3)),
-      ]),
-      DataRow(cells: [
-        const DataCell(Text("4")),
-        DataCell(_styledCell(member.falseStart4)),
-        DataCell(_styledCell(member.lateStartNoResponsibility4)),
-        DataCell(_styledCell(member.lateStartOnResponsibility4)),
-        DataCell(_styledCell(member.withdrawNoResponsibility4)),
-        DataCell(_styledCell(member.withdrawOnResponsibility4)),
-        DataCell(_styledCell(member.invalidNoResponsibility4)),
-        DataCell(_styledCell(member.invalidOnResponsibility4)),
-        DataCell(_styledCell(member.invalidOnObstruction4)),
-      ]),
-      DataRow(cells: [
-        const DataCell(Text("5")),
-        DataCell(_styledCell(member.falseStart5)),
-        DataCell(_styledCell(member.lateStartNoResponsibility5)),
-        DataCell(_styledCell(member.lateStartOnResponsibility5)),
-        DataCell(_styledCell(member.withdrawNoResponsibility5)),
-        DataCell(_styledCell(member.withdrawOnResponsibility5)),
-        DataCell(_styledCell(member.invalidNoResponsibility5)),
-        DataCell(_styledCell(member.invalidOnResponsibility5)),
-        DataCell(_styledCell(member.invalidOnObstruction5)),
-      ]),
-      DataRow(cells: [
-        const DataCell(Text("6")),
-        DataCell(_styledCell(member.falseStart6)),
-        DataCell(_styledCell(member.lateStartNoResponsibility6)),
-        DataCell(_styledCell(member.lateStartOnResponsibility6)),
-        DataCell(_styledCell(member.withdrawNoResponsibility6)),
-        DataCell(_styledCell(member.withdrawOnResponsibility6)),
-        DataCell(_styledCell(member.invalidNoResponsibility6)),
-        DataCell(_styledCell(member.invalidOnResponsibility6)),
-        DataCell(_styledCell(member.invalidOnObstruction6)),
-      ]),
-
-      // === 合計行 ===
-      DataRow(
-        color: MaterialStateProperty.all(Colors.grey[200]),
-        cells: [
-          const DataCell(Text("合計", style: TextStyle(fontWeight: FontWeight.bold))),
-          DataCell(Text(totalF.toString(), style: const TextStyle(fontWeight: FontWeight.bold))),
-          DataCell(Text(totalL0.toString(), style: const TextStyle(fontWeight: FontWeight.bold))),
-          DataCell(Text(totalL1.toString(), style: const TextStyle(fontWeight: FontWeight.bold))),
-          DataCell(Text(totalK0.toString(), style: const TextStyle(fontWeight: FontWeight.bold))),
-          DataCell(Text(totalK1.toString(), style: const TextStyle(fontWeight: FontWeight.bold))),
-          DataCell(Text(totalS0.toString(), style: const TextStyle(fontWeight: FontWeight.bold))),
-          DataCell(Text(totalS1.toString(), style: const TextStyle(fontWeight: FontWeight.bold))),
-          DataCell(Text(totalS2.toString(), style: const TextStyle(fontWeight: FontWeight.bold))),
-        ],
-      ),
-    ],
-  );
 }
