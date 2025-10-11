@@ -76,7 +76,8 @@ class _MemberListPageState extends State<MemberListPage> {
       final s = (v ?? '').trim();
       if (s.isNotEmpty) set.add(s);
     }
-    final list = set.toList()..sort();
+    final list = set.toList()
+      ..sort((a, b) => b.compareTo(a)); // ★ 降順に変更！
     return list;
   }
 
@@ -84,7 +85,8 @@ class _MemberListPageState extends State<MemberListPage> {
     var results = objectbox.memberBox.getAll();
 
     if (_selectedDataTime != null && _selectedDataTime!.isNotEmpty) {
-      results = results.where((m) => m.dataTime == _selectedDataTime).toList();
+      results =
+          results.where((m) => m.dataTime == _selectedDataTime).toList();
     }
     if (_numberController.text.isNotEmpty) {
       results = results
@@ -113,6 +115,18 @@ class _MemberListPageState extends State<MemberListPage> {
     });
   }
 
+  /// ★ showSearch() を使った期選択
+  Future<void> _selectDataTime(BuildContext context) async {
+    if (_dataTimeOptions.isEmpty) return;
+    final selected = await showSearch<String>(
+      context: context,
+      delegate: _DataTimeSearchDelegate(_dataTimeOptions),
+    );
+    if (selected != null) {
+      setState(() => _selectedDataTime = selected);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,27 +135,26 @@ class _MemberListPageState extends State<MemberListPage> {
         padding: const EdgeInsets.all(12),
         child: Column(
           children: [
-            // ==== フィルタ行 ====
+            // === 期選択行 ===
             Row(
               children: [
                 Expanded(
-                  child: DropdownButton<String>(
-                    value: _selectedDataTime,
-                    hint: const Text('期を選択'),
-                    isExpanded: true,
-                    items: _dataTimeOptions
-                        .map((dt) =>
-                        DropdownMenuItem(value: dt, child: Text(dt)))
-                        .toList(),
-                    onChanged: (value) {
-                      setState(() => _selectedDataTime = value);
-                    },
+                  flex: 1,
+                  child: OutlinedButton.icon(
+                    icon: const Icon(Icons.calendar_month),
+                    label: Text(
+                      _selectedDataTime != null
+                          ? formatDataTimePeriod(_selectedDataTime!)
+                          : '期を選択',
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    onPressed: () => _selectDataTime(context),
                   ),
                 ),
                 const SizedBox(width: 8),
                 Expanded(
                   child: DropdownButton<String>(
-                    value: _selectedRank,
+                    value: (_selectedRank == '' ? null : _selectedRank),
                     hint: const Text('級別を選択'),
                     isExpanded: true,
                     items: const [
@@ -159,7 +172,7 @@ class _MemberListPageState extends State<MemberListPage> {
                 const SizedBox(width: 8),
                 Expanded(
                   child: DropdownButton<String>(
-                    value: _selectedSex,
+                    value: (_selectedSex == '' ? null : _selectedSex),
                     hint: const Text('性別を選択'),
                     isExpanded: true,
                     items: const [
@@ -177,7 +190,7 @@ class _MemberListPageState extends State<MemberListPage> {
 
             const SizedBox(height: 8),
 
-            // ==== 入力欄 ====
+            // === 入力欄 ===
             Row(
               children: [
                 Expanded(
@@ -205,7 +218,7 @@ class _MemberListPageState extends State<MemberListPage> {
 
             const SizedBox(height: 12),
 
-            // ==== 検索ボタン ====
+            // === 検索ボタン ===
             Align(
               alignment: Alignment.centerRight,
               child: ElevatedButton.icon(
@@ -217,9 +230,11 @@ class _MemberListPageState extends State<MemberListPage> {
 
             const SizedBox(height: 12),
 
-            // ==== 検索結果 ====
+            // === 検索結果 ===
             Expanded(
-              child: ListView.separated(
+              child: _results.isEmpty
+                  ? const Center(child: Text('該当データがありません'))
+                  : ListView.separated(
                 itemCount: _results.length,
                 separatorBuilder: (_, __) => const Divider(),
                 itemBuilder: (context, index) {
@@ -244,8 +259,10 @@ class _MemberListPageState extends State<MemberListPage> {
                     subtitle: Text([
                       if ((m.number ?? '').isNotEmpty) '${m.number}',
                       if ((m.rank ?? '').isNotEmpty) '　${m.rank}',
-                      if ((m.rankPast1 ?? '').isNotEmpty) '/${m.rankPast1}',
-                      if ((m.rankPast2 ?? '').isNotEmpty) '/${m.rankPast2}',
+                      if ((m.rankPast1 ?? '').isNotEmpty)
+                        '/${m.rankPast1}',
+                      if ((m.rankPast2 ?? '').isNotEmpty)
+                        '/${m.rankPast2}',
                       if ((m.winPointRate ?? '').isNotEmpty)
                         ' ${m.winPointRate}',
                       if ((m.age ?? '').isNotEmpty) ' ${m.age}',
@@ -269,3 +286,61 @@ class _MemberListPageState extends State<MemberListPage> {
     );
   }
 }
+
+/// showSearch() 用の検索デリゲート
+class _DataTimeSearchDelegate extends SearchDelegate<String> {
+  final List<String> items;
+  _DataTimeSearchDelegate(this.items);
+
+  @override
+  List<Widget>? buildActions(BuildContext context) =>
+      [IconButton(icon: const Icon(Icons.clear), onPressed: () => query = '')];
+
+  @override
+  Widget? buildLeading(BuildContext context) => IconButton(
+    icon: const Icon(Icons.arrow_back),
+    onPressed: () => close(context, ''),
+  );
+
+  @override
+  Widget buildResults(BuildContext context) => _buildList(context);
+
+  @override
+  Widget buildSuggestions(BuildContext context) => _buildList(context);
+
+  Widget _buildList(BuildContext context) {
+    final filtered = items.where((e) => e.contains(query)).toList();
+    return ListView.builder(
+      itemCount: filtered.length,
+      itemBuilder: (_, i) {
+        final dt = filtered[i];
+        final label = formatDataTimePeriod(dt);  // ← ★ 変換して表示
+        return ListTile(
+          title: Text(label),
+          subtitle: Text(dt),  // ← 元のデータも小さく表示しておくと便利
+          onTap: () => close(context, dt),
+        );
+      },
+    );
+  }
+}
+/// DataTime（例: 20251, 20252）を「yyyyMM-yyyyMM」形式に変換
+String formatDataTimePeriod(String dataTime) {
+  if (dataTime.length < 5) return dataTime;
+
+  final int year = int.tryParse(dataTime.substring(0, 4)) ?? 0;
+  final int term = int.tryParse(dataTime.substring(4)) ?? 0;
+
+  if (year == 0 || term == 0) return dataTime;
+
+  if (term == 1) {
+    final startYear = year - 1;
+    return '${startYear}05-${year}10';
+  } else if (term == 2) {
+    final endYear = year + 1;
+    return '${year}11-${endYear}04';
+  } else {
+    return dataTime;
+  }
+}
+
