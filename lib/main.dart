@@ -139,7 +139,7 @@ class _MemberListPageState extends State<MemberListPage> {
             Row(
               children: [
                 Expanded(
-                  flex: 1,
+                  flex: 2,
                   child: OutlinedButton.icon(
                     icon: const Icon(Icons.calendar_month),
                     label: Text(
@@ -334,11 +334,11 @@ String formatDataTimePeriod(String dataTime) {
   if (year == 0 || term == 0) return dataTime;
 
   if (term == 1) {
-    final startYear = year - 1;
-    return '${startYear}05-${year}10';
+    final Year1 = year - 1;
+    return '${Year1}05-${Year1}10';
   } else if (term == 2) {
-    final endYear = year + 1;
-    return '${year}11-${endYear}04';
+    final Year2 = year - 1;
+    return '${Year2}11-${year}04';
   } else {
     return dataTime;
   }
