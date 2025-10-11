@@ -1,25 +1,17 @@
 // lib/main.dart
-//
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart'; // 追加
+import 'package:path_provider/path_provider.dart';
 import 'objectbox.dart';
 import 'models/member.dart';
 import 'member_detail_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  // ObjectBox の保存先ディレクトリを取得
   final dir = await getApplicationDocumentsDirectory();
-
-  // ★ runApp の前に初期化する
   objectbox = await ObjectBox.create(directory: dir.path);
-
-  // JSON を読み込んで初期データ投入（空の場合のみ）
   await _importJsonIfEmpty();
-
   runApp(const MyApp());
 }
 
@@ -34,7 +26,6 @@ Future<void> _importJsonIfEmpty() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -50,7 +41,6 @@ class MyApp extends StatelessWidget {
 
 class MemberListPage extends StatefulWidget {
   const MemberListPage({super.key});
-
   @override
   State<MemberListPage> createState() => _MemberListPageState();
 }
@@ -94,8 +84,7 @@ class _MemberListPageState extends State<MemberListPage> {
     var results = objectbox.memberBox.getAll();
 
     if (_selectedDataTime != null && _selectedDataTime!.isNotEmpty) {
-      results =
-          results.where((m) => m.dataTime == _selectedDataTime).toList();
+      results = results.where((m) => m.dataTime == _selectedDataTime).toList();
     }
     if (_numberController.text.isNotEmpty) {
       results = results
@@ -108,8 +97,8 @@ class _MemberListPageState extends State<MemberListPage> {
       results = results.where((m) {
         return (m.name ?? '').contains(q) ||
             (m.nameKana ?? '').contains(q) ||
-            (m.kana3 ?? '').contains(q) ||   // ★ kana3 追加
-            (m.kana ?? '').contains(q);      // ★ kana 追加
+            (m.kana3 ?? '').contains(q) ||
+            (m.kana ?? '').contains(q);
       }).toList();
     }
     if (_selectedRank != null && _selectedRank!.isNotEmpty) {
@@ -132,6 +121,7 @@ class _MemberListPageState extends State<MemberListPage> {
         padding: const EdgeInsets.all(12),
         child: Column(
           children: [
+            // ==== フィルタ行 ====
             Row(
               children: [
                 Expanded(
@@ -145,7 +135,6 @@ class _MemberListPageState extends State<MemberListPage> {
                         .toList(),
                     onChanged: (value) {
                       setState(() => _selectedDataTime = value);
-                      _applyFilters();
                     },
                   ),
                 ),
@@ -156,7 +145,7 @@ class _MemberListPageState extends State<MemberListPage> {
                     hint: const Text('級別を選択'),
                     isExpanded: true,
                     items: const [
-                      DropdownMenuItem(value: '', child: Text('')), // ★ 空文字追加
+                      DropdownMenuItem(value: '', child: Text('')),
                       DropdownMenuItem(value: 'A1', child: Text('A1')),
                       DropdownMenuItem(value: 'A2', child: Text('A2')),
                       DropdownMenuItem(value: 'B1', child: Text('B1')),
@@ -164,7 +153,6 @@ class _MemberListPageState extends State<MemberListPage> {
                     ],
                     onChanged: (value) {
                       setState(() => _selectedRank = value);
-                      _applyFilters();
                     },
                   ),
                 ),
@@ -175,19 +163,21 @@ class _MemberListPageState extends State<MemberListPage> {
                     hint: const Text('性別を選択'),
                     isExpanded: true,
                     items: const [
-                      DropdownMenuItem(value: '', child: Text('')), // ★ 空文字追加
+                      DropdownMenuItem(value: '', child: Text('')),
                       DropdownMenuItem(value: '1', child: Text('男性')),
                       DropdownMenuItem(value: '2', child: Text('女性')),
                     ],
                     onChanged: (value) {
                       setState(() => _selectedSex = value);
-                      _applyFilters();
                     },
                   ),
                 ),
               ],
             ),
+
             const SizedBox(height: 8),
+
+            // ==== 入力欄 ====
             Row(
               children: [
                 Expanded(
@@ -197,11 +187,10 @@ class _MemberListPageState extends State<MemberListPage> {
                     keyboardType: const TextInputType.numberWithOptions(
                       decimal: false,
                       signed: false,
-                    ), // ★ テンキーを表示
+                    ),
                     inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly, // ★ 数字のみ許可
+                      FilteringTextInputFormatter.digitsOnly,
                     ],
-                    onChanged: (v) => _applyFilters(),
                   ),
                 ),
                 const SizedBox(width: 8),
@@ -209,12 +198,26 @@ class _MemberListPageState extends State<MemberListPage> {
                   child: TextField(
                     controller: _nameController,
                     decoration: const InputDecoration(labelText: '名前/かな'),
-                    onChanged: (v) => _applyFilters(),
                   ),
                 ),
               ],
             ),
+
             const SizedBox(height: 12),
+
+            // ==== 検索ボタン ====
+            Align(
+              alignment: Alignment.centerRight,
+              child: ElevatedButton.icon(
+                icon: const Icon(Icons.search),
+                label: const Text('検索'),
+                onPressed: _applyFilters,
+              ),
+            ),
+
+            const SizedBox(height: 12),
+
+            // ==== 検索結果 ====
             Expanded(
               child: ListView.separated(
                 itemCount: _results.length,
@@ -240,14 +243,11 @@ class _MemberListPageState extends State<MemberListPage> {
                     title: Text(m.name ?? '(no name)'),
                     subtitle: Text([
                       if ((m.number ?? '').isNotEmpty) '${m.number}',
-                      // if ((m.dataTime ?? '').isNotEmpty)
-                      //   '期:${m.dataTime}',
-                      // if ((m.sex ?? '').isNotEmpty)
-                      //   '性別:${m.sex == "1" ? "男性" : m.sex == "2" ? "女性" : m.sex}',
                       if ((m.rank ?? '').isNotEmpty) '　${m.rank}',
                       if ((m.rankPast1 ?? '').isNotEmpty) '/${m.rankPast1}',
                       if ((m.rankPast2 ?? '').isNotEmpty) '/${m.rankPast2}',
-                      if ((m.winPointRate ?? '').isNotEmpty) ' ${m.winPointRate}',
+                      if ((m.winPointRate ?? '').isNotEmpty)
+                        ' ${m.winPointRate}',
                       if ((m.age ?? '').isNotEmpty) ' ${m.age}',
                       if ((m.blanch ?? '').isNotEmpty) ' ${m.blanch}',
                     ].join('  ')),
