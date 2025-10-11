@@ -155,7 +155,7 @@ class _MemberListPageState extends State<MemberListPage> {
                 Expanded(
                   child: DropdownButton<String>(
                     value: (_selectedRank == '' ? null : _selectedRank),
-                    hint: const Text('級別を選択'),
+                    hint: const Text('級別'),
                     isExpanded: true,
                     items: const [
                       DropdownMenuItem(value: '', child: Text('')),
@@ -173,7 +173,7 @@ class _MemberListPageState extends State<MemberListPage> {
                 Expanded(
                   child: DropdownButton<String>(
                     value: (_selectedSex == '' ? null : _selectedSex),
-                    hint: const Text('性別を選択'),
+                    hint: const Text('性別'),
                     isExpanded: true,
                     items: const [
                       DropdownMenuItem(value: '', child: Text('')),
