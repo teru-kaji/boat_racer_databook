@@ -50,7 +50,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
 
     // ★ 上書き防止ポイント！
     if (_selectedDataTime == null && _dataTimeOptions.isNotEmpty) {
-      _selectedDataTime = _dataTimeOptions.first;
+      _selectedDataTime = _dataTimeOptions.last;
     }
 
     // 初期表示用のメンバー選択
