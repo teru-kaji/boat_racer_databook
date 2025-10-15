@@ -63,11 +63,20 @@ class _MemberListPageState extends State<MemberListPage> {
 
   void _loadInitial() {
     final all = objectbox.memberBox.getAll();
+
+    // nullを除いた期リスト作成
     _dataTimeOptions = _distinctNonEmpty(all.map((m) => m.dataTime));
+
+    // ★ 降順にソート（新しい期が先頭）
+    _dataTimeOptions.sort((a, b) => b.compareTo(a));
+
+    // ★ 最大値（最新期）を初期選択に
     if (_dataTimeOptions.isNotEmpty) {
-      _selectedDataTime =
-          _dataTimeOptions.reduce((a, b) => a.compareTo(b) > 0 ? a : b);
+      _selectedDataTime = _dataTimeOptions.first;
     }
+
+    // debugPrint('🟦 検索画面 初期選択された期 = $_selectedDataTime');
+
     _applyFilters();
   }
 
@@ -119,14 +128,29 @@ class _MemberListPageState extends State<MemberListPage> {
   /// ★ showSearch() を使った期選択
   Future<void> _selectDataTime(BuildContext context) async {
     if (_dataTimeOptions.isEmpty) return;
+
+    // 現在の値を退避
+    final previousValue = _selectedDataTime;
+
     final selected = await showSearch<String>(
       context: context,
       delegate: _DataTimeSearchDelegate(_dataTimeOptions),
     );
-    if (selected != null) {
-      setState(() => _selectedDataTime = selected);
+
+    // ★ null や空文字のときは、元の値を維持
+    if (selected == null || selected.isEmpty) {
+      setState(() {
+        _selectedDataTime = previousValue; // 元に戻す
+      });
+      return;
     }
+
+    // ★ 有効な値が選ばれた場合のみ上書き
+    setState(() {
+      _selectedDataTime = selected;
+    });
   }
+
 
   @override
   Widget build(BuildContext context) {

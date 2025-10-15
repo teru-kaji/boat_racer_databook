@@ -9,10 +9,10 @@ String formatDataTimePeriod(String dataTime) {
 
   if (term == 1) {
     final Year1 = year - 1;
-    return '${Year1}05-${Year1}10';
+    return '${Year1}/05-${Year1}/10';
   } else if (term == 2) {
     final Year2 = year - 1;
-    return '${Year2}11-${year}04';
+    return '${Year2}/11-${year}/04';
   } else {
     return dataTime;
   }
