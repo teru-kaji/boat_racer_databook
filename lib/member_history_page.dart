@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'models/member.dart';
 import 'objectbox.dart'; // グローバル objectbox を利用
+import 'utils.dart';
 
 class MemberHistoryPage extends StatelessWidget {
   final Member member;
@@ -124,10 +125,12 @@ class MemberHistoryPage extends StatelessWidget {
                       return const SizedBox.shrink();
                     }
                     final reversedIndex = terms.length - 1 - v.toInt();
+                    // formatDataTimePeriodを呼び出してラベルをフォーマット
+                    final label = formatDataTimePeriod(terms[reversedIndex]);
                     return Padding(
                       padding: const EdgeInsets.only(top: 6),
                       child: Text(
-                        terms[reversedIndex],
+                        label,
                         style: const TextStyle(fontSize: 10),
                       ),
                     );
@@ -195,10 +198,12 @@ class MemberHistoryPage extends StatelessWidget {
                       return const SizedBox.shrink();
                     }
                     final reversedIndex = terms.length - 1 - v.toInt();
+                    // formatDataTimePeriodを呼び出してラベルをフォーマット
+                    final label = formatDataTimePeriod(terms[reversedIndex]);
                     return Padding(
                       padding: const EdgeInsets.only(top: 6),
                       child: Text(
-                        terms[reversedIndex],
+                        label,
                         style: const TextStyle(fontSize: 10),
                       ),
                     );
