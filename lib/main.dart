@@ -29,6 +29,7 @@ Future<void> _importJsonIfEmpty() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -44,6 +45,7 @@ class MyApp extends StatelessWidget {
 
 class MemberListPage extends StatefulWidget {
   const MemberListPage({super.key});
+
   @override
   State<MemberListPage> createState() => _MemberListPageState();
 }
@@ -88,8 +90,7 @@ class _MemberListPageState extends State<MemberListPage> {
       final s = (v ?? '').trim();
       if (s.isNotEmpty) set.add(s);
     }
-    final list = set.toList()
-      ..sort((a, b) => b.compareTo(a)); // ★ 降順に変更！
+    final list = set.toList()..sort((a, b) => b.compareTo(a)); // ★ 降順に変更！
     return list;
   }
 
@@ -97,13 +98,13 @@ class _MemberListPageState extends State<MemberListPage> {
     var results = objectbox.memberBox.getAll();
 
     if (_selectedDataTime != null && _selectedDataTime!.isNotEmpty) {
-      results =
-          results.where((m) => m.dataTime == _selectedDataTime).toList();
+      results = results.where((m) => m.dataTime == _selectedDataTime).toList();
     }
     if (_numberController.text.isNotEmpty) {
       results = results
-          .where((m) =>
-          (m.number ?? '').contains(_numberController.text.trim()))
+          .where(
+            (m) => (m.number ?? '').contains(_numberController.text.trim()),
+          )
           .toList();
     }
     if (_nameController.text.isNotEmpty) {
@@ -152,7 +153,6 @@ class _MemberListPageState extends State<MemberListPage> {
       _selectedDataTime = selected;
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -228,16 +228,14 @@ class _MemberListPageState extends State<MemberListPage> {
                       decimal: false,
                       signed: false,
                     ),
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                    ],
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   ),
                 ),
                 const SizedBox(width: 8),
                 Expanded(
                   child: TextField(
                     controller: _nameController,
-                    decoration: const InputDecoration(labelText: '名前/かな'),
+                    decoration: const InputDecoration(labelText: '名前(漢字/ひらかな)'),
                   ),
                 ),
               ],
@@ -262,53 +260,61 @@ class _MemberListPageState extends State<MemberListPage> {
               child: _results.isEmpty
                   ? const Center(child: Text('該当データがありません'))
                   : ListView.separated(
-                itemCount: _results.length,
-                separatorBuilder: (_, __) => const Divider(),
-                itemBuilder: (context, index) {
-                  final m = _results[index];
-                  return ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: (m.sex == "1")
-                          ? Colors.blue
-                          : (m.sex == "2")
-                          ? Colors.pink
-                          : Colors.grey,
-                      child: Text(
-                        ((m.name ?? m.number ?? '?').isNotEmpty)
-                            ? (m.name ?? m.number ?? '?')
-                            .characters
-                            .first
-                            : '?',
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                    ),
-                    title: Text(m.name ?? '(no name)'),
-                    subtitle: Text([
-                      if ((m.number ?? '').isNotEmpty) '${m.number}',
-                      if ((m.rank ?? '').isNotEmpty) '　${m.rank}',
-                      if ((m.rankPast1 ?? '').isNotEmpty)
-                        '/${m.rankPast1}',
-                      if ((m.rankPast2 ?? '').isNotEmpty)
-                        '/${m.rankPast2}',
-                      if ((m.winPointRate ?? '').isNotEmpty)
-                        ' ${m.winPointRate}',
-                      if ((m.age ?? '').isNotEmpty) ' ${m.age}',
-                      if ((m.blanch ?? '').isNotEmpty) ' ${m.blanch}',
-                    ].join('  ')),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => MemberDetailPage(
-                            member: m,
-                            selectedDataTime: _selectedDataTime, // ★ ここで期を渡す
+                      itemCount: _results.length,
+                      separatorBuilder: (_, __) => const Divider(),
+                      itemBuilder: (context, index) {
+                        final m = _results[index];
+                        return ListTile(
+                          leading: CircleAvatar(
+                            backgroundColor: (m.sex == "1")
+                                ? Colors.blue
+                                : (m.sex == "2")
+                                ? Colors.pink
+                                : Colors.grey,
+                            child: Text(
+                              ((m.name ?? m.number ?? '?').isNotEmpty)
+                                  ? (m.name ?? m.number ?? '?').characters.first
+                                  : '?',
+                              style: const TextStyle(color: Colors.white),
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
+                          title: Text(
+                            m.name ?? '(no name)',
+                            style: const TextStyle(
+                              fontSize: 17, // ← タイトルの文字サイズ
+                              // fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          subtitle: Text(
+                            [
+                              if ((m.number ?? '').isNotEmpty) '${m.number}',
+                              if ((m.rank ?? '').isNotEmpty) '　${m.rank}',
+                              if (m.winPointRate != null && m.winPointRate.toString().isNotEmpty)
+                                ' ${(double.tryParse(m.winPointRate.toString()) ?? 0).toStringAsFixed(2)}',
+                              if ((m.weight ?? '').isNotEmpty) ' ${m.weight}Kg',
+                              if ((m.age ?? '').isNotEmpty) ' ${m.age}才',
+                              if ((m.blanch ?? '').isNotEmpty) ' ${m.blanch}',
+                            ].join('  '),
+                            style: const TextStyle(
+                              fontSize: 15, // ← サブタイトルの文字サイズ
+                              color: Colors.black54,
+                            ),
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => MemberDetailPage(
+                                  member: m,
+                                  selectedDataTime:
+                                      _selectedDataTime, // ★ ここで期を渡す
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
             ),
           ],
         ),
@@ -320,11 +326,13 @@ class _MemberListPageState extends State<MemberListPage> {
 /// showSearch() 用の検索デリゲート
 class _DataTimeSearchDelegate extends SearchDelegate<String> {
   final List<String> items;
+
   _DataTimeSearchDelegate(this.items);
 
   @override
-  List<Widget>? buildActions(BuildContext context) =>
-      [IconButton(icon: const Icon(Icons.clear), onPressed: () => query = '')];
+  List<Widget>? buildActions(BuildContext context) => [
+    IconButton(icon: const Icon(Icons.clear), onPressed: () => query = ''),
+  ];
 
   @override
   Widget? buildLeading(BuildContext context) => IconButton(
@@ -344,10 +352,10 @@ class _DataTimeSearchDelegate extends SearchDelegate<String> {
       itemCount: filtered.length,
       itemBuilder: (_, i) {
         final dt = filtered[i];
-        final label = formatDataTimePeriod(dt);  // ← ★ 変換して表示
+        final label = formatDataTimePeriod(dt); // ← ★ 変換して表示
         return ListTile(
           title: Text(label),
-          subtitle: Text(dt),  // ← 元のデータも小さく表示しておくと便利
+          subtitle: Text(dt), // ← 元のデータも小さく表示しておくと便利
           onTap: () => close(context, dt),
         );
       },
