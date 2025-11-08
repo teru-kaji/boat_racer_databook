@@ -313,9 +313,7 @@ class _MemberListPageState extends State<MemberListPage> {
                               context,
                               MaterialPageRoute(
                                 builder: (_) => MemberDetailPage(
-                                  member: m,
-                                  selectedDataTime:
-                                      _selectedDataTime, // ★ ここで期を渡す
+                                  memberId: m.id,
                                 ),
                               ),
                             );

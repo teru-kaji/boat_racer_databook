@@ -4,18 +4,15 @@ import 'package:fl_chart/fl_chart.dart';
 import 'models/member.dart';
 import 'member_history_page.dart';
 import 'objectbox.dart';
+import 'objectbox.g.dart';
 import 'utils.dart';
 
-
-
 class MemberDetailPage extends StatefulWidget {
-  final Member member;
-  final String? selectedDataTime; // ★ 追加
+  final int memberId;
 
   const MemberDetailPage({
     super.key,
-    required this.member,
-    this.selectedDataTime, // ★ 追加
+    required this.memberId,
   });
 
   @override
@@ -23,46 +20,77 @@ class MemberDetailPage extends StatefulWidget {
 }
 
 class _MemberDetailPageState extends State<MemberDetailPage> {
-  late List<Member> _history;
-  late List<String> _dataTimeOptions;
-  late Member _selectedMember;
-  late String? _selectedDataTime;
+  Member? _selectedMember;
+  List<Member> _history = [];
+  List<String> _dataTimeOptions = [];
+  String? _selectedDataTime;
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
+    _loadMemberData();
+  }
 
-    // main.dart から受け取る
-    _selectedDataTime = widget.selectedDataTime;
+  void _loadMemberData() {
+    final member = objectbox.memberBox.get(widget.memberId);
 
-    // 該当メンバーの履歴を取得
-    _history = objectbox.memberBox
-        .getAll()
-        .where((m) => m.number == widget.member.number)
-        .toList();
+    if (member == null) {
+      setState(() {
+        _isLoading = false;
+      });
+      return;
+    }
 
-    // 期リスト作成（降順）
+    _selectedMember = member;
+    _selectedDataTime = member.dataTime;
+
+    if (member.number != null && member.number!.isNotEmpty) {
+      final query =
+          objectbox.memberBox.query(Member_.number.equals(member.number!)).build();
+      _history = query.find();
+    } else {
+      _history = [member];
+    }
+
     _dataTimeOptions = _history
         .map((m) => m.dataTime ?? '')
         .where((s) => s.isNotEmpty)
         .toList()
       ..sort((a, b) => b.compareTo(a));
 
-    // ★ 上書き防止ポイント！
-    if (_selectedDataTime == null && _dataTimeOptions.isNotEmpty) {
-      _selectedDataTime = _dataTimeOptions.last;
+    if (!_dataTimeOptions.contains(_selectedDataTime) &&
+        _dataTimeOptions.isNotEmpty) {
+      _selectedDataTime = _dataTimeOptions.first;
+      _selectedMember = _history.firstWhere(
+        (m) => m.dataTime == _selectedDataTime,
+        orElse: () => member,
+      );
     }
-
-    // 初期表示用のメンバー選択
-    _selectedMember = _history.firstWhere(
-          (m) => m.dataTime == _selectedDataTime,
-      orElse: () => _history.first,
-    );
+    
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final rows = _buildCourseRows(_selectedMember);
+    if (_isLoading) {
+      return Scaffold(
+        appBar: AppBar(),
+        body: const Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    if (_selectedMember == null) {
+      return Scaffold(
+        appBar: AppBar(title: const Text('エラー')),
+        body: const Center(child: Text('メンバーが見つかりませんでした。')),
+      );
+    }
+
+    final m = _selectedMember!;
+    final rows = _buildCourseRows(m);
     final totals = _calcTotals(rows);
 
     final List<double> winRates = rows.map((r) => r.winRate12 ?? 0.0).toList();
@@ -74,8 +102,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '${_selectedMember.name ?? '詳細情報'}'
-          '（${formatDataTimePeriod(_selectedDataTime ?? '')}）',
+          '${m.name ?? '詳細情報'}（${formatDataTimePeriod(_selectedDataTime ?? '')}）',
         ),
       ),
       body: SingleChildScrollView(
@@ -86,8 +113,6 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
             if (_dataTimeOptions.isNotEmpty)
               Row(
                 children: [
-                  // const Text("期を選択: "),
-                  const SizedBox(width: 8),
                   Expanded(
                     child: DropdownButton<String>(
                       value: _selectedDataTime,
@@ -97,8 +122,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                             (dt) => DropdownMenuItem(
                               value: dt,
                               child: Text(
-                                formatDataTimePeriod(dt), // ★期間形式で表示
-                                // style: const TextStyle(fontSize: 13),
+                                formatDataTimePeriod(dt),
                               ),
                             ),
                           )
@@ -121,7 +145,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                         context,
                         MaterialPageRoute(
                           builder: (_) =>
-                              MemberHistoryPage(member: _selectedMember),
+                              MemberHistoryPage(member: m),
                         ),
                       );
                     },
@@ -129,21 +153,17 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                   ),
                 ],
               ),
-
             const SizedBox(height: 12),
-
-            if ((_selectedMember.photo ?? '').isNotEmpty)
+            if ((m.photo ?? '').isNotEmpty)
               Center(
                 child: Image.network(
-                  _selectedMember.photo!,
+                  m.photo!,
                   height: 180,
                   errorBuilder: (_, __, ___) =>
                       const Icon(Icons.person, size: 96),
                 ),
               ),
-
             const SizedBox(height: 16),
-
             GridView.count(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -152,88 +172,44 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
               crossAxisSpacing: 8,
               mainAxisSpacing: 4,
               children: [
-                _infoText('登録番号', _selectedMember.number),
-                _infoText(
-                  '級',
-                  '${_selectedMember.rank ?? "-"} / ${_selectedMember.rankPast1 ?? "-"} / ${_selectedMember.rankPast2 ?? "-"} / ${_selectedMember.rankPast3 ?? "-"}',
-                ),
-                _infoText('名前', _selectedMember.name),
-                _infoText('かな', _selectedMember.kana3),
-                _infoText('支部', _selectedMember.blanch),
-                _infoText('出身地', _selectedMember.birthplace),
-                _infoText('誕生日', _selectedMember.gBirthday),
-                _infoText(
-                  '性別',
-                  _selectedMember.sex == "1"
-                      ? "男性"
-                      : _selectedMember.sex == "2"
-                      ? "女性"
-                      : _selectedMember.sex,
-                ),
-                _infoText('年齢', _selectedMember.age),
-                _infoText('身長', _selectedMember.height),
-                _infoText('体重', _selectedMember.weight),
-                _infoText('血液', _selectedMember.blood),
-                _infoText('勝率', _selectedMember.winPointRate),
-                _infoText('複勝率', _selectedMember.winRate12),
-                _infoText('1着回数', _selectedMember.firstPlaceCount),
-                _infoText('2着回数', _selectedMember.secondPlaceCount),
-                _infoText('出走回数', _selectedMember.numberOfRace),
-                _infoText('優出回数', _selectedMember.numberOfFinals),
-                _infoText('優勝回数', _selectedMember.numberOfWins),
-                _infoText('平均ST', _selectedMember.startTiming),
-                _infoText(
-                  '能力指数',
-                  '${_selectedMember.lastAbilityScore ?? "-"} / ${_selectedMember.pastAbilityScore ?? "-"}',
-                ),
+                _infoText('登録番号', m.number),
+                _infoText('級', '${m.rank ?? "-"} / ${m.rankPast1 ?? "-"} / ${m.rankPast2 ?? "-"} / ${m.rankPast3 ?? "-"}'),
+                _infoText('名前', m.name),
+                _infoText('かな', m.kana3),
+                _infoText('支部', m.blanch),
+                _infoText('出身地', m.birthplace),
+                _infoText('誕生日', m.gBirthday),
+                _infoText('性別', m.sex == "1" ? "男性" : m.sex == "2" ? "女性" : m.sex),
+                _infoText('年齢', m.age),
+                _infoText('身長', m.height),
+                _infoText('体重', m.weight),
+                _infoText('血液', m.blood),
+                _infoText('勝率', m.winPointRate),
+                _infoText('複勝率', m.winRate12),
+                _infoText('1着回数', m.firstPlaceCount),
+                _infoText('2着回数', m.secondPlaceCount),
+                _infoText('出走回数', m.numberOfRace),
+                _infoText('優出回数', m.numberOfFinals),
+                _infoText('優勝回数', m.numberOfWins),
+                _infoText('平均ST', m.startTiming),
+                _infoText('能力指数', '${m.lastAbilityScore ?? "-"} / ${m.pastAbilityScore ?? "-"}'),
               ],
             ),
-
             const SizedBox(height: 24),
             Text('コース別 成績（表）', style: Theme.of(context).textTheme.titleLarge),
             _courseTable(context, rows, totals),
-
             const SizedBox(height: 24),
-            Text(
-              "コース別事故数",
-              //style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            _buildAccidentTable(_selectedMember),
-
+            Text("コース別事故数", style: Theme.of(context).textTheme.titleLarge),
+            _buildAccidentTable(m),
             const SizedBox(height: 24),
             Text('コース別 複勝率（%）', style: Theme.of(context).textTheme.titleLarge),
-            _barChartSingle(
-              context: context,
-              titleY: '複勝率(%)',
-              values: winRates,
-              maxY: _niceMax(winRates, base: 100, minMax: 20),
-              formatY: (v) => v.toStringAsFixed(0),
-            ),
-
+            _barChartSingle(context: context, titleY: '複勝率(%)', values: winRates, maxY: _niceMax(winRates, base: 100, minMax: 20), formatY: (v) => v.toStringAsFixed(0)),
             const SizedBox(height: 24),
-            Text(
-              'コース別 スタートタイミング',
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
+            Text('コース別 スタートタイミング', style: Theme.of(context).textTheme.titleLarge),
             _lineChartPoints(context: context, values: starts),
-
             const SizedBox(height: 24),
-            Text(
-              'コース別 1着・2着・3着数',
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            _barChartStacked(
-              context: context,
-              firsts: firsts,
-              seconds: seconds,
-              thirds: thirds,
-              maxY: _niceMax(
-                [...firsts, ...seconds, ...thirds],
-                base: 10,
-                minMax: 5,
-              ),
-            ),
+            Text('コース別 1着・2着・3着数', style: Theme.of(context).textTheme.titleLarge),
+            _barChartStacked(context: context, firsts: firsts, seconds: seconds, thirds: thirds, maxY: _niceMax([...firsts, ...seconds, ...thirds], base: 10, minMax: 5)),
             const SizedBox(height: 24),
           ],
         ),
@@ -248,7 +224,6 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
     );
   }
 
-  /// コース別成績表（合計行付き）
   Widget _courseTable(
     BuildContext context,
     List<_CourseRow> rows,
@@ -328,7 +303,6 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
     );
   }
 
-  /// コース別事故件数表（幅統一・ゼロはグレー・合計行あり）
   Widget _buildAccidentTable(Member member) {
     int? toInt(String? s) => int.tryParse((s ?? '').trim());
     int sum(List<String?> values) =>
@@ -352,64 +326,34 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
 
     List<List<String?>> courseValues = [
       [
-        member.falseStart1,
-        member.lateStartNoResponsibility1,
-        member.lateStartOnResponsibility1,
-        member.withdrawNoResponsibility1,
-        member.withdrawOnResponsibility1,
-        member.invalidNoResponsibility1,
-        member.invalidOnResponsibility1,
-        member.invalidOnObstruction1,
+        member.falseStart1, member.lateStartNoResponsibility1, member.lateStartOnResponsibility1,
+        member.withdrawNoResponsibility1, member.withdrawOnResponsibility1, member.invalidNoResponsibility1,
+        member.invalidOnResponsibility1, member.invalidOnObstruction1,
       ],
       [
-        member.falseStart2,
-        member.lateStartNoResponsibility2,
-        member.lateStartOnResponsibility2,
-        member.withdrawNoResponsibility2,
-        member.withdrawOnResponsibility2,
-        member.invalidNoResponsibility2,
-        member.invalidOnResponsibility2,
-        member.invalidOnObstruction2,
+        member.falseStart2, member.lateStartNoResponsibility2, member.lateStartOnResponsibility2,
+        member.withdrawNoResponsibility2, member.withdrawOnResponsibility2, member.invalidNoResponsibility2,
+        member.invalidOnResponsibility2, member.invalidOnObstruction2,
       ],
       [
-        member.falseStart3,
-        member.lateStartNoResponsibility3,
-        member.lateStartOnResponsibility3,
-        member.withdrawNoResponsibility3,
-        member.withdrawOnResponsibility3,
-        member.invalidNoResponsibility3,
-        member.invalidOnResponsibility3,
-        member.invalidOnObstruction3,
+        member.falseStart3, member.lateStartNoResponsibility3, member.lateStartOnResponsibility3,
+        member.withdrawNoResponsibility3, member.withdrawOnResponsibility3, member.invalidNoResponsibility3,
+        member.invalidOnResponsibility3, member.invalidOnObstruction3,
       ],
       [
-        member.falseStart4,
-        member.lateStartNoResponsibility4,
-        member.lateStartOnResponsibility4,
-        member.withdrawNoResponsibility4,
-        member.withdrawOnResponsibility4,
-        member.invalidNoResponsibility4,
-        member.invalidOnResponsibility4,
-        member.invalidOnObstruction4,
+        member.falseStart4, member.lateStartNoResponsibility4, member.lateStartOnResponsibility4,
+        member.withdrawNoResponsibility4, member.withdrawOnResponsibility4, member.invalidNoResponsibility4,
+        member.invalidOnResponsibility4, member.invalidOnObstruction4,
       ],
       [
-        member.falseStart5,
-        member.lateStartNoResponsibility5,
-        member.lateStartOnResponsibility5,
-        member.withdrawNoResponsibility5,
-        member.withdrawOnResponsibility5,
-        member.invalidNoResponsibility5,
-        member.invalidOnResponsibility5,
-        member.invalidOnObstruction5,
+        member.falseStart5, member.lateStartNoResponsibility5, member.lateStartOnResponsibility5,
+        member.withdrawNoResponsibility5, member.withdrawOnResponsibility5, member.invalidNoResponsibility5,
+        member.invalidOnResponsibility5, member.invalidOnObstruction5,
       ],
       [
-        member.falseStart6,
-        member.lateStartNoResponsibility6,
-        member.lateStartOnResponsibility6,
-        member.withdrawNoResponsibility6,
-        member.withdrawOnResponsibility6,
-        member.invalidNoResponsibility6,
-        member.invalidOnResponsibility6,
-        member.invalidOnObstruction6,
+        member.falseStart6, member.lateStartNoResponsibility6, member.lateStartOnResponsibility6,
+        member.withdrawNoResponsibility6, member.withdrawOnResponsibility6, member.invalidNoResponsibility6,
+        member.invalidOnResponsibility6, member.invalidOnObstruction6,
       ],
     ];
 
@@ -428,54 +372,14 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
               columnSpacing: 0,
               columns: const [
                 DataColumn(label: Center(child: Text("コース"))),
-                DataColumn(
-                  label: Padding(
-                    padding: EdgeInsets.only(left: 10), // ← 右にずらす
-                    child: Text("F"),
-                  ),
-                ),
-                DataColumn(
-                  label: Padding(
-                    padding: EdgeInsets.only(left: 10),
-                    child: Text("L0"),
-                  ),
-                ),
-                DataColumn(
-                  label: Padding(
-                    padding: EdgeInsets.only(left: 10),
-                    child: Text("L1"),
-                  ),
-                ),
-                DataColumn(
-                  label: Padding(
-                    padding: EdgeInsets.only(left: 10),
-                    child: Text("K0"),
-                  ),
-                ),
-                DataColumn(
-                  label: Padding(
-                    padding: EdgeInsets.only(left: 10),
-                    child: Text("K1"),
-                  ),
-                ),
-                DataColumn(
-                  label: Padding(
-                    padding: EdgeInsets.only(left: 10),
-                    child: Text("S0"),
-                  ),
-                ),
-                DataColumn(
-                  label: Padding(
-                    padding: EdgeInsets.only(left: 10),
-                    child: Text("S1"),
-                  ),
-                ),
-                DataColumn(
-                  label: Padding(
-                    padding: EdgeInsets.only(left: 10),
-                    child: Text("S2"),
-                  ),
-                ),
+                DataColumn(label: Padding(padding: EdgeInsets.only(left: 10), child: Text("F"))),
+                DataColumn(label: Padding(padding: EdgeInsets.only(left: 10), child: Text("L0"))),
+                DataColumn(label: Padding(padding: EdgeInsets.only(left: 10), child: Text("L1"))),
+                DataColumn(label: Padding(padding: EdgeInsets.only(left: 10), child: Text("K0"))),
+                DataColumn(label: Padding(padding: EdgeInsets.only(left: 10), child: Text("K1"))),
+                DataColumn(label: Padding(padding: EdgeInsets.only(left: 10), child: Text("S0"))),
+                DataColumn(label: Padding(padding: EdgeInsets.only(left: 10), child: Text("S1"))),
+                DataColumn(label: Padding(padding: EdgeInsets.only(left: 10), child: Text("S2"))),
               ],
               rows: [
                 for (int lane = 0; lane < 6; lane++)
@@ -489,14 +393,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                 DataRow(
                   color: MaterialStateProperty.all(Colors.grey[200]),
                   cells: [
-                    const DataCell(
-                      Center(
-                        child: Text(
-                          "合計",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
+                    const DataCell(Center(child: Text("合計", style: TextStyle(fontWeight: FontWeight.bold)))),
                     for (final t in totals)
                       DataCell(_fixedCell(t.toString(), bold: true)),
                   ],
@@ -509,7 +406,6 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
     );
   }
 
-  // === 単棒グラフ（複勝率用）
   Widget _barChartSingle({
     required BuildContext context,
     required String titleY,
@@ -544,20 +440,13 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                   }
                   return Padding(
                     padding: const EdgeInsets.only(top: 6),
-                    child: Text(
-                      '${v.toInt() + 1}',
-                      style: const TextStyle(fontSize: 11),
-                    ),
+                    child: Text('${v.toInt() + 1}', style: const TextStyle(fontSize: 11)),
                   );
                 },
               ),
             ),
-            topTitles: const AxisTitles(
-              sideTitles: SideTitles(showTitles: false),
-            ),
-            rightTitles: const AxisTitles(
-              sideTitles: SideTitles(showTitles: false),
-            ),
+            topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+            rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
           ),
           barGroups: List.generate(values.length, (i) {
             final y = values[i].isNaN ? 0.0 : values[i];
@@ -571,7 +460,6 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
     );
   }
 
-  // === 折れ線グラフ（STタイミング）
   Widget _lineChartPoints({
     required BuildContext context,
     required List<double> values,
@@ -600,10 +488,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                 showTitles: true,
                 reservedSize: 44,
                 interval: 0.1,
-                getTitlesWidget: (v, meta) => Text(
-                  v.toStringAsFixed(2),
-                  style: const TextStyle(fontSize: 11),
-                ),
+                getTitlesWidget: (v, meta) => Text(v.toStringAsFixed(2), style: const TextStyle(fontSize: 11)),
               ),
             ),
             bottomTitles: AxisTitles(
@@ -616,20 +501,13 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                   }
                   return Padding(
                     padding: const EdgeInsets.only(top: 6),
-                    child: Text(
-                      '${v.toInt() + 1}',
-                      style: const TextStyle(fontSize: 11),
-                    ),
+                    child: Text('${v.toInt() + 1}', style: const TextStyle(fontSize: 11)),
                   );
                 },
               ),
             ),
-            topTitles: const AxisTitles(
-              sideTitles: SideTitles(showTitles: false),
-            ),
-            rightTitles: const AxisTitles(
-              sideTitles: SideTitles(showTitles: false),
-            ),
+            topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+            rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
           ),
           lineBarsData: [
             LineChartBarData(
@@ -640,11 +518,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
               dotData: FlDotData(
                 show: true,
                 getDotPainter: (spot, percent, barData, index) =>
-                    FlDotCirclePainter(
-                      radius: 6,
-                      color: Colors.red,
-                      strokeWidth: 0,
-                    ),
+                    FlDotCirclePainter(radius: 6, color: Colors.red, strokeWidth: 0),
               ),
             ),
           ],
@@ -653,7 +527,6 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
     );
   }
 
-  // === 積み上げ棒グラフ（1着・2着・3着数）
   Widget _barChartStacked({
     required BuildContext context,
     required List<int> firsts,
@@ -667,8 +540,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
           height: 260,
           child: BarChart(
             BarChartData(
-              //maxY: maxY,
-              maxY: 50,
+              maxY: maxY,
               minY: 0,
               gridData: FlGridData(show: true),
               borderData: FlBorderData(show: false),
@@ -677,10 +549,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                   sideTitles: SideTitles(
                     showTitles: true,
                     reservedSize: 36,
-                    getTitlesWidget: (v, meta) => Text(
-                      v.toInt().toString(),
-                      style: const TextStyle(fontSize: 11),
-                    ),
+                    getTitlesWidget: (v, meta) => Text(v.toInt().toString(), style: const TextStyle(fontSize: 11)),
                   ),
                 ),
                 bottomTitles: AxisTitles(
@@ -691,20 +560,13 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                       if (v < 0 || v > 5) return const SizedBox.shrink();
                       return Padding(
                         padding: const EdgeInsets.only(top: 6),
-                        child: Text(
-                          '${v.toInt() + 1}',
-                          style: const TextStyle(fontSize: 11),
-                        ),
+                        child: Text('${v.toInt() + 1}', style: const TextStyle(fontSize: 11)),
                       );
                     },
                   ),
                 ),
-                topTitles: const AxisTitles(
-                  sideTitles: SideTitles(showTitles: false),
-                ),
-                rightTitles: const AxisTitles(
-                  sideTitles: SideTitles(showTitles: false),
-                ),
+                topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
               ),
               barGroups: List.generate(6, (i) {
                 final f = (firsts.length > i ? firsts[i] : 0).toDouble();
@@ -767,60 +629,12 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
     }
 
     return [
-      _CourseRow(
-        lane: 1,
-        entries: toInt(m.numberOfEntries1),
-        startTime: toDoubleRaw(m.startTime1),
-        winRate12: toPercent(m.winRate121),
-        first: toInt(m.firstPlace1),
-        second: toInt(m.secondPlace1),
-        third: toInt(m.thirdPlace1),
-      ),
-      _CourseRow(
-        lane: 2,
-        entries: toInt(m.numberOfEntries2),
-        startTime: toDoubleRaw(m.startTime2),
-        winRate12: toPercent(m.winRate122),
-        first: toInt(m.firstPlace2),
-        second: toInt(m.secondPlace2),
-        third: toInt(m.thirdPlace2),
-      ),
-      _CourseRow(
-        lane: 3,
-        entries: toInt(m.numberOfEntries3),
-        startTime: toDoubleRaw(m.startTime3),
-        winRate12: toPercent(m.winRate123),
-        first: toInt(m.firstPlace3),
-        second: toInt(m.secondPlace3),
-        third: toInt(m.thirdPlace3),
-      ),
-      _CourseRow(
-        lane: 4,
-        entries: toInt(m.numberOfEntries4),
-        startTime: toDoubleRaw(m.startTime4),
-        winRate12: toPercent(m.winRate124),
-        first: toInt(m.firstPlace4),
-        second: toInt(m.secondPlace4),
-        third: toInt(m.thirdPlace4),
-      ),
-      _CourseRow(
-        lane: 5,
-        entries: toInt(m.numberOfEntries5),
-        startTime: toDoubleRaw(m.startTime5),
-        winRate12: toPercent(m.winRate125),
-        first: toInt(m.firstPlace5),
-        second: toInt(m.secondPlace5),
-        third: toInt(m.thirdPlace5),
-      ),
-      _CourseRow(
-        lane: 6,
-        entries: toInt(m.numberOfEntries6),
-        startTime: toDoubleRaw(m.startTime6),
-        winRate12: toPercent(m.winRate126),
-        first: toInt(m.firstPlace6),
-        second: toInt(m.secondPlace6),
-        third: toInt(m.thirdPlace6),
-      ),
+      _CourseRow(lane: 1, entries: toInt(m.numberOfEntries1), startTime: toDoubleRaw(m.startTime1), winRate12: toPercent(m.winRate121), first: toInt(m.firstPlace1), second: toInt(m.secondPlace1), third: toInt(m.thirdPlace1)),
+      _CourseRow(lane: 2, entries: toInt(m.numberOfEntries2), startTime: toDoubleRaw(m.startTime2), winRate12: toPercent(m.winRate122), first: toInt(m.firstPlace2), second: toInt(m.secondPlace2), third: toInt(m.thirdPlace2)),
+      _CourseRow(lane: 3, entries: toInt(m.numberOfEntries3), startTime: toDoubleRaw(m.startTime3), winRate12: toPercent(m.winRate123), first: toInt(m.firstPlace3), second: toInt(m.secondPlace3), third: toInt(m.thirdPlace3)),
+      _CourseRow(lane: 4, entries: toInt(m.numberOfEntries4), startTime: toDoubleRaw(m.startTime4), winRate12: toPercent(m.winRate124), first: toInt(m.firstPlace4), second: toInt(m.secondPlace4), third: toInt(m.thirdPlace4)),
+      _CourseRow(lane: 5, entries: toInt(m.numberOfEntries5), startTime: toDoubleRaw(m.startTime5), winRate12: toPercent(m.winRate125), first: toInt(m.firstPlace5), second: toInt(m.secondPlace5), third: toInt(m.thirdPlace5)),
+      _CourseRow(lane: 6, entries: toInt(m.numberOfEntries6), startTime: toDoubleRaw(m.startTime6), winRate12: toPercent(m.winRate126), first: toInt(m.firstPlace6), second: toInt(m.secondPlace6), third: toInt(m.thirdPlace6)),
     ];
   }
 
@@ -833,25 +647,14 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
       second = add(second, r.second);
       third = add(third, r.third);
     }
-    return _Totals(
-      entries: entries,
-      first: first,
-      second: second,
-      third: third,
-    );
+    return _Totals(entries: entries, first: first, second: second, third: third);
   }
 
   String _fmtInt(int? v) => v?.toString() ?? '-';
-
   String _fmtDouble(double? v) => (v == null) ? '-' : v.toStringAsFixed(2);
-
   String _fmtPercent(double? v) => v == null ? '-' : '${v.toStringAsFixed(1)}%';
 
-  double _niceMax(
-    List<num> values, {
-    required double base,
-    required double minMax,
-  }) {
+  double _niceMax(List<num> values, {required double base, required double minMax}) {
     if (values.isEmpty) return minMax;
     final doubles = values.map((e) => e.toDouble()).toList();
     final maxVal = doubles.reduce((a, b) => a > b ? a : b);
@@ -867,24 +670,11 @@ class _CourseRow {
   final int? entries, first, second, third;
   final double? startTime, winRate12;
 
-  _CourseRow({
-    required this.lane,
-    this.entries,
-    this.startTime,
-    this.winRate12,
-    this.first,
-    this.second,
-    this.third,
-  });
+  _CourseRow({required this.lane, this.entries, this.startTime, this.winRate12, this.first, this.second, this.third});
 }
 
 class _Totals {
   final int entries, first, second, third;
 
-  _Totals({
-    required this.entries,
-    required this.first,
-    required this.second,
-    required this.third,
-  });
+  _Totals({required this.entries, required this.first, required this.second, required this.third});
 }
