@@ -63,3 +63,5 @@ flutter:
   assets:
     - assets/members.json
 
+dependency_overrides:
+  analyzer: 8.3.0

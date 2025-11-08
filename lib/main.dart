@@ -9,6 +9,7 @@ import 'objectbox.dart';
 import 'models/member.dart';
 import 'member_detail_page.dart';
 import 'utils.dart';
+import 'objectbox.g.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -95,33 +96,39 @@ class _MemberListPageState extends State<MemberListPage> {
   }
 
   void _applyFilters() {
-    var results = objectbox.memberBox.getAll();
+    final conditions = <Condition<Member>>[];
 
     if (_selectedDataTime != null && _selectedDataTime!.isNotEmpty) {
-      results = results.where((m) => m.dataTime == _selectedDataTime).toList();
+      conditions.add(Member_.dataTime.equals(_selectedDataTime!));
     }
+
     if (_numberController.text.isNotEmpty) {
-      results = results
-          .where(
-            (m) => (m.number ?? '').contains(_numberController.text.trim()),
-          )
-          .toList();
+      conditions.add(Member_.number.contains(_numberController.text.trim()));
     }
+
     if (_nameController.text.isNotEmpty) {
       final q = _nameController.text.trim();
-      results = results.where((m) {
-        return (m.name ?? '').contains(q) ||
-            (m.nameKana ?? '').contains(q) ||
-            (m.kana3 ?? '').contains(q) ||
-            (m.kana ?? '').contains(q);
-      }).toList();
+      conditions.add(Member_.name.contains(q)
+          .or(Member_.nameKana.contains(q))
+          .or(Member_.kana3.contains(q))
+          .or(Member_.kana.contains(q)));
     }
+
     if (_selectedRank != null && _selectedRank!.isNotEmpty) {
-      results = results.where((m) => m.rank == _selectedRank).toList();
+      conditions.add(Member_.rank.equals(_selectedRank!));
     }
+
     if (_selectedSex != null && _selectedSex!.isNotEmpty) {
-      results = results.where((m) => m.sex == _selectedSex).toList();
+      conditions.add(Member_.sex.equals(_selectedSex!));
     }
+
+    // If there are conditions, combine them all with AND.
+    // Otherwise, the condition is null (matches all).
+    final finalCondition =
+        conditions.isEmpty ? null : conditions.reduce((a, b) => a.and(b));
+
+    final query = objectbox.memberBox.query(finalCondition).build();
+    final results = query.find();
 
     setState(() {
       _results = results;
@@ -269,8 +276,8 @@ class _MemberListPageState extends State<MemberListPage> {
                             backgroundColor: (m.sex == "1")
                                 ? Colors.blue
                                 : (m.sex == "2")
-                                ? Colors.pink
-                                : Colors.grey,
+                                    ? Colors.pink
+                                    : Colors.grey,
                             child: Text(
                               ((m.name ?? m.number ?? '?').isNotEmpty)
                                   ? (m.name ?? m.number ?? '?').characters.first
@@ -289,7 +296,8 @@ class _MemberListPageState extends State<MemberListPage> {
                             [
                               if ((m.number ?? '').isNotEmpty) '${m.number}',
                               if ((m.rank ?? '').isNotEmpty) '　${m.rank}',
-                              if (m.winPointRate != null && m.winPointRate.toString().isNotEmpty)
+                              if (m.winPointRate != null &&
+                                  m.winPointRate.toString().isNotEmpty)
                                 ' ${(double.tryParse(m.winPointRate.toString()) ?? 0).toStringAsFixed(2)}',
                               if ((m.weight ?? '').isNotEmpty) ' ${m.weight}Kg',
                               if ((m.age ?? '').isNotEmpty) ' ${m.age}才',
@@ -331,14 +339,14 @@ class _DataTimeSearchDelegate extends SearchDelegate<String> {
 
   @override
   List<Widget>? buildActions(BuildContext context) => [
-    IconButton(icon: const Icon(Icons.clear), onPressed: () => query = ''),
-  ];
+        IconButton(icon: const Icon(Icons.clear), onPressed: () => query = ''),
+      ];
 
   @override
   Widget? buildLeading(BuildContext context) => IconButton(
-    icon: const Icon(Icons.arrow_back),
-    onPressed: () => close(context, ''),
-  );
+        icon: const Icon(Icons.arrow_back),
+        onPressed: () => close(context, ''),
+      );
 
   @override
   Widget buildResults(BuildContext context) => _buildList(context);

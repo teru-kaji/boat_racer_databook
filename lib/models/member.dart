@@ -4,22 +4,46 @@ import 'package:objectbox/objectbox.dart';
 
 @Entity()
 class Member {
-  @Id(assignable: true)
-  int id;
+  @Id()
+  int id = 0;
+
+  @Index()
+  String? dataTime;
+
+  @Index()
+  String? number;
+
+  @Index()
+  String? name;
+
+  @Index()
+  String? nameKana;
+
+  @Index()
+  String? kana3;
+
+  @Index()
+  String? kana;
+
+  @Index()
+  String? rank;
+
+  @Index()
+  String? sex;
 
   // 基本情報
-  String? dataTime;
-  String? number;
-  String? name;
-  String? nameKana;
-  String? kana;
+  //String? dataTime;
+  //String? number;
+  //String? name;
+  //String? nameKana;
+  //String? kana;
   String? kana2;
-  String? kana3;
+  //String? kana3;
   String? blanch;
-  String? rank;
+  //String? rank;
   String? wBirthday;
   String? gBirthday;
-  String? sex;
+  //String? sex;
   String? age;
   String? height;
   String? weight;
