@@ -89,7 +89,8 @@ class _MemberListPageState extends State<MemberListPage> {
       final s = (v ?? '').trim();
       if (s.isNotEmpty) set.add(s);
     }
-    final list = set.toList()..sort((a, b) => b.compareTo(a)); // ★ 降順に変更！
+    final list = set.toList()
+      ..sort((a, b) => b.compareTo(a)); // ★ 降順に変更！
     return list;
   }
 
@@ -123,7 +124,7 @@ class _MemberListPageState extends State<MemberListPage> {
     // If there are conditions, combine them all with AND.
     // Otherwise, the condition is null (matches all).
     final finalCondition =
-        conditions.isEmpty ? null : conditions.reduce((a, b) => a.and(b));
+    conditions.isEmpty ? null : conditions.reduce((a, b) => a.and(b));
 
     final query = objectbox.memberBox.query(finalCondition).build();
     final results = query.find();
@@ -240,7 +241,8 @@ class _MemberListPageState extends State<MemberListPage> {
                 Expanded(
                   child: TextField(
                     controller: _nameController,
-                    decoration: const InputDecoration(labelText: '名前(漢字/ひらかな)'),
+                    decoration: const InputDecoration(
+                        labelText: '名前(漢字/ひらかな)'),
                   ),
                 ),
               ],
@@ -265,60 +267,64 @@ class _MemberListPageState extends State<MemberListPage> {
               child: _results.isEmpty
                   ? const Center(child: Text('該当データがありません'))
                   : ListView.separated(
-                      itemCount: _results.length,
-                      separatorBuilder: (_, __) => const Divider(),
-                      itemBuilder: (context, index) {
-                        final m = _results[index];
-                        return ListTile(
-                          leading: CircleAvatar(
-                            backgroundColor: (m.sex == "1")
-                                ? Colors.blue
-                                : (m.sex == "2")
-                                    ? Colors.pink
-                                    : Colors.grey,
-                            child: Text(
-                              ((m.name ?? m.number ?? '?').isNotEmpty)
-                                  ? (m.name ?? m.number ?? '?').characters.first
-                                  : '?',
-                              style: const TextStyle(color: Colors.white),
-                            ),
-                          ),
-                          title: Text(
-                            m.name ?? '(no name)',
-                            style: const TextStyle(
-                              fontSize: 17, // ← タイトルの文字サイズ
-                              // fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          subtitle: Text(
-                            [
-                              if ((m.number ?? '').isNotEmpty) '${m.number}',
-                              if ((m.rank ?? '').isNotEmpty) '　${m.rank}',
-                              if (m.winPointRate != null &&
-                                  m.winPointRate.toString().isNotEmpty)
-                                ' ${(double.tryParse(m.winPointRate.toString()) ?? 0).toStringAsFixed(2)}',
-                              if ((m.weight ?? '').isNotEmpty) ' ${m.weight}Kg',
-                              if ((m.age ?? '').isNotEmpty) ' ${m.age}才',
-                              if ((m.blanch ?? '').isNotEmpty) ' ${m.blanch}',
-                            ].join('  '),
-                            style: const TextStyle(
-                              fontSize: 15, // ← サブタイトルの文字サイズ
-                              color: Colors.black54,
-                            ),
-                          ),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => MemberDetailPage(
-                                  memberId: m.id,
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                      },
+                itemCount: _results.length,
+                separatorBuilder: (_, __) => const Divider(),
+                itemBuilder: (context, index) {
+                  final m = _results[index];
+                  return ListTile(
+                    leading: CircleAvatar(
+                      backgroundColor: (m.sex == "1")
+                          ? Colors.blue
+                          : (m.sex == "2")
+                          ? Colors.pink
+                          : Colors.grey,
+                      child: Text(
+                        ((m.name ?? m.number ?? '?').isNotEmpty)
+                            ? (m.name ?? m.number ?? '?').characters.first
+                            : '?',
+                        style: const TextStyle(color: Colors.white),
+                      ),
                     ),
+                    title: Text(
+                      m.name ?? '(no name)',
+                      style: const TextStyle(
+                        fontSize: 17, // ← タイトルの文字サイズ
+                        // fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    subtitle: Text(
+                      [
+                        if ((m.number ?? '').isNotEmpty) '${m.number}',
+                        if ((m.rank ?? '').isNotEmpty) '　${m.rank}',
+                        if (m.winPointRate != null &&
+                            m.winPointRate
+                                .toString()
+                                .isNotEmpty)
+                          ' ${(double.tryParse(m.winPointRate.toString()) ?? 0)
+                              .toStringAsFixed(2)}',
+                        if ((m.weight ?? '').isNotEmpty) ' ${m.weight}Kg',
+                        if ((m.age ?? '').isNotEmpty) ' ${m.age}才',
+                        if ((m.branch ?? '').isNotEmpty) ' ${m.branch}',
+                      ].join('  '),
+                      style: const TextStyle(
+                        fontSize: 15, // ← サブタイトルの文字サイズ
+                        color: Colors.black54,
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) =>
+                              MemberDetailPage(
+                                memberId: m.id,
+                              ),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
             ),
           ],
         ),
@@ -334,12 +340,14 @@ class _DataTimeSearchDelegate extends SearchDelegate<String> {
   _DataTimeSearchDelegate(this.items);
 
   @override
-  List<Widget>? buildActions(BuildContext context) => [
+  List<Widget>? buildActions(BuildContext context) =>
+      [
         IconButton(icon: const Icon(Icons.clear), onPressed: () => query = ''),
       ];
 
   @override
-  Widget? buildLeading(BuildContext context) => IconButton(
+  Widget? buildLeading(BuildContext context) =>
+      IconButton(
         icon: const Icon(Icons.arrow_back),
         onPressed: () => close(context, ''),
       );

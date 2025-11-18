@@ -39,7 +39,7 @@ class Member {
   //String? kana;
   String? kana2;
   //String? kana3;
-  String? blanch;
+  String? branch;
   //String? rank;
   String? wBirthday;
   String? gBirthday;
@@ -212,7 +212,7 @@ class Member {
     this.kana,
     this.kana2,
     this.kana3,
-    this.blanch,
+    this.branch,
     this.rank,
     this.wBirthday,
     this.gBirthday,
@@ -362,7 +362,7 @@ class Member {
       kana: s('Kana'),
       kana2: s('Kana2'),
       kana3: s('Kana3'),
-      blanch: s('Blanch'),
+      branch: s('Branch'),
       rank: s('Rank'),
       wBirthday: s('WBirthday'),
       gBirthday: s('GBirthday'),

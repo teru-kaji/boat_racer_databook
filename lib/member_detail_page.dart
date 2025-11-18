@@ -176,7 +176,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                 _infoText('級', '${m.rank ?? "-"} / ${m.rankPast1 ?? "-"} / ${m.rankPast2 ?? "-"} / ${m.rankPast3 ?? "-"}'),
                 _infoText('名前', m.name),
                 _infoText('かな', m.kana3),
-                _infoText('支部', m.blanch),
+                _infoText('支部', m.branch),
                 _infoText('出身地', m.birthplace),
                 _infoText('誕生日', m.gBirthday),
                 _infoText('性別', m.sex == "1" ? "男性" : m.sex == "2" ? "女性" : m.sex),
