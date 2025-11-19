@@ -57,6 +57,7 @@ class _MemberListPageState extends State<MemberListPage> {
   final TextEditingController _numberController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   List<Member> _results = [];
+  int? _resultCount; // ★ 検索件数（まだ検索してない時は null）
 
   @override
   void initState() {
@@ -89,8 +90,7 @@ class _MemberListPageState extends State<MemberListPage> {
       final s = (v ?? '').trim();
       if (s.isNotEmpty) set.add(s);
     }
-    final list = set.toList()
-      ..sort((a, b) => b.compareTo(a)); // ★ 降順に変更！
+    final list = set.toList()..sort((a, b) => b.compareTo(a)); // ★ 降順に変更！
     return list;
   }
 
@@ -107,10 +107,13 @@ class _MemberListPageState extends State<MemberListPage> {
 
     if (_nameController.text.isNotEmpty) {
       final q = _nameController.text.trim();
-      conditions.add(Member_.name.contains(q)
-          .or(Member_.nameKana.contains(q))
-          .or(Member_.kana3.contains(q))
-          .or(Member_.kana.contains(q)));
+      conditions.add(
+        Member_.name
+            .contains(q)
+            .or(Member_.nameKana.contains(q))
+            .or(Member_.kana3.contains(q))
+            .or(Member_.kana.contains(q)),
+      );
     }
 
     if (_selectedRank != null && _selectedRank!.isNotEmpty) {
@@ -123,14 +126,16 @@ class _MemberListPageState extends State<MemberListPage> {
 
     // If there are conditions, combine them all with AND.
     // Otherwise, the condition is null (matches all).
-    final finalCondition =
-    conditions.isEmpty ? null : conditions.reduce((a, b) => a.and(b));
+    final finalCondition = conditions.isEmpty
+        ? null
+        : conditions.reduce((a, b) => a.and(b));
 
     final query = objectbox.memberBox.query(finalCondition).build();
     final results = query.find();
 
     setState(() {
       _results = results;
+      _resultCount = results.length; // ★ 件数も一緒に更新
     });
   }
 
@@ -162,8 +167,15 @@ class _MemberListPageState extends State<MemberListPage> {
 
   @override
   Widget build(BuildContext context) {
+    final titleText = _resultCount == null
+        ? 'メンバー検索'
+        : 'メンバー検索（${_resultCount}人）';
+
     return Scaffold(
-      appBar: AppBar(title: const Text('メンバー検索')),
+      appBar: AppBar(
+        // const を外して動的タイトルに
+        title: Text(titleText),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(
@@ -241,8 +253,7 @@ class _MemberListPageState extends State<MemberListPage> {
                 Expanded(
                   child: TextField(
                     controller: _nameController,
-                    decoration: const InputDecoration(
-                        labelText: '名前(漢字/ひらかな)'),
+                    decoration: const InputDecoration(labelText: '名前(漢字/ひらかな)'),
                   ),
                 ),
               ],
@@ -267,64 +278,59 @@ class _MemberListPageState extends State<MemberListPage> {
               child: _results.isEmpty
                   ? const Center(child: Text('該当データがありません'))
                   : ListView.separated(
-                itemCount: _results.length,
-                separatorBuilder: (_, __) => const Divider(),
-                itemBuilder: (context, index) {
-                  final m = _results[index];
-                  return ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: (m.sex == "1")
-                          ? Colors.blue
-                          : (m.sex == "2")
-                          ? Colors.pink
-                          : Colors.grey,
-                      child: Text(
-                        ((m.name ?? m.number ?? '?').isNotEmpty)
-                            ? (m.name ?? m.number ?? '?').characters.first
-                            : '?',
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                    ),
-                    title: Text(
-                      m.name ?? '(no name)',
-                      style: const TextStyle(
-                        fontSize: 17, // ← タイトルの文字サイズ
-                        // fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    subtitle: Text(
-                      [
-                        if ((m.number ?? '').isNotEmpty) '${m.number}',
-                        if ((m.rank ?? '').isNotEmpty) '　${m.rank}',
-                        if (m.winPointRate != null &&
-                            m.winPointRate
-                                .toString()
-                                .isNotEmpty)
-                          ' ${(double.tryParse(m.winPointRate.toString()) ?? 0)
-                              .toStringAsFixed(2)}',
-                        if ((m.weight ?? '').isNotEmpty) ' ${m.weight}Kg',
-                        if ((m.age ?? '').isNotEmpty) ' ${m.age}才',
-                        if ((m.branch ?? '').isNotEmpty) ' ${m.branch}',
-                      ].join('  '),
-                      style: const TextStyle(
-                        fontSize: 15, // ← サブタイトルの文字サイズ
-                        color: Colors.black54,
-                      ),
-                    ),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) =>
-                              MemberDetailPage(
-                                memberId: m.id,
+                      itemCount: _results.length,
+                      separatorBuilder: (_, __) => const Divider(),
+                      itemBuilder: (context, index) {
+                        final m = _results[index];
+                        return ListTile(
+                          leading: CircleAvatar(
+                            backgroundColor: (m.sex == "1")
+                                ? Colors.blue
+                                : (m.sex == "2")
+                                ? Colors.pink
+                                : Colors.grey,
+                            child: Text(
+                              ((m.name ?? m.number ?? '?').isNotEmpty)
+                                  ? (m.name ?? m.number ?? '?').characters.first
+                                  : '?',
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                          ),
+                          title: Text(
+                            m.name ?? '(no name)',
+                            style: const TextStyle(
+                              fontSize: 17, // ← タイトルの文字サイズ
+                              // fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          subtitle: Text(
+                            [
+                              if ((m.number ?? '').isNotEmpty) '${m.number}',
+                              if ((m.rank ?? '').isNotEmpty) '　${m.rank}',
+                              if (m.winPointRate != null &&
+                                  m.winPointRate.toString().isNotEmpty)
+                                ' ${(double.tryParse(m.winPointRate.toString()) ?? 0).toStringAsFixed(2)}',
+                              if ((m.weight ?? '').isNotEmpty) ' ${m.weight}Kg',
+                              if ((m.age ?? '').isNotEmpty) ' ${m.age}才',
+                              if ((m.branch ?? '').isNotEmpty) ' ${m.branch}',
+                            ].join('  '),
+                            style: const TextStyle(
+                              fontSize: 15, // ← サブタイトルの文字サイズ
+                              color: Colors.black54,
+                            ),
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) =>
+                                    MemberDetailPage(memberId: m.id),
                               ),
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
             ),
           ],
         ),
@@ -340,17 +346,15 @@ class _DataTimeSearchDelegate extends SearchDelegate<String> {
   _DataTimeSearchDelegate(this.items);
 
   @override
-  List<Widget>? buildActions(BuildContext context) =>
-      [
-        IconButton(icon: const Icon(Icons.clear), onPressed: () => query = ''),
-      ];
+  List<Widget>? buildActions(BuildContext context) => [
+    IconButton(icon: const Icon(Icons.clear), onPressed: () => query = ''),
+  ];
 
   @override
-  Widget? buildLeading(BuildContext context) =>
-      IconButton(
-        icon: const Icon(Icons.arrow_back),
-        onPressed: () => close(context, ''),
-      );
+  Widget? buildLeading(BuildContext context) => IconButton(
+    icon: const Icon(Icons.arrow_back),
+    onPressed: () => close(context, ''),
+  );
 
   @override
   Widget buildResults(BuildContext context) => _buildList(context);
