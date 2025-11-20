@@ -658,7 +658,8 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
     if (values.isEmpty) return minMax;
     final doubles = values.map((e) => e.toDouble()).toList();
     final maxVal = doubles.reduce((a, b) => a > b ? a : b);
-    final padded = (maxVal * 1.2);
+    final padded = (maxVal * 1.0);
+//    final padded = (maxVal * 1.2);  100% の場合は、maxYが200％になってしまうので、1.0倍に変更
     final step = base;
     final mul = (padded / step).ceil();
     return (mul * step).clamp(minMax, double.infinity);
