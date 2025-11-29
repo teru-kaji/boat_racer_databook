@@ -30,7 +30,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
     _loadMemberData();
   }
 
-  //
+  // アイコン＋"公式プロフィールを見る" テキスト付き
   Widget buildMemberIcon(Member m) {
     final accent = genderAccentColor(m.sex);
 
@@ -39,8 +39,9 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
         if (m.number == null || m.number!.isEmpty) return;
 
         final url = Uri.parse(
-          //"https://www.boatrace.jp/owpc/pc/data/racersearch/course?toban=${m.number}",
+          // "https://www.boatrace.jp/owpc/pc/data/racersearch/course?toban=${m.number}",
           "https://www.boatrace.jp/owsp/sp/data/racersearch/profile?toban=${m.number}",
+
         );
 
         final ok = await launchUrl(
@@ -49,34 +50,42 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
         );
 
         if (!ok) {
-          // デバッグ用にエラー表示（任意）
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('ブラウザを開けませんでした')),
           );
         }
       },
-
-      // onTap: () async {
-      //   if (m.number == null || m.number!.isEmpty) return;
-      //   final url = Uri.parse(
-      //     "https://www.boatrace.jp/owpc/pc/data/racersearch/course?toban=${m.number}",
-      //   );
-      //   if (await canLaunchUrl(url)) {
-      //     launchUrl(url, mode: LaunchMode.externalApplication);
-      //   }
-      // },
-      child: CircleAvatar(
-        radius: 60,
-        backgroundColor: accent.withOpacity(0.2), // 薄いアクセント色
-        child: CircleAvatar(
-          radius: 50,
-          backgroundColor: Colors.white, // 白ベース
-          child: Icon(
-            Icons.person,
-            size: 60,
-            color: accent, // アクセント色（男女別）
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // アイコン部分
+          CircleAvatar(
+            radius: 60,
+            backgroundColor: accent.withOpacity(0.2),
+            child: CircleAvatar(
+              radius: 50,
+              backgroundColor: Colors.white,
+              child: Icon(
+                Icons.person,
+                size: 60,
+                color: accent,
+              ),
+            ),
           ),
-        ),
+
+          const SizedBox(height: 8),
+
+          // テキスト部分
+          Text(
+            "公式プロフィールを見る",
+            style: TextStyle(
+              color: accent,
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              decoration: TextDecoration.underline, // リンクっぽく
+            ),
+          ),
+        ],
       ),
     );
   }
