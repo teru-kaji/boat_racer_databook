@@ -131,6 +131,7 @@ class _MemberListPageState extends State<MemberListPage> {
       body: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // === 期選択行 ===
             Row(
@@ -224,6 +225,14 @@ class _MemberListPageState extends State<MemberListPage> {
             ),
 
             const SizedBox(height: 12),
+
+            // === 件数表示 ===
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              child: Text('該当件数: ${_results.length}件'),
+            ),
+
+            const SizedBox(height: 8),
 
             // === 検索結果 ===
             Expanded(

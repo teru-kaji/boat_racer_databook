@@ -32,18 +32,10 @@ class Member {
   String? sex;
 
   // 基本情報
-  //String? dataTime;
-  //String? number;
-  //String? name;
-  //String? nameKana;
-  //String? kana;
   String? kana2;
-  //String? kana3;
-  String? branch;
-  //String? rank;
+  String? branch; // blanch から branch に修正
   String? wBirthday;
   String? gBirthday;
-  //String? sex;
   String? age;
   String? height;
   String? weight;
@@ -202,7 +194,6 @@ class Member {
   String? invalidOnObstruction5;
   String? invalidOnObstruction6;
 
-  // ---- ここが修正点：全フィールドをコンストラクタに追加 ----
   Member({
     this.id = 0,
     this.dataTime,
@@ -212,7 +203,7 @@ class Member {
     this.kana,
     this.kana2,
     this.kana3,
-    this.branch,
+    this.branch, // blanch から branch に修正
     this.rank,
     this.wBirthday,
     this.gBirthday,
@@ -362,7 +353,7 @@ class Member {
       kana: s('Kana'),
       kana2: s('Kana2'),
       kana3: s('Kana3'),
-      branch: s('Branch'),
+      branch: s('Branch'), // blanch から branch に修正
       rank: s('Rank'),
       wBirthday: s('WBirthday'),
       gBirthday: s('GBirthday'),
