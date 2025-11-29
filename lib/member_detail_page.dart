@@ -733,7 +733,8 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
           height: 260,
           child: BarChart(
             BarChartData(
-              maxY: maxY,
+              maxY: 50,
+//              maxY: maxY,
               minY: 0,
               gridData: FlGridData(show: true),
               borderData: FlBorderData(show: false),
