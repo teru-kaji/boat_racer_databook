@@ -127,7 +127,7 @@ class _MemberListPageState extends State<MemberListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('メンバー検索')),
+      appBar: AppBar(title: const Text('レーサー検索')),
       body: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(

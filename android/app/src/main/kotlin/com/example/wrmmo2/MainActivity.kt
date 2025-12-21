@@ -1,4 +1,4 @@
-package com.example.wrmmo2
+package com.telka.wrmmo4
 
 import io.flutter.embedding.android.FlutterActivity
 
