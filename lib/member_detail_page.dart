@@ -18,6 +18,15 @@ class MemberDetailPage extends StatefulWidget {
 }
 
 class _MemberDetailPageState extends State<MemberDetailPage> {
+  // --- Font Size Constants ---
+  static const double _kLinkFontSize = 18.0;
+  static const double _kInfoFontSize = 18.0;
+  static const double _kChartLabelFontSize = 16.0;
+  static const double _kTooltipMainFontSize = 16.0;
+  static const double _kTooltipSubFontSize = 16.0;
+  static const double _kTableFontSize = 16.0;
+  // ---
+
   Member? _selectedMember;
   List<Member> _history = [];
   List<String> _dataTimeOptions = [];
@@ -80,7 +89,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
             "公式プロフィールを見る",
             style: TextStyle(
               color: accent,
-              fontSize: 16,
+              fontSize: _kLinkFontSize,
               fontWeight: FontWeight.bold,
               decoration: TextDecoration.underline, // リンクっぽく
             ),
@@ -159,6 +168,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
     final List<int> firsts = rows.map((r) => r.first ?? 0).toList();
     final List<int> seconds = rows.map((r) => r.second ?? 0).toList();
     final List<int> thirds = rows.map((r) => r.third ?? 0).toList();
+    final List<int> entries = rows.map((r) => r.entries ?? 0).toList();
 
     return Scaffold(
       appBar: AppBar(
@@ -213,16 +223,6 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
               ),
             const SizedBox(height: 12),
             Center(child: buildMemberIcon(m)),
-            // // 選手の写真
-            //     if ((m.photo ?? '').isNotEmpty)
-            //       Center(
-            //         child: Image.network(
-            //           m.photo!,
-            //           height: 180,
-            //           errorBuilder: (_, __, ___) =>
-            //               const Icon(Icons.person, size: 96),
-            //         ),
-            //       ),
             const SizedBox(height: 16),
             GridView.count(
               shrinkWrap: true,
@@ -238,9 +238,9 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                   '${m.rank ?? "-"} / ${m.rankPast1 ?? "-"} / ${m.rankPast2 ?? "-"} / ${m.rankPast3 ?? "-"}',
                 ),
                 _infoText('名前', m.name),
-                _infoText('かな', m.kana3),
+                _infoText('よみ', m.kana3),
                 _infoText('支部', m.branch),
-                _infoText('出身地', m.birthplace),
+                _infoText('出身地', m.birthplace?.replaceAll(RegExp(r'\s+'), '')),
                 _infoText('誕生日', m.gBirthday),
                 _infoText(
                   '性別',
@@ -255,7 +255,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                 _infoText('体重', m.weight),
                 _infoText('血液', m.blood),
                 _infoText('勝率', m.winPointRate),
-                _infoText('複勝率', m.winRate12),
+                _infoText('複勝率', _fmtPercent(_toPercent(m.winRate12))),
                 _infoText('1着回数', m.firstPlaceCount),
                 _infoText('2着回数', m.secondPlaceCount),
                 _infoText('出走回数', m.numberOfRace),
@@ -269,17 +269,12 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
               ],
             ),
             const SizedBox(height: 24),
-            Text('コース別 成績（表）', style: Theme.of(context).textTheme.titleLarge),
-            _courseTable(context, rows, totals),
-            const SizedBox(height: 24),
-            Text("コース別事故数", style: Theme.of(context).textTheme.titleLarge),
-            _buildAccidentTable(m),
-            const SizedBox(height: 24),
             Text('コース別 複勝率（%）', style: Theme.of(context).textTheme.titleLarge),
             _barChartSingle(
               context: context,
               titleY: '複勝率(%)',
               values: winRates,
+              entries: entries,
               maxY: _niceMax(winRates, base: 100, minMax: 20),
               formatY: (v) => v.toStringAsFixed(0),
             ),
@@ -288,7 +283,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
               'コース別 スタートタイミング',
               style: Theme.of(context).textTheme.titleLarge,
             ),
-            _lineChartPoints(context: context, values: starts),
+            _lineChartPoints(context: context, values: starts, entries: entries),
             const SizedBox(height: 24),
             Text(
               'コース別 1着・2着・3着数',
@@ -306,6 +301,12 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
               ),
             ),
             const SizedBox(height: 24),
+            Text('コース別 成績（表）', style: Theme.of(context).textTheme.titleLarge),
+            _courseTable(context, rows, totals),
+            const SizedBox(height: 24),
+            Text("コース別事故数", style: Theme.of(context).textTheme.titleLarge),
+            _buildAccidentTable(m),
+            const SizedBox(height: 24),
           ],
         ),
       ),
@@ -315,7 +316,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
   Widget _infoText(String label, String? value) {
     return Text(
       "$label : ${(value == null || value.isEmpty) ? '-' : value}",
-      style: const TextStyle(fontSize: 15),
+      style: const TextStyle(fontSize: _kInfoFontSize),
     );
   }
 
@@ -327,6 +328,15 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: DataTable(
+        headingTextStyle: const TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: _kTableFontSize,
+          color: Colors.black, // Explicitly set color if needed
+        ),
+        dataTextStyle: const TextStyle(
+          fontSize: _kTableFontSize,
+          color: Colors.black87,
+        ),
         columns: const [
           DataColumn(label: Text('コース')),
           DataColumn(label: Text('出走')),
@@ -412,6 +422,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
           txt,
           textAlign: TextAlign.center,
           style: TextStyle(
+            fontSize: _kTableFontSize,
             fontWeight: bold ? FontWeight.bold : FontWeight.normal,
             color: (!bold && intVal == 0) ? Colors.grey : Colors.black,
           ),
@@ -495,6 +506,11 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
             constraints: BoxConstraints(minWidth: constraints.maxWidth),
             child: DataTable(
               columnSpacing: 0,
+              headingTextStyle: const TextStyle(
+                fontSize: _kTableFontSize,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
               columns: const [
                 DataColumn(label: Center(child: Text("コース"))),
                 DataColumn(
@@ -582,6 +598,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
     required BuildContext context,
     required String titleY,
     required List<double> values,
+    required List<int> entries,
     required double maxY,
     required String Function(double) formatY,
   }) {
@@ -599,12 +616,13 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                 showTitles: true,
                 reservedSize: 44,
                 getTitlesWidget: (v, meta) =>
-                    Text(formatY(v), style: const TextStyle(fontSize: 11)),
+                    Text(formatY(v), style: const TextStyle(fontSize: _kChartLabelFontSize)),
               ),
             ),
             bottomTitles: AxisTitles(
               sideTitles: SideTitles(
                 showTitles: true,
+                reservedSize: 30,
                 interval: 1,
                 getTitlesWidget: (v, meta) {
                   if (v < 0 || v > values.length - 1) {
@@ -614,7 +632,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                     padding: const EdgeInsets.only(top: 6),
                     child: Text(
                       '${v.toInt() + 1}',
-                      style: const TextStyle(fontSize: 11),
+                      style: const TextStyle(fontSize: _kChartLabelFontSize),
                     ),
                   );
                 },
@@ -625,6 +643,32 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
             ),
             rightTitles: const AxisTitles(
               sideTitles: SideTitles(showTitles: false),
+            ),
+          ),
+          barTouchData: BarTouchData(
+            touchTooltipData: BarTouchTooltipData(
+              getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                final rate = values[group.x.toInt()];
+                final entryCount = entries[group.x.toInt()];
+                return BarTooltipItem(
+                  '${rate.toStringAsFixed(1)}%\n',
+                  const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: _kTooltipMainFontSize,
+                  ),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: '($entryCount走)',
+                      style: const TextStyle(
+                        color: Colors.yellow,
+                        fontWeight: FontWeight.normal,
+                        fontSize: _kTooltipSubFontSize,
+                      ),
+                    ),
+                  ],
+                );
+              },
             ),
           ),
           barGroups: List.generate(values.length, (i) {
@@ -642,6 +686,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
   Widget _lineChartPoints({
     required BuildContext context,
     required List<double> values,
+    required List<int> entries,
   }) {
     final negSpots = <FlSpot>[];
     for (int i = 0; i < values.length; i++) {
@@ -669,13 +714,14 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                 interval: 0.1,
                 getTitlesWidget: (v, meta) => Text(
                   v.toStringAsFixed(2),
-                  style: const TextStyle(fontSize: 11),
+                  style: const TextStyle(fontSize: _kChartLabelFontSize),
                 ),
               ),
             ),
             bottomTitles: AxisTitles(
               sideTitles: SideTitles(
                 showTitles: true,
+                reservedSize: 30,
                 interval: 1,
                 getTitlesWidget: (v, meta) {
                   if (v < 0 || v > values.length - 1) {
@@ -685,7 +731,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                     padding: const EdgeInsets.only(top: 6),
                     child: Text(
                       '${v.toInt() + 1}',
-                      style: const TextStyle(fontSize: 11),
+                      style: const TextStyle(fontSize: _kChartLabelFontSize),
                     ),
                   );
                 },
@@ -696,6 +742,34 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
             ),
             rightTitles: const AxisTitles(
               sideTitles: SideTitles(showTitles: false),
+            ),
+          ),
+          lineTouchData: LineTouchData(
+            touchTooltipData: LineTouchTooltipData(
+              getTooltipItems: (touchedSpots) {
+                return touchedSpots.map((spot) {
+                  final st = values[spot.spotIndex];
+                  final entryCount = entries[spot.spotIndex];
+                  return LineTooltipItem(
+                    '${st.toStringAsFixed(2)}\n',
+                    const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: _kTooltipMainFontSize,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: '($entryCount走)',
+                        style: const TextStyle(
+                          color: Colors.yellow,
+                          fontWeight: FontWeight.normal,
+                          fontSize: _kTooltipSubFontSize,
+                        ),
+                      ),
+                    ],
+                  );
+                }).toList();
+              },
             ),
           ),
           lineBarsData: [
@@ -745,13 +819,14 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                     reservedSize: 36,
                     getTitlesWidget: (v, meta) => Text(
                       v.toInt().toString(),
-                      style: const TextStyle(fontSize: 11),
+                      style: const TextStyle(fontSize: _kChartLabelFontSize),
                     ),
                   ),
                 ),
                 bottomTitles: AxisTitles(
                   sideTitles: SideTitles(
                     showTitles: true,
+                    reservedSize: 30,
                     interval: 1,
                     getTitlesWidget: (v, meta) {
                       if (v < 0 || v > 5) return const SizedBox.shrink();
@@ -759,7 +834,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                         padding: const EdgeInsets.only(top: 6),
                         child: Text(
                           '${v.toInt() + 1}',
-                          style: const TextStyle(fontSize: 11),
+                          style: const TextStyle(fontSize: _kChartLabelFontSize),
                         ),
                       );
                     },
@@ -770,6 +845,47 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                 ),
                 rightTitles: const AxisTitles(
                   sideTitles: SideTitles(showTitles: false),
+                ),
+              ),
+              barTouchData: BarTouchData(
+                touchTooltipData: BarTouchTooltipData(
+                  getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                    final index = group.x.toInt();
+                    final f = firsts[index];
+                    final s = seconds[index];
+                    final t = thirds[index];
+
+                    return BarTooltipItem(
+                      '',
+                      const TextStyle(color: Colors.white, fontSize: 0), // Base style, not really used
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: '1着: $f\n',
+                          style: const TextStyle(
+                            color: Colors.blue,
+                            fontWeight: FontWeight.bold,
+                            fontSize: _kTooltipMainFontSize,
+                          ),
+                        ),
+                        TextSpan(
+                          text: '2着: $s\n',
+                          style: const TextStyle(
+                            color: Colors.green,
+                            fontWeight: FontWeight.bold,
+                            fontSize: _kTooltipMainFontSize,
+                          ),
+                        ),
+                        TextSpan(
+                          text: '3着: $t',
+                          style: const TextStyle(
+                            color: Colors.orange,
+                            fontWeight: FontWeight.bold,
+                            fontSize: _kTooltipMainFontSize,
+                          ),
+                        ),
+                      ],
+                    );
+                  },
                 ),
               ),
               barGroups: List.generate(6, (i) {
@@ -818,26 +934,27 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
     );
   }
 
+  double? _toDoubleRaw(String? s) {
+    final raw = (s ?? '').trim().replaceAll('%', '');
+    if (raw.isEmpty) return null;
+    return double.tryParse(raw);
+  }
+
+  double? _toPercent(String? s) {
+    final v = _toDoubleRaw(s);
+    if (v == null) return null;
+    return v <= 1.0 ? v * 100.0 : v;
+  }
+
   List<_CourseRow> _buildCourseRows(Member m) {
     int? toInt(String? s) => int.tryParse((s ?? '').trim());
-    double? toDoubleRaw(String? s) {
-      final raw = (s ?? '').trim().replaceAll('%', '');
-      if (raw.isEmpty) return null;
-      return double.tryParse(raw);
-    }
-
-    double? toPercent(String? s) {
-      final v = toDoubleRaw(s);
-      if (v == null) return null;
-      return v <= 1.0 ? v * 100.0 : v;
-    }
 
     return [
       _CourseRow(
         lane: 1,
         entries: toInt(m.numberOfEntries1),
-        startTime: toDoubleRaw(m.startTime1),
-        winRate12: toPercent(m.winRate121),
+        startTime: _toDoubleRaw(m.startTime1),
+        winRate12: _toPercent(m.winRate121),
         first: toInt(m.firstPlace1),
         second: toInt(m.secondPlace1),
         third: toInt(m.thirdPlace1),
@@ -845,8 +962,8 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
       _CourseRow(
         lane: 2,
         entries: toInt(m.numberOfEntries2),
-        startTime: toDoubleRaw(m.startTime2),
-        winRate12: toPercent(m.winRate122),
+        startTime: _toDoubleRaw(m.startTime2),
+        winRate12: _toPercent(m.winRate122),
         first: toInt(m.firstPlace2),
         second: toInt(m.secondPlace2),
         third: toInt(m.thirdPlace2),
@@ -854,8 +971,8 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
       _CourseRow(
         lane: 3,
         entries: toInt(m.numberOfEntries3),
-        startTime: toDoubleRaw(m.startTime3),
-        winRate12: toPercent(m.winRate123),
+        startTime: _toDoubleRaw(m.startTime3),
+        winRate12: _toPercent(m.winRate123),
         first: toInt(m.firstPlace3),
         second: toInt(m.secondPlace3),
         third: toInt(m.thirdPlace3),
@@ -863,8 +980,8 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
       _CourseRow(
         lane: 4,
         entries: toInt(m.numberOfEntries4),
-        startTime: toDoubleRaw(m.startTime4),
-        winRate12: toPercent(m.winRate124),
+        startTime: _toDoubleRaw(m.startTime4),
+        winRate12: _toPercent(m.winRate124),
         first: toInt(m.firstPlace4),
         second: toInt(m.secondPlace4),
         third: toInt(m.thirdPlace4),
@@ -872,8 +989,8 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
       _CourseRow(
         lane: 5,
         entries: toInt(m.numberOfEntries5),
-        startTime: toDoubleRaw(m.startTime5),
-        winRate12: toPercent(m.winRate125),
+        startTime: _toDoubleRaw(m.startTime5),
+        winRate12: _toPercent(m.winRate125),
         first: toInt(m.firstPlace5),
         second: toInt(m.secondPlace5),
         third: toInt(m.thirdPlace5),
@@ -881,8 +998,8 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
       _CourseRow(
         lane: 6,
         entries: toInt(m.numberOfEntries6),
-        startTime: toDoubleRaw(m.startTime6),
-        winRate12: toPercent(m.winRate126),
+        startTime: _toDoubleRaw(m.startTime6),
+        winRate12: _toPercent(m.winRate126),
         first: toInt(m.firstPlace6),
         second: toInt(m.secondPlace6),
         third: toInt(m.thirdPlace6),

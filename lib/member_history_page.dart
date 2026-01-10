@@ -9,6 +9,12 @@ import 'utils.dart';
 
 class MemberHistoryPage extends StatelessWidget {
   final Member member;
+
+  // --- Font Size Constants ---
+  static const double _kTitleFontSize = 16.0;
+  static const double _kChartLabelFontSize = 14.0;
+  // ---
+
   const MemberHistoryPage({super.key, required this.member});
 
   @override
@@ -62,26 +68,32 @@ class MemberHistoryPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('得点率 (winPointRate)',
-                style: TextStyle(fontWeight: FontWeight.bold)),
+            const Text(
+              '得点率 (winPointRate)',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: _kTitleFontSize),
+            ),
             SizedBox(
-              height: 220,
+              height: 260, // Increased height
               child: _lineChart(terms, scoreRates, '得点率', Colors.blue),
             ),
 
             const SizedBox(height: 24),
-            const Text('複勝率 (winRate12)',
-                style: TextStyle(fontWeight: FontWeight.bold)),
+            const Text(
+              '複勝率 (winRate12)',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: _kTitleFontSize),
+            ),
             SizedBox(
-              height: 220,
+              height: 260, // Increased height
               child: _lineChart(terms, winRates, '複勝率', Colors.green),
             ),
 
             const SizedBox(height: 24),
-            const Text('級別の推移',
-                style: TextStyle(fontWeight: FontWeight.bold)),
+            const Text(
+              '級別の推移',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: _kTitleFontSize),
+            ),
             SizedBox(
-              height: 220,
+              height: 260, // Increased height
               child: _rankChart(terms, ranks),
             ),
             const SizedBox(height: 24),
@@ -116,17 +128,21 @@ class MemberHistoryPage extends StatelessWidget {
             sideTitles: SideTitles(
               showTitles: true,
               interval: 1,
+              reservedSize: 50, // Added for rotation
               getTitlesWidget: (v, meta) {
                 if (v < 0 || v > terms.length - 1) {
                   return const SizedBox.shrink();
                 }
                 final index = v.toInt();
-                final label = formatDataTimePeriod(terms[index]);
-                return Padding(
-                  padding: const EdgeInsets.only(top: 6),
+                var label = formatDataTimePeriod(terms[index]);
+                if (label.length > 2) {
+                  label = label.substring(2);
+                }
+                return RotatedBox(
+                  quarterTurns: -1,
                   child: Text(
                     label,
-                    style: const TextStyle(fontSize: 10),
+                    style: const TextStyle(fontSize: _kChartLabelFontSize),
                   ),
                 );
               },
@@ -138,7 +154,7 @@ class MemberHistoryPage extends StatelessWidget {
               reservedSize: 40,
               getTitlesWidget: (v, meta) => Text(
                 isInt ? v.toInt().toString() : v.toStringAsFixed(1),
-                style: const TextStyle(fontSize: 10),
+                style: const TextStyle(fontSize: _kChartLabelFontSize),
               ),
             ),
           ),
@@ -164,7 +180,7 @@ class MemberHistoryPage extends StatelessWidget {
 
     return _AutoScrolledHorizontalChart(
       chart: chart,
-      width: terms.length * 50.0,
+      width: terms.length * 60.0, // Adjusted width for rotated labels
     );
   }
 
@@ -187,17 +203,21 @@ class MemberHistoryPage extends StatelessWidget {
             sideTitles: SideTitles(
               showTitles: true,
               interval: 1,
+              reservedSize: 50, // Added for rotation
               getTitlesWidget: (v, meta) {
                 if (v < 0 || v > terms.length - 1) {
                   return const SizedBox.shrink();
                 }
                 final index = v.toInt();
-                final label = formatDataTimePeriod(terms[index]);
-                return Padding(
-                  padding: const EdgeInsets.only(top: 6),
+                var label = formatDataTimePeriod(terms[index]);
+                if (label.length > 2) {
+                  label = label.substring(2);
+                }
+                return RotatedBox(
+                  quarterTurns: -1,
                   child: Text(
                     label,
-                    style: const TextStyle(fontSize: 10),
+                    style: const TextStyle(fontSize: _kChartLabelFontSize),
                   ),
                 );
               },
@@ -211,13 +231,13 @@ class MemberHistoryPage extends StatelessWidget {
               getTitlesWidget: (v, meta) {
                 switch (v.toInt()) {
                   case 1:
-                    return const Text('B2', style: TextStyle(fontSize: 10));
+                    return const Text('B2', style: TextStyle(fontSize: _kChartLabelFontSize));
                   case 2:
-                    return const Text('B1', style: TextStyle(fontSize: 10));
+                    return const Text('B1', style: TextStyle(fontSize: _kChartLabelFontSize));
                   case 3:
-                    return const Text('A2', style: TextStyle(fontSize: 10));
+                    return const Text('A2', style: TextStyle(fontSize: _kChartLabelFontSize));
                   case 4:
-                    return const Text('A1', style: TextStyle(fontSize: 10));
+                    return const Text('A1', style: TextStyle(fontSize: _kChartLabelFontSize));
                   default:
                     return const Text('');
                 }
@@ -246,7 +266,7 @@ class MemberHistoryPage extends StatelessWidget {
 
     return _AutoScrolledHorizontalChart(
       chart: chart,
-      width: terms.length * 50.0,
+      width: terms.length * 60.0, // Adjusted width for rotated labels
     );
   }
 }

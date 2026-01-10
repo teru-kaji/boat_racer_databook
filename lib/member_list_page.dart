@@ -15,6 +15,11 @@ class MemberListPage extends StatefulWidget {
 }
 
 class _MemberListPageState extends State<MemberListPage> {
+  // --- Font Size Constants ---
+  static const double _kListItemTitleSize = 18.0;
+  static const double _kListItemSubtitleSize = 17.0;
+  // ---
+
   String? _selectedDataTime;
   List<String> _dataTimeOptions = [];
   String? _selectedRank;
@@ -260,7 +265,7 @@ class _MemberListPageState extends State<MemberListPage> {
                           title: Text(
                             m.name ?? '(no name)',
                             style: const TextStyle(
-                              fontSize: 17, // ← タイトルの文字サイズ
+                              fontSize: _kListItemTitleSize,
                               // fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -275,7 +280,7 @@ class _MemberListPageState extends State<MemberListPage> {
                               if ((m.branch ?? '').isNotEmpty) ' ${m.branch}',
                             ].join('  '),
                             style: const TextStyle(
-                              fontSize: 15, // ← サブタイトルの文字サイズ
+                              fontSize: _kListItemSubtitleSize,
                               color: Colors.black54,
                             ),
                           ),
