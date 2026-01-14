@@ -1,4 +1,4 @@
-package com.telka.wrmmo4
+package jp.kyotei.playerdatabook
 
 import io.flutter.embedding.android.FlutterActivity
 
