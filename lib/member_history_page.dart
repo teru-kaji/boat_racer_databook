@@ -69,7 +69,7 @@ class MemberHistoryPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              '得点率 (winPointRate)',
+              '得点率',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: _kTitleFontSize),
             ),
             SizedBox(
@@ -79,7 +79,7 @@ class MemberHistoryPage extends StatelessWidget {
 
             const SizedBox(height: 24),
             const Text(
-              '複勝率 (winRate12)',
+              '複勝率',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: _kTitleFontSize),
             ),
             SizedBox(
@@ -160,8 +160,16 @@ class MemberHistoryPage extends StatelessWidget {
           ),
           topTitles:
           const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          rightTitles:
-          const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          rightTitles: AxisTitles(
+            sideTitles: SideTitles(
+              showTitles: true,
+              reservedSize: 40,
+              getTitlesWidget: (v, meta) => Text(
+                isInt ? v.toInt().toString() : v.toStringAsFixed(1),
+                style: const TextStyle(fontSize: _kChartLabelFontSize),
+              ),
+            ),
+          ),
         ),
         lineBarsData: [
           LineChartBarData(
@@ -246,8 +254,27 @@ class MemberHistoryPage extends StatelessWidget {
           ),
           topTitles:
           const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          rightTitles:
-          const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          rightTitles: AxisTitles(
+            sideTitles: SideTitles(
+              showTitles: true,
+              interval: 1,
+              reservedSize: 40,
+              getTitlesWidget: (v, meta) {
+                switch (v.toInt()) {
+                  case 1:
+                    return const Text('B2', style: TextStyle(fontSize: _kChartLabelFontSize));
+                  case 2:
+                    return const Text('B1', style: TextStyle(fontSize: _kChartLabelFontSize));
+                  case 3:
+                    return const Text('A2', style: TextStyle(fontSize: _kChartLabelFontSize));
+                  case 4:
+                    return const Text('A1', style: TextStyle(fontSize: _kChartLabelFontSize));
+                  default:
+                    return const Text('');
+                }
+              },
+            ),
+          ),
         ),
         lineBarsData: [
           LineChartBarData(

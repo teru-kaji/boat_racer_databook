@@ -16,8 +16,8 @@ class MemberListPage extends StatefulWidget {
 
 class _MemberListPageState extends State<MemberListPage> {
   // --- Font Size Constants ---
-  static const double _kListItemTitleSize = 18.0;
-  static const double _kListItemSubtitleSize = 17.0;
+  static const double _kListItemTitleSize = 16.0;
+  static const double _kListItemSubtitleSize = 14.0;
   // ---
 
   String? _selectedDataTime;
@@ -142,7 +142,7 @@ class _MemberListPageState extends State<MemberListPage> {
             Row(
               children: [
                 Expanded(
-                  flex: 1,
+                  flex: 3,
                   child: OutlinedButton.icon(
                     icon: const Icon(Icons.calendar_month),
                     label: Text(
@@ -156,6 +156,7 @@ class _MemberListPageState extends State<MemberListPage> {
                 ),
                 const SizedBox(width: 8),
                 Expanded(
+                  flex: 2,
                   child: DropdownButton<String>(
                     value: (_selectedRank == '' ? null : _selectedRank),
                     hint: const Text('級別'),
@@ -174,6 +175,7 @@ class _MemberListPageState extends State<MemberListPage> {
                 ),
                 const SizedBox(width: 8),
                 Expanded(
+                  flex: 2,
                   child: DropdownButton<String>(
                     value: (_selectedSex == '' ? null : _selectedSex),
                     hint: const Text('性別'),
@@ -337,7 +339,7 @@ class _DataTimeSearchDelegate extends SearchDelegate<String> {
         final label = formatDataTimePeriod(dt); // ← ★ 変換して表示
         return ListTile(
           title: Text(label),
-          subtitle: Text(dt), // ← 元のデータも小さく表示しておくと便利
+          subtitle: Text('$dt (${dataTimeToTerm(dt).join(' 〜 ')})'), // ← ★ 期間も表示
           onTap: () => close(context, dt),
         );
       },

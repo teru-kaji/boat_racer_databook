@@ -19,12 +19,12 @@ class MemberDetailPage extends StatefulWidget {
 
 class _MemberDetailPageState extends State<MemberDetailPage> {
   // --- Font Size Constants ---
-  static const double _kLinkFontSize = 18.0;
-  static const double _kInfoFontSize = 18.0;
-  static const double _kChartLabelFontSize = 16.0;
-  static const double _kTooltipMainFontSize = 16.0;
-  static const double _kTooltipSubFontSize = 16.0;
-  static const double _kTableFontSize = 16.0;
+  static const double _kLinkFontSize = 16.0;
+  static const double _kInfoFontSize = 16.0;
+  static const double _kChartLabelFontSize = 14.0;
+  static const double _kTooltipMainFontSize = 14.0;
+  static const double _kTooltipSubFontSize = 14.0;
+  static const double _kTableFontSize = 14.0;
   // ---
 
   Member? _selectedMember;
