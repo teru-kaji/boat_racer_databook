@@ -1,6 +1,7 @@
 //
 // lib/member_history_page.dart
 //
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'models/member.dart';
@@ -40,7 +41,7 @@ class MemberHistoryPage extends StatelessWidget {
     // 複勝率
     final winRates = all.map((m) {
       final v = double.tryParse((m.winRate12 ?? '').replaceAll('%', ''));
-      return v ?? 0;
+      return v ?? 0.0;
     }).toList();
 
     // 級別を数値化（例：A1=4, A2=3, B1=2, B2=1）
@@ -122,26 +123,55 @@ class MemberHistoryPage extends StatelessWidget {
         minY: 0,
         maxY: values.map((e) => e.toDouble()).reduce((a, b) => a > b ? a : b) * 1.2,
         gridData: FlGridData(show: true),
-        borderData: FlBorderData(show: false), // ★ 外枠を非表示
+        borderData: FlBorderData(show: true), // ★ 外枠を表示
+        lineTouchData: LineTouchData(
+          touchTooltipData: LineTouchTooltipData(
+            getTooltipItems: (List<LineBarSpot> touchedBarSpots) {
+              return touchedBarSpots.map((barSpot) {
+                final flSpot = barSpot;
+                final textStyle = TextStyle(
+                  color: flSpot.bar.gradient?.colors.first ??
+                      flSpot.bar.color ??
+                      Colors.blueGrey,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                );
+                String text;
+                if (label == '複勝率') {
+                  text = '${(flSpot.y * 100).toStringAsFixed(1)}%';
+                } else {
+                  text = flSpot.y.toStringAsFixed(1);
+                }
+                return LineTooltipItem(
+                  text,
+                  textStyle,
+                );
+              }).toList();
+            },
+          ),
+        ),
         titlesData: FlTitlesData(
           bottomTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
               interval: 1,
-              reservedSize: 50, // Added for rotation
+              reservedSize: 60, // Adjusted for 45 degree rotation
               getTitlesWidget: (v, meta) {
                 if (v < 0 || v > terms.length - 1) {
                   return const SizedBox.shrink();
                 }
                 final index = v.toInt();
-                var label = formatDataTimePeriod(terms[index]);
-                if (label.length > 2) {
-                  label = label.substring(2);
+                var labelText = formatDataTimePeriod(terms[index]);
+                if (labelText.length > 2) {
+                  labelText = labelText.substring(2);
                 }
-                return RotatedBox(
-                  quarterTurns: -1,
+                // Changed from RotatedBox to Transform.rotate for 45 degree angle
+                return Transform.rotate(
+                  angle: -math.pi / 4, // -45 degrees
+                  alignment: Alignment.centerRight,
                   child: Text(
-                    label,
+                    labelText,
+                    textAlign: TextAlign.right,
                     style: const TextStyle(fontSize: _kChartLabelFontSize),
                   ),
                 );
@@ -151,11 +181,19 @@ class MemberHistoryPage extends StatelessWidget {
           leftTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
-              reservedSize: 40,
-              getTitlesWidget: (v, meta) => Text(
-                isInt ? v.toInt().toString() : v.toStringAsFixed(1),
-                style: const TextStyle(fontSize: _kChartLabelFontSize),
-              ),
+              reservedSize: 50, // Increased reserved size for longer labels
+              getTitlesWidget: (v, meta) {
+                final String text;
+                if (label == '複勝率') {
+                  text = '${(v * 100).toStringAsFixed(1)}%';
+                } else {
+                  text = isInt ? v.toInt().toString() : v.toStringAsFixed(1);
+                }
+                return Text(
+                  text,
+                  style: const TextStyle(fontSize: _kChartLabelFontSize),
+                );
+              },
             ),
           ),
           topTitles:
@@ -163,11 +201,19 @@ class MemberHistoryPage extends StatelessWidget {
           rightTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
-              reservedSize: 40,
-              getTitlesWidget: (v, meta) => Text(
-                isInt ? v.toInt().toString() : v.toStringAsFixed(1),
-                style: const TextStyle(fontSize: _kChartLabelFontSize),
-              ),
+              reservedSize: 50, // Increased reserved size for longer labels
+              getTitlesWidget: (v, meta) {
+                final String text;
+                if (label == '複勝率') {
+                  text = '${(v * 100).toStringAsFixed(1)}%';
+                } else {
+                  text = isInt ? v.toInt().toString() : v.toStringAsFixed(1);
+                }
+                return Text(
+                  text,
+                  style: const TextStyle(fontSize: _kChartLabelFontSize),
+                );
+              },
             ),
           ),
         ),
@@ -205,13 +251,13 @@ class MemberHistoryPage extends StatelessWidget {
         minY: 0,
         maxY: 5,
         gridData: FlGridData(show: true),
-        borderData: FlBorderData(show: false), // ★ 外枠を非表示
+        borderData: FlBorderData(show: true), // ★ 外枠を表示
         titlesData: FlTitlesData(
           bottomTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
               interval: 1,
-              reservedSize: 50, // Added for rotation
+              reservedSize: 60, // Adjusted for 45 degree rotation
               getTitlesWidget: (v, meta) {
                 if (v < 0 || v > terms.length - 1) {
                   return const SizedBox.shrink();
@@ -221,10 +267,13 @@ class MemberHistoryPage extends StatelessWidget {
                 if (label.length > 2) {
                   label = label.substring(2);
                 }
-                return RotatedBox(
-                  quarterTurns: -1,
+                // Changed from RotatedBox to Transform.rotate for 45 degree angle
+                return Transform.rotate(
+                  angle: -math.pi / 4, // -45 degrees
+                  alignment: Alignment.centerRight,
                   child: Text(
                     label,
+                    textAlign: TextAlign.right,
                     style: const TextStyle(fontSize: _kChartLabelFontSize),
                   ),
                 );

@@ -142,7 +142,7 @@ class _MemberListPageState extends State<MemberListPage> {
             Row(
               children: [
                 Expanded(
-                  flex: 3,
+                  flex: 4,
                   child: OutlinedButton.icon(
                     icon: const Icon(Icons.calendar_month),
                     label: Text(
