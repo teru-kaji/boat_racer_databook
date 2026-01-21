@@ -123,7 +123,7 @@ class MemberHistoryPage extends StatelessWidget {
         minY: 0,
         maxY: values.map((e) => e.toDouble()).reduce((a, b) => a > b ? a : b) * 1.2,
         gridData: FlGridData(show: true),
-        borderData: FlBorderData(show: true), // ★ 外枠を表示
+        borderData: FlBorderData(show: false),     // ★ 外枠を非表示
         lineTouchData: LineTouchData(
           touchTooltipData: LineTouchTooltipData(
             getTooltipItems: (List<LineBarSpot> touchedBarSpots) {
@@ -251,7 +251,47 @@ class MemberHistoryPage extends StatelessWidget {
         minY: 0,
         maxY: 5,
         gridData: FlGridData(show: true),
-        borderData: FlBorderData(show: true), // ★ 外枠を表示
+        borderData: FlBorderData(show: false), // ★ 外枠を非表示
+        lineTouchData: LineTouchData(
+          touchTooltipData: LineTouchTooltipData(
+            getTooltipItems: (List<LineBarSpot> touchedBarSpots) {
+              return touchedBarSpots.map((barSpot) {
+                final flSpot = barSpot;
+                final textStyle = TextStyle(
+                  color: flSpot.bar.gradient?.colors.first ??
+                      flSpot.bar.color ??
+                      Colors.blueGrey,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                );
+
+                String text;
+                switch (flSpot.y.toInt()) {
+                  case 1:
+                    text = 'B2';
+                    break;
+                  case 2:
+                    text = 'B1';
+                    break;
+                  case 3:
+                    text = 'A2';
+                    break;
+                  case 4:
+                    text = 'A1';
+                    break;
+                  default:
+                    text = '';
+                    break;
+                }
+
+                return LineTooltipItem(
+                  text,
+                  textStyle,
+                );
+              }).toList();
+            },
+          ),
+        ),
         titlesData: FlTitlesData(
           bottomTitles: AxisTitles(
             sideTitles: SideTitles(
