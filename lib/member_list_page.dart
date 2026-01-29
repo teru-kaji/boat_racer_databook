@@ -219,19 +219,21 @@ class _MemberListPageState extends State<MemberListPage> {
               ],
             ),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: 16),
 
             // === 検索ボタン ===
-            Align(
-              alignment: Alignment.centerRight,
-              child: ElevatedButton.icon(
-                icon: const Icon(Icons.search),
-                label: const Text('検索'),
-                onPressed: _applyFilters,
+            Center(
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width / 2,
+                child: ElevatedButton.icon(
+                  icon: const Icon(Icons.search),
+                  label: const Text('検索'),
+                  onPressed: _applyFilters,
+                ),
               ),
             ),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: 16),
 
             // === 件数表示 ===
             Padding(

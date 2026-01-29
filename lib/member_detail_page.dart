@@ -6,7 +6,7 @@ import 'member_history_page.dart';
 import 'objectbox.dart';
 import 'objectbox.g.dart';
 import 'utils.dart';
-import 'package:url_launcher/url_launcher.dart'; // ← 1行追加（ファイル先頭でもOK）
+import 'package:url_launcher/url_launcher.dart';
 
 class MemberDetailPage extends StatefulWidget {
   final int memberId;
@@ -48,9 +48,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
         if (m.number == null || m.number!.isEmpty) return;
 
         final url = Uri.parse(
-          // "https://www.boatrace.jp/owpc/pc/data/racersearch/course?toban=${m.number}",
           "https://www.boatrace.jp/owsp/sp/data/racersearch/profile?toban=${m.number}",
-
         );
 
         final ok = await launchUrl(
@@ -99,7 +97,6 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
     );
   }
 
-
   void _loadMemberData() {
     final member = objectbox.memberBox.get(widget.memberId);
 
@@ -141,6 +138,23 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
     setState(() {
       _isLoading = false;
     });
+  }
+
+  Future<void> _selectDataTime(BuildContext context) async {
+    if (_dataTimeOptions.isEmpty) return;
+
+    final selected = await showSearch<String>(
+      context: context,
+      delegate: _DataTimeSearchDelegate(_dataTimeOptions),
+    );
+
+    if (selected != null && selected.isNotEmpty && selected != _selectedDataTime) {
+      setState(() {
+        _selectedDataTime = selected;
+        _selectedMember = _history.firstWhere((m) => m.dataTime == selected,
+            orElse: () => _selectedMember!); 
+      });
+    }
   }
 
   @override
@@ -185,26 +199,15 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
               Row(
                 children: [
                   Expanded(
-                    child: DropdownButton<String>(
-                      value: _selectedDataTime,
-                      isExpanded: true,
-                      items: _dataTimeOptions
-                          .map(
-                            (dt) => DropdownMenuItem(
-                              value: dt,
-                              child: Text(formatDataTimePeriod(dt)),
-                            ),
-                          )
-                          .toList(),
-                      onChanged: (value) {
-                        if (value == null) return;
-                        setState(() {
-                          _selectedDataTime = value;
-                          _selectedMember = _history.firstWhere(
-                            (m) => m.dataTime == value,
-                          );
-                        });
-                      },
+                    child: OutlinedButton.icon(
+                      icon: const Icon(Icons.calendar_month),
+                      label: Text(
+                        _selectedDataTime != null
+                            ? formatDataTimePeriod(_selectedDataTime!)
+                            : '期を選択',
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      onPressed: () => _selectDataTime(context),
                     ),
                   ),
                   const SizedBox(width: 12),
@@ -1083,4 +1086,45 @@ class _Totals {
     required this.second,
     required this.third,
   });
+}
+
+
+/// showSearch() 用の検索デリゲート
+class _DataTimeSearchDelegate extends SearchDelegate<String> {
+  final List<String> items;
+
+  _DataTimeSearchDelegate(this.items);
+
+  @override
+  List<Widget>? buildActions(BuildContext context) => [
+        IconButton(icon: const Icon(Icons.clear), onPressed: () => query = ''),
+      ];
+
+  @override
+  Widget? buildLeading(BuildContext context) => IconButton(
+        icon: const Icon(Icons.arrow_back),
+        onPressed: () => close(context, ''),
+      );
+
+  @override
+  Widget buildResults(BuildContext context) => _buildList(context);
+
+  @override
+  Widget buildSuggestions(BuildContext context) => _buildList(context);
+
+  Widget _buildList(BuildContext context) {
+    final filtered = items.where((e) => e.contains(query)).toList();
+    return ListView.builder(
+      itemCount: filtered.length,
+      itemBuilder: (_, i) {
+        final dt = filtered[i];
+        final label = formatDataTimePeriod(dt);
+        return ListTile(
+          title: Text(label),
+          subtitle: Text('$dt (${dataTimeToTerm(dt).join(' 〜 ')})'),
+          onTap: () => close(context, dt),
+        );
+      },
+    );
+  }
 }
