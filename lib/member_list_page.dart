@@ -24,6 +24,11 @@ class _MemberListPageState extends State<MemberListPage> {
   List<String> _dataTimeOptions = [];
   String? _selectedRank;
   String? _selectedSex;
+  String? _selectedGeneration;
+  List<String> _generationOptions = [];
+  String? _selectedBranch;
+  List<String> _branchOptions = [];
+
   final TextEditingController _numberController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   List<Member> _results = [];
@@ -37,18 +42,17 @@ class _MemberListPageState extends State<MemberListPage> {
   void _loadInitial() {
     final all = objectbox.memberBox.getAll();
 
-    // nullを除いた期リスト作成
     _dataTimeOptions = _distinctNonEmpty(all.map((m) => m.dataTime));
-
-    // ★ 降順にソート（新しい期が先頭）
     _dataTimeOptions.sort((a, b) => b.compareTo(a));
-
-    // ★ 最大値（最新期）を初期選択に
     if (_dataTimeOptions.isNotEmpty) {
       _selectedDataTime = _dataTimeOptions.first;
     }
 
-    // debugPrint('🟦 検索画面 初期選択された期 = $_selectedDataTime');
+    _generationOptions = _distinctNonEmpty(all.map((m) => m.generation));
+    // ★★★ 育成期を数値として昇順にソート ★★★
+    _generationOptions.sort((a, b) => (int.tryParse(a) ?? 0).compareTo(int.tryParse(b) ?? 0));
+
+    _branchOptions = _distinctNonEmpty(all.map((m) => m.branch));
 
     _applyFilters();
   }
@@ -59,8 +63,7 @@ class _MemberListPageState extends State<MemberListPage> {
       final s = (v ?? '').trim();
       if (s.isNotEmpty) set.add(s);
     }
-    final list = set.toList()..sort((a, b) => b.compareTo(a)); // ★ 降順に変更！
-    return list;
+    return set.toList()..sort();
   }
 
   void _applyFilters() {
@@ -68,6 +71,18 @@ class _MemberListPageState extends State<MemberListPage> {
 
     if (_selectedDataTime != null && _selectedDataTime!.isNotEmpty) {
       conditions.add(Member_.dataTime.equals(_selectedDataTime!));
+    }
+    if (_selectedRank != null && _selectedRank!.isNotEmpty) {
+      conditions.add(Member_.rank.equals(_selectedRank!));
+    }
+    if (_selectedSex != null && _selectedSex!.isNotEmpty) {
+      conditions.add(Member_.sex.equals(_selectedSex!));
+    }
+    if (_selectedGeneration != null && _selectedGeneration!.isNotEmpty) {
+      conditions.add(Member_.generation.equals(_selectedGeneration!));
+    }
+    if (_selectedBranch != null && _selectedBranch!.isNotEmpty) {
+      conditions.add(Member_.branch.equals(_selectedBranch!));
     }
 
     if (_numberController.text.isNotEmpty) {
@@ -82,18 +97,7 @@ class _MemberListPageState extends State<MemberListPage> {
           .or(Member_.kana.contains(q)));
     }
 
-    if (_selectedRank != null && _selectedRank!.isNotEmpty) {
-      conditions.add(Member_.rank.equals(_selectedRank!));
-    }
-
-    if (_selectedSex != null && _selectedSex!.isNotEmpty) {
-      conditions.add(Member_.sex.equals(_selectedSex!));
-    }
-
-    // If there are conditions, combine them all with AND.
-    // Otherwise, the condition is null (matches all).
-    final finalCondition =
-        conditions.isEmpty ? null : conditions.reduce((a, b) => a.and(b));
+    final finalCondition = conditions.isEmpty ? null : conditions.reduce((a, b) => a.and(b));
 
     final query = objectbox.memberBox.query(finalCondition).build();
     final results = query.find();
@@ -103,30 +107,15 @@ class _MemberListPageState extends State<MemberListPage> {
     });
   }
 
-  /// ★ showSearch() を使った期選択
   Future<void> _selectDataTime(BuildContext context) async {
     if (_dataTimeOptions.isEmpty) return;
-
-    // 現在の値を退避
-    final previousValue = _selectedDataTime;
-
     final selected = await showSearch<String>(
       context: context,
       delegate: _DataTimeSearchDelegate(_dataTimeOptions),
     );
-
-    // ★ null や空文字のときは、元の値を維持
-    if (selected == null || selected.isEmpty) {
-      setState(() {
-        _selectedDataTime = previousValue; // 元に戻す
-      });
-      return;
+    if (selected != null && selected.isNotEmpty) {
+      setState(() => _selectedDataTime = selected);
     }
-
-    // ★ 有効な値が選ばれた場合のみ上書き
-    setState(() {
-      _selectedDataTime = selected;
-    });
   }
 
   @override
@@ -138,7 +127,6 @@ class _MemberListPageState extends State<MemberListPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // === 期選択行 ===
             Row(
               children: [
                 Expanded(
@@ -158,26 +146,20 @@ class _MemberListPageState extends State<MemberListPage> {
                 Expanded(
                   flex: 2,
                   child: DropdownButton<String>(
-                    value: (_selectedRank == '' ? null : _selectedRank),
+                    value: _selectedRank,
                     hint: const Text('級別'),
                     isExpanded: true,
-                    items: const [
-                      DropdownMenuItem(value: '', child: Text('')),
-                      DropdownMenuItem(value: 'A1', child: Text('A1')),
-                      DropdownMenuItem(value: 'A2', child: Text('A2')),
-                      DropdownMenuItem(value: 'B1', child: Text('B1')),
-                      DropdownMenuItem(value: 'B2', child: Text('B2')),
-                    ],
-                    onChanged: (value) {
-                      setState(() => _selectedRank = value);
-                    },
+                    items: ['', 'A1', 'A2', 'B1', 'B2']
+                        .map((v) => DropdownMenuItem(value: v, child: Text(v)))
+                        .toList(),
+                    onChanged: (value) => setState(() => _selectedRank = value),
                   ),
                 ),
                 const SizedBox(width: 8),
                 Expanded(
                   flex: 2,
                   child: DropdownButton<String>(
-                    value: (_selectedSex == '' ? null : _selectedSex),
+                    value: _selectedSex,
                     hint: const Text('性別'),
                     isExpanded: true,
                     items: const [
@@ -185,27 +167,48 @@ class _MemberListPageState extends State<MemberListPage> {
                       DropdownMenuItem(value: '1', child: Text('男性')),
                       DropdownMenuItem(value: '2', child: Text('女性')),
                     ],
-                    onChanged: (value) {
-                      setState(() => _selectedSex = value);
-                    },
+                    onChanged: (value) => setState(() => _selectedSex = value),
                   ),
                 ),
               ],
             ),
-
             const SizedBox(height: 8),
-
-            // === 入力欄 ===
+            Row(
+              children: [
+                Expanded(
+                  child: DropdownButton<String>(
+                    value: _selectedGeneration,
+                    hint: const Text('育成期'),
+                    isExpanded: true,
+                    items: ['', ..._generationOptions]
+                        .map((v) => DropdownMenuItem(value: v, child: Text(v)))
+                        .toList(),
+                    onChanged: (value) =>
+                        setState(() => _selectedGeneration = value),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: DropdownButton<String>(
+                    value: _selectedBranch,
+                    hint: const Text('支部'),
+                    isExpanded: true,
+                    items: ['', ..._branchOptions]
+                        .map((v) => DropdownMenuItem(value: v, child: Text(v)))
+                        .toList(),
+                    onChanged: (value) => setState(() => _selectedBranch = value),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
             Row(
               children: [
                 Expanded(
                   child: TextField(
                     controller: _numberController,
                     decoration: const InputDecoration(labelText: '登録番号'),
-                    keyboardType: const TextInputType.numberWithOptions(
-                      decimal: false,
-                      signed: false,
-                    ),
+                    keyboardType: TextInputType.number,
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   ),
                 ),
@@ -213,15 +216,12 @@ class _MemberListPageState extends State<MemberListPage> {
                 Expanded(
                   child: TextField(
                     controller: _nameController,
-                    decoration: const InputDecoration(labelText: '名前(漢字/ひらかな)'),
+                    decoration: const InputDecoration(labelText: '名前(漢字/かな)'),
                   ),
                 ),
               ],
             ),
-
             const SizedBox(height: 16),
-
-            // === 検索ボタン ===
             Center(
               child: SizedBox(
                 width: MediaQuery.of(context).size.width / 2,
@@ -232,18 +232,9 @@ class _MemberListPageState extends State<MemberListPage> {
                 ),
               ),
             ),
-
             const SizedBox(height: 16),
-
-            // === 件数表示 ===
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4.0),
-              child: Text('該当件数: ${_results.length}件'),
-            ),
-
+            Text('該当件数: ${_results.length}件'),
             const SizedBox(height: 8),
-
-            // === 検索結果 ===
             Expanded(
               child: _results.isEmpty
                   ? const Center(child: Text('該当データがありません'))
@@ -260,41 +251,28 @@ class _MemberListPageState extends State<MemberListPage> {
                                     ? Colors.pink
                                     : Colors.grey,
                             child: Text(
-                              ((m.name ?? m.number ?? '?').isNotEmpty)
-                                  ? (m.name ?? m.number ?? '?').characters.first
-                                  : '?',
+                              m.name?.isNotEmpty == true ? m.name![0] : '?',
                               style: const TextStyle(color: Colors.white),
                             ),
                           ),
-                          title: Text(
-                            m.name ?? '(no name)',
-                            style: const TextStyle(
-                              fontSize: _kListItemTitleSize,
-                              // fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                          title: Text(m.name ?? '(no name)', style: const TextStyle(fontSize: _kListItemTitleSize)),
                           subtitle: Text(
                             [
-                              if ((m.number ?? '').isNotEmpty) '${m.number}',
-                              if ((m.rank ?? '').isNotEmpty) '　${m.rank}',
-                              if (m.winPointRate != null && m.winPointRate.toString().isNotEmpty)
-                                ' ${(double.tryParse(m.winPointRate.toString()) ?? 0).toStringAsFixed(2)}',
-                              if ((m.weight ?? '').isNotEmpty) ' ${m.weight}Kg',
-                              if ((m.age ?? '').isNotEmpty) ' ${m.age}才',
-                              if ((m.branch ?? '').isNotEmpty) ' ${m.branch}',
-                            ].join('  '),
-                            style: const TextStyle(
-                              fontSize: _kListItemSubtitleSize,
-                              color: Colors.black54,
-                            ),
+                              if (m.number?.isNotEmpty == true) m.number,
+                              if (m.rank?.isNotEmpty == true) ' ${m.rank}',
+                              if (m.winPointRate?.isNotEmpty == true)
+                                ' ${double.tryParse(m.winPointRate!)?.toStringAsFixed(2) ?? ''}',
+                              if (m.weight?.isNotEmpty == true) ' ${m.weight}Kg',
+                              if (m.age?.isNotEmpty == true) ' ${m.age}才',
+                              if (m.branch?.isNotEmpty == true) ' ${m.branch}',
+                            ].where((s) => s != null).join('  '),
+                            style: const TextStyle(fontSize: _kListItemSubtitleSize, color: Colors.black54),
                           ),
                           onTap: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (_) => MemberDetailPage(
-                                  memberId: m.id,
-                                ),
+                                builder: (_) => MemberDetailPage(memberId: m.id),
                               ),
                             );
                           },
@@ -309,7 +287,6 @@ class _MemberListPageState extends State<MemberListPage> {
   }
 }
 
-/// showSearch() 用の検索デリゲート
 class _DataTimeSearchDelegate extends SearchDelegate<String> {
   final List<String> items;
 
@@ -338,10 +315,10 @@ class _DataTimeSearchDelegate extends SearchDelegate<String> {
       itemCount: filtered.length,
       itemBuilder: (_, i) {
         final dt = filtered[i];
-        final label = formatDataTimePeriod(dt); // ← ★ 変換して表示
+        final label = formatDataTimePeriod(dt);
         return ListTile(
           title: Text(label),
-          subtitle: Text('$dt (${dataTimeToTerm(dt).join(' 〜 ')})'), // ← ★ 期間も表示
+          subtitle: Text('$dt (${dataTimeToTerm(dt).join(' 〜 ')})'),
           onTap: () => close(context, dt),
         );
       },
