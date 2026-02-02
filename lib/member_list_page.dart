@@ -49,7 +49,6 @@ class _MemberListPageState extends State<MemberListPage> {
     }
 
     _generationOptions = _distinctNonEmpty(all.map((m) => m.generation));
-    // ★★★ 育成期を数値として昇順にソート ★★★
     _generationOptions.sort((a, b) => (int.tryParse(a) ?? 0).compareTo(int.tryParse(b) ?? 0));
 
     _branchOptions = _distinctNonEmpty(all.map((m) => m.branch));
@@ -127,24 +126,25 @@ class _MemberListPageState extends State<MemberListPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // 1行目: 期選択
+            SizedBox(
+              width: MediaQuery.of(context).size.width / 2,
+              child: OutlinedButton.icon(
+                icon: const Icon(Icons.calendar_month),
+                label: Text(
+                  _selectedDataTime != null
+                      ? formatDataTimePeriod(_selectedDataTime!)
+                      : '期を選択',
+                  overflow: TextOverflow.ellipsis,
+                ),
+                onPressed: () => _selectDataTime(context),
+              ),
+            ),
+            const SizedBox(height: 8),
+            // 2行目: 級別, 性別, 養成期, 支部
             Row(
               children: [
                 Expanded(
-                  flex: 4,
-                  child: OutlinedButton.icon(
-                    icon: const Icon(Icons.calendar_month),
-                    label: Text(
-                      _selectedDataTime != null
-                          ? formatDataTimePeriod(_selectedDataTime!)
-                          : '期を選択',
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    onPressed: () => _selectDataTime(context),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  flex: 2,
                   child: DropdownButton<String>(
                     value: _selectedRank,
                     hint: const Text('級別'),
@@ -157,7 +157,6 @@ class _MemberListPageState extends State<MemberListPage> {
                 ),
                 const SizedBox(width: 8),
                 Expanded(
-                  flex: 2,
                   child: DropdownButton<String>(
                     value: _selectedSex,
                     hint: const Text('性別'),
@@ -170,15 +169,11 @@ class _MemberListPageState extends State<MemberListPage> {
                     onChanged: (value) => setState(() => _selectedSex = value),
                   ),
                 ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Row(
-              children: [
+                const SizedBox(width: 8),
                 Expanded(
                   child: DropdownButton<String>(
                     value: _selectedGeneration,
-                    hint: const Text('育成期'),
+                    hint: const Text('養成期'),
                     isExpanded: true,
                     items: ['', ..._generationOptions]
                         .map((v) => DropdownMenuItem(value: v, child: Text(v)))
@@ -202,6 +197,7 @@ class _MemberListPageState extends State<MemberListPage> {
               ],
             ),
             const SizedBox(height: 8),
+            // 3行目: 登録番号, 名前
             Row(
               children: [
                 Expanded(
