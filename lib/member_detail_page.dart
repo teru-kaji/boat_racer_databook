@@ -206,6 +206,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                             ? formatDataTimePeriod(_selectedDataTime!)
                             : '期を選択',
                         overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(fontSize: _kInfoFontSize),
                       ),
                       onPressed: () => _selectDataTime(context),
                     ),
@@ -220,7 +221,10 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                         ),
                       );
                     },
-                    child: const Text('期ごとの成績を表示'),
+                    child: const Text(
+                      '期ごとの成績を表示',
+                      style: TextStyle(fontSize: _kInfoFontSize),
+                    ),
                   ),
                 ],
               ),
