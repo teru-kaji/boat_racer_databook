@@ -239,38 +239,38 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
               crossAxisSpacing: 8,
               mainAxisSpacing: 4,
               children: [
-                _infoText('登録番号', m.number),
+                _infoText('登　番', m.number),
                 _infoText(
-                  '級',
+                  '級　　',
                   '${m.rank ?? "-"} / ${m.rankPast1 ?? "-"} / ${m.rankPast2 ?? "-"} / ${m.rankPast3 ?? "-"}',
                 ),
-                _infoText('名前', m.name),
-                _infoText('よみ', m.kana3),
-                _infoText('支部', m.branch),
+                _infoText('名　前', m.name),
+                _infoText('よ　み', m.kana3),
+                _infoText('支　部', m.branch),
                 _infoText('出身地', m.birthplace?.replaceAll(RegExp(r'\s+'), '')),
                 _infoText('誕生日', m.gBirthday),
                 _infoText(
-                  '性別',
+                  '性　別',
                   m.sex == "1"
-                      ? "男性"
+                      ? "♠️"
                       : m.sex == "2"
-                      ? "女性"
+                      ? "♥️"
                       : m.sex,
                 ),
-                _infoText('年齢', m.age),
-                _infoText('身長', m.height),
-                _infoText('体重', m.weight),
-                _infoText('血液', m.blood),
-                _infoText('勝率', m.winPointRate),
+                _infoText('年　齢', m.age),
+                _infoText('身　長', m.height),
+                _infoText('体　重', m.weight),
+                _infoText('血液型', m.blood),
+                _infoText('勝　率', m.winPointRate),
                 _infoText('複勝率', _fmtPercent(_toPercent(m.winRate12))),
-                _infoText('1着回数', m.firstPlaceCount),
-                _infoText('2着回数', m.secondPlaceCount),
-                _infoText('出走回数', m.numberOfRace),
-                _infoText('優出回数', m.numberOfFinals),
-                _infoText('優勝回数', m.numberOfWins),
+                _infoText('１着数', m.firstPlaceCount),
+                _infoText('２着数', m.secondPlaceCount),
+                _infoText('出走数', m.numberOfRace),
+                _infoText('優出数', m.numberOfFinals),
+                _infoText('優勝数', m.numberOfWins),
                 _infoText('平均ST', m.startTiming),
                 _infoText(
-                  '能力指数',
+                  '能力値',
                   '${m.lastAbilityScore ?? "-"} / ${m.pastAbilityScore ?? "-"}',
                 ),
               ],

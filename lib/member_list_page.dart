@@ -17,7 +17,7 @@ class MemberListPage extends StatefulWidget {
 class _MemberListPageState extends State<MemberListPage> {
   // --- Font Size Constants ---
   static const double _kListItemTitleSize = 16.0;
-  static const double _kListItemSubtitleSize = 14.0;
+  static const double _kListItemSubtitleSize = 16.0;
   // ---
 
   String? _selectedDataTime;
@@ -146,89 +146,53 @@ class _MemberListPageState extends State<MemberListPage> {
             Row(
               children: [
                 Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      color: Colors.white,
-                      border: Border.all(color: Colors.grey),
-                    ),
-                    child: DropdownButton<String>(
-                      value: _selectedRank == '' ? null : _selectedRank,
-                      hint: const Text('級別'),
-                      isExpanded: true,
-                      underline: Container(), // 下線を消す
-                      items: ['', 'A1', 'A2', 'B1', 'B2']
-                          .map((v) => DropdownMenuItem(value: v, child: Text(v)))
-                          .toList(),
-                      onChanged: (value) => setState(() => _selectedRank = value),
-                    ),
+                  child: DropdownButton<String>(
+                    value: _selectedRank == '' ? null : _selectedRank,
+                    hint: const Text('級別'),
+                    isExpanded: true,
+                    items: ['', 'A1', 'A2', 'B1', 'B2']
+                        .map((v) => DropdownMenuItem(value: v, child: Text(v)))
+                        .toList(),
+                    onChanged: (value) => setState(() => _selectedRank = value),
                   ),
                 ),
                 const SizedBox(width: 8),
                 Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      color: Colors.white,
-                      border: Border.all(color: Colors.grey),
-                    ),
-                    child: DropdownButton<String>(
-                      value: _selectedSex == '' ? null : _selectedSex,
-                      hint: const Text('性別'),
-                      isExpanded: true,
-                      underline: Container(), // 下線を消す
-                      items: const [
-                        DropdownMenuItem(value: '', child: Text('')),
-                        DropdownMenuItem(value: '1', child: Text('男子')),
-                        DropdownMenuItem(value: '2', child: Text('女子')),
-                      ],
-                      onChanged: (value) => setState(() => _selectedSex = value),
-                    ),
+                  child: DropdownButton<String>(
+                    value: _selectedSex == '' ? null : _selectedSex,
+                    hint: const Text('性別'),
+                    isExpanded: true,
+                    items: const [
+                      DropdownMenuItem(value: '', child: Text('')),
+                      DropdownMenuItem(value: '1', child: Text('男子')),
+                      DropdownMenuItem(value: '2', child: Text('女子')),
+                    ],
+                    onChanged: (value) => setState(() => _selectedSex = value),
                   ),
                 ),
                 const SizedBox(width: 8),
                 Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      color: Colors.white,
-                      border: Border.all(color: Colors.grey),
-                    ),
-                    child: DropdownButton<String>(
-                      value: _selectedGeneration == '' ? null : _selectedGeneration,
-                      hint: const Text('養成'),
-                      isExpanded: true,
-                      underline: Container(), // 下線を消す
-                      items: ['', ..._generationOptions]
-                          .map((v) => DropdownMenuItem(value: v, child: Text(v)))
-                          .toList(),
-                      onChanged: (value) =>
-                          setState(() => _selectedGeneration = value),
-                    ),
+                  child: DropdownButton<String>(
+                    value: _selectedGeneration == '' ? null : _selectedGeneration,
+                    hint: const Text('養成期'),
+                    isExpanded: true,
+                    items: ['', ..._generationOptions]
+                        .map((v) => DropdownMenuItem(value: v, child: Text(v)))
+                        .toList(),
+                    onChanged: (value) =>
+                        setState(() => _selectedGeneration = value),
                   ),
                 ),
                 const SizedBox(width: 8),
                 Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10.0),
-                      color: Colors.white,
-                      border: Border.all(color: Colors.grey),
-                    ),
-                    child: DropdownButton<String>(
-                      value: _selectedBranch == '' ? null : _selectedBranch,
-                      hint: const Text('支部'),
-                      isExpanded: true,
-                      underline: Container(), // 下線を消す
-                      items: ['', ..._branchOptions]
-                          .map((v) => DropdownMenuItem(value: v, child: Text(v)))
-                          .toList(),
-                      onChanged: (value) => setState(() => _selectedBranch = value),
-                    ),
+                  child: DropdownButton<String>(
+                    value: _selectedBranch == '' ? null : _selectedBranch,
+                    hint: const Text('支部'),
+                    isExpanded: true,
+                    items: ['', ..._branchOptions]
+                        .map((v) => DropdownMenuItem(value: v, child: Text(v)))
+                        .toList(),
+                    onChanged: (value) => setState(() => _selectedBranch = value),
                   ),
                 ),
               ],
@@ -295,8 +259,9 @@ class _MemberListPageState extends State<MemberListPage> {
                               if (m.rank?.isNotEmpty == true) ' ${m.rank}',
                               if (m.winPointRate?.isNotEmpty == true)
                                 ' ${double.tryParse(m.winPointRate!)?.toStringAsFixed(2) ?? ''}',
-                              if (m.weight?.isNotEmpty == true) ' ${m.weight}Kg',
+                              // if (m.weight?.isNotEmpty == true) ' ${m.weight}Kg',
                               if (m.age?.isNotEmpty == true) ' ${m.age}才',
+                              if (m.generation?.isNotEmpty == true) ' ${m.generation}期',
                               if (m.branch?.isNotEmpty == true) ' ${m.branch}',
                             ].where((s) => s != null).join('  '),
                             style: const TextStyle(fontSize: _kListItemSubtitleSize, color: Colors.black54),
