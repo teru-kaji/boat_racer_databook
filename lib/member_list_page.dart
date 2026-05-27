@@ -17,7 +17,7 @@ class MemberListPage extends StatefulWidget {
 class _MemberListPageState extends State<MemberListPage> {
   // --- Font Size Constants ---
   static const double _kListItemTitleSize = 16.0;
-  static const double _kListItemSubtitleSize = 16.0;
+  static const double _kListItemSubtitleSize = 14.0;
   // ---
 
   String? _selectedDataTime;
@@ -48,7 +48,7 @@ class _MemberListPageState extends State<MemberListPage> {
       _selectedDataTime = _dataTimeOptions.first;
     }
 
-    _generationOptions = _distinctNonEmpty(all.map((m) => m.generation));
+    _generationOptions = _distinctNonEmpty(all.map((m) => m.generation?.toString()));
     _generationOptions.sort((a, b) => (int.tryParse(a) ?? 0).compareTo(int.tryParse(b) ?? 0));
 
     _branchOptions = _distinctNonEmpty(all.map((m) => m.branch));
@@ -75,10 +75,12 @@ class _MemberListPageState extends State<MemberListPage> {
       conditions.add(Member_.rank.equals(_selectedRank!));
     }
     if (_selectedSex != null && _selectedSex!.isNotEmpty) {
-      conditions.add(Member_.sex.equals(_selectedSex!));
+      final sexInt = int.tryParse(_selectedSex!);
+      if (sexInt != null) conditions.add(Member_.sex.equals(sexInt));
     }
     if (_selectedGeneration != null && _selectedGeneration!.isNotEmpty) {
-      conditions.add(Member_.generation.equals(_selectedGeneration!));
+      final genInt = int.tryParse(_selectedGeneration!);
+      if (genInt != null) conditions.add(Member_.generation.equals(genInt));
     }
     if (_selectedBranch != null && _selectedBranch!.isNotEmpty) {
       conditions.add(Member_.branch.equals(_selectedBranch!));
@@ -142,7 +144,7 @@ class _MemberListPageState extends State<MemberListPage> {
               ),
             ),
             const SizedBox(height: 8),
-            // 2行目: 級別, 性別, 養成期, 支部
+            // 2行目: 級別, 性別, 育成期, 支部
             Row(
               children: [
                 Expanded(
@@ -174,7 +176,7 @@ class _MemberListPageState extends State<MemberListPage> {
                 Expanded(
                   child: DropdownButton<String>(
                     value: _selectedGeneration == '' ? null : _selectedGeneration,
-                    hint: const Text('養成期'),
+                    hint: const Text('育成期'),
                     isExpanded: true,
                     items: ['', ..._generationOptions]
                         .map((v) => DropdownMenuItem(value: v, child: Text(v)))
@@ -242,9 +244,9 @@ class _MemberListPageState extends State<MemberListPage> {
                         final m = _results[index];
                         return ListTile(
                           leading: CircleAvatar(
-                            backgroundColor: (m.sex == "1")
+                            backgroundColor: (m.sex == 1)
                                 ? Colors.blue
-                                : (m.sex == "2")
+                                : (m.sex == 2)
                                     ? Colors.pink
                                     : Colors.grey,
                             child: Text(
@@ -257,13 +259,12 @@ class _MemberListPageState extends State<MemberListPage> {
                             [
                               if (m.number?.isNotEmpty == true) m.number,
                               if (m.rank?.isNotEmpty == true) ' ${m.rank}',
-                              if (m.winPointRate?.isNotEmpty == true)
-                                ' ${double.tryParse(m.winPointRate!)?.toStringAsFixed(2) ?? ''}',
-                              // if (m.weight?.isNotEmpty == true) ' ${m.weight}Kg',
-                              if (m.age?.isNotEmpty == true) ' ${m.age}才',
-                              if (m.generation?.isNotEmpty == true) ' ${m.generation}期',
+                              if (m.winPointRate != null)
+                                ' ${m.winPointRate!.toStringAsFixed(2)}',
+                              if (m.weight != null) ' ${m.weight}Kg',
+                              if (m.age != null) ' ${m.age}才',
                               if (m.branch?.isNotEmpty == true) ' ${m.branch}',
-                            ].where((s) => s != null).join('  '),
+                            ].join('  '),
                             style: const TextStyle(fontSize: _kListItemSubtitleSize, color: Colors.black54),
                           ),
                           onTap: () {

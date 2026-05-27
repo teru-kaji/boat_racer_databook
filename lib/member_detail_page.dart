@@ -20,7 +20,7 @@ class MemberDetailPage extends StatefulWidget {
 class _MemberDetailPageState extends State<MemberDetailPage> {
   // --- Font Size Constants ---
   static const double _kLinkFontSize = 16.0;
-  static const double _kInfoFontSize = 16.0;
+  static const double _kInfoFontSize = 15.0;
   static const double _kChartLabelFontSize = 14.0;
   static const double _kTooltipMainFontSize = 14.0;
   static const double _kTooltipSubFontSize = 14.0;
@@ -65,7 +65,6 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // アイコン部分
           CircleAvatar(
             radius: 60,
             backgroundColor: accent.withOpacity(0.2),
@@ -79,17 +78,14 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
               ),
             ),
           ),
-
           const SizedBox(height: 8),
-
-          // テキスト部分
           Text(
             "公式プロフィールを見る",
             style: TextStyle(
               color: accent,
               fontSize: _kLinkFontSize,
               fontWeight: FontWeight.bold,
-              decoration: TextDecoration.underline, // リンクっぽく
+              decoration: TextDecoration.underline,
             ),
           ),
         ],
@@ -230,52 +226,12 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
               ),
             const SizedBox(height: 12),
             Center(child: buildMemberIcon(m)),
-            const SizedBox(height: 16),
-            GridView.count(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              crossAxisCount: 2,
-              childAspectRatio: 6.0,
-              crossAxisSpacing: 8,
-              mainAxisSpacing: 4,
-              children: [
-                _infoText('登　番', m.number),
-                _infoText(
-                  '級　　',
-                  '${m.rank ?? "-"} / ${m.rankPast1 ?? "-"} / ${m.rankPast2 ?? "-"} / ${m.rankPast3 ?? "-"}',
-                ),
-                _infoText('名　前', m.name),
-                _infoText('よ　み', m.kana3),
-                _infoText('支　部', m.branch),
-                _infoText('出身地', m.birthplace?.replaceAll(RegExp(r'\s+'), '')),
-                _infoText('誕生日', m.gBirthday),
-                _infoText(
-                  '性　別',
-                  m.sex == "1"
-                      ? "♠️"
-                      : m.sex == "2"
-                      ? "♥️"
-                      : m.sex,
-                ),
-                _infoText('年　齢', m.age),
-                _infoText('身　長', m.height),
-                _infoText('体　重', m.weight),
-                _infoText('血液型', m.blood),
-                _infoText('勝　率', m.winPointRate),
-                _infoText('複勝率', _fmtPercent(_toPercent(m.winRate12))),
-                _infoText('１着数', m.firstPlaceCount),
-                _infoText('２着数', m.secondPlaceCount),
-                _infoText('出走数', m.numberOfRace),
-                _infoText('優出数', m.numberOfFinals),
-                _infoText('優勝数', m.numberOfWins),
-                _infoText('平均ST', m.startTiming),
-                _infoText(
-                  '能力値',
-                  '${m.lastAbilityScore ?? "-"} / ${m.pastAbilityScore ?? "-"}',
-                ),
-              ],
-            ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 20),
+            
+            // --- 選手情報のテーブル表示 ---
+            _buildMemberInfoTable(m),
+            
+            const SizedBox(height: 32),
             Text('コース別 複勝率（%）', style: Theme.of(context).textTheme.titleLarge),
             _barChartSingle(
               context: context,
@@ -320,10 +276,58 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
     );
   }
 
-  Widget _infoText(String label, String? value) {
-    return Text(
-      "$label : ${(value == null || value.isEmpty) ? '-' : value}",
-      style: const TextStyle(fontSize: _kInfoFontSize),
+  // 2列のテーブル形式で選手情報を表示する
+  Widget _buildMemberInfoTable(Member m) {
+    return Table(
+      columnWidths: const {
+        0: FixedColumnWidth(100),
+        1: FlexColumnWidth(),
+      },
+      border: TableBorder.all(color: Colors.grey.shade300, width: 1),
+      children: [
+        _tableRow('登録番号', m.number),
+        _tableRow('級', '${m.rank ?? "-"} / ${m.rankPast1 ?? "-"} / ${m.rankPast2 ?? "-"} / ${m.rankPast3 ?? "-"}'),
+        _tableRow('名前', m.name),
+        _tableRow('よみ', m.kana3),
+        _tableRow('支部', m.branch),
+        _tableRow('出身地', m.birthplace?.replaceAll(RegExp(r'\s+'), '')),
+        _tableRow('誕生日', m.gBirthday),
+        _tableRow('性別', m.sex == 1 ? "男性" : m.sex == 2 ? "女性" : m.sex?.toString()),
+        _tableRow('年齢', m.age?.toString()),
+        _tableRow('身長', m.height != null ? '${m.height} cm' : null),
+        _tableRow('体重', m.weight != null ? '${m.weight} kg' : null),
+        _tableRow('血液型', m.blood),
+        _tableRow('勝率', m.winPointRate?.toStringAsFixed(2)),
+        _tableRow('複勝率', _fmtPercent(m.winRate12)),
+        _tableRow('1着回数', m.firstPlaceCount?.toString()),
+        _tableRow('2着回数', m.secondPlaceCount?.toString()),
+        _tableRow('出走回数', m.numberOfRace?.toString()),
+        _tableRow('優出回数', m.numberOfFinals?.toString()),
+        _tableRow('優勝回数', m.numberOfWins?.toString()),
+        _tableRow('平均ST', m.startTiming?.toStringAsFixed(2)),
+        _tableRow('能力指数', '${m.lastAbilityScore ?? "-"} / ${m.pastAbilityScore ?? "-"}'),
+      ],
+    );
+  }
+
+  TableRow _tableRow(String label, String? value) {
+    return TableRow(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            label,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: _kInfoFontSize),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            (value == null || value.isEmpty) ? '-' : value,
+            style: const TextStyle(fontSize: _kInfoFontSize),
+          ),
+        ),
+      ],
     );
   }
 
@@ -338,7 +342,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
         headingTextStyle: const TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: _kTableFontSize,
-          color: Colors.black, // Explicitly set color if needed
+          color: Colors.black,
         ),
         dataTextStyle: const TextStyle(
           fontSize: _kTableFontSize,
@@ -371,7 +375,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
               ],
             ),
           DataRow(
-            color: MaterialStateProperty.all(Colors.grey[200]),
+            color: WidgetStateProperty.all(Colors.grey[200]),
             cells: [
               const DataCell(
                 Text('合計', style: TextStyle(fontWeight: FontWeight.bold)),
@@ -416,13 +420,8 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
   }
 
   Widget _buildAccidentTable(Member member) {
-    int? toInt(String? s) => int.tryParse((s ?? '').trim());
-    int sum(List<String?> values) =>
-        values.fold(0, (a, b) => a + (toInt(b) ?? 0));
-
-    Widget _fixedCell(String? val, {bool bold = false}) {
-      final intVal = toInt(val) ?? 0;
-      final txt = val ?? "-";
+    Widget _fixedCell(int? val, {bool bold = false}) {
+      final txt = val?.toString() ?? "-";
       return SizedBox(
         width: 40,
         child: Text(
@@ -431,79 +430,48 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
           style: TextStyle(
             fontSize: _kTableFontSize,
             fontWeight: bold ? FontWeight.bold : FontWeight.normal,
-            color: (!bold && intVal == 0) ? Colors.grey : Colors.black,
+            color: (!bold && (val == 0 || val == null)) ? Colors.grey : Colors.black,
           ),
         ),
       );
     }
 
-    List<List<String?>> courseValues = [
+    final List<List<int?>> courseValues = [
       [
-        member.falseStart1,
-        member.lateStartNoResponsibility1,
-        member.lateStartOnResponsibility1,
-        member.withdrawNoResponsibility1,
-        member.withdrawOnResponsibility1,
-        member.invalidNoResponsibility1,
-        member.invalidOnResponsibility1,
-        member.invalidOnObstruction1,
+        member.falseStart1, member.lateStartNoResponsibility1, member.lateStartOnResponsibility1,
+        member.withdrawNoResponsibility1, member.withdrawOnResponsibility1,
+        member.invalidNoResponsibility1, member.invalidOnResponsibility1, member.invalidOnObstruction1,
       ],
       [
-        member.falseStart2,
-        member.lateStartNoResponsibility2,
-        member.lateStartOnResponsibility2,
-        member.withdrawNoResponsibility2,
-        member.withdrawOnResponsibility2,
-        member.invalidNoResponsibility2,
-        member.invalidOnResponsibility2,
-        member.invalidOnObstruction2,
+        member.falseStart2, member.lateStartNoResponsibility2, member.lateStartOnResponsibility2,
+        member.withdrawNoResponsibility2, member.withdrawOnResponsibility2,
+        member.invalidNoResponsibility2, member.invalidOnResponsibility2, member.invalidOnObstruction2,
       ],
       [
-        member.falseStart3,
-        member.lateStartNoResponsibility3,
-        member.lateStartOnResponsibility3,
-        member.withdrawNoResponsibility3,
-        member.withdrawOnResponsibility3,
-        member.invalidNoResponsibility3,
-        member.invalidOnResponsibility3,
-        member.invalidOnObstruction3,
+        member.falseStart3, member.lateStartNoResponsibility3, member.lateStartOnResponsibility3,
+        member.withdrawNoResponsibility3, member.withdrawOnResponsibility3,
+        member.invalidNoResponsibility3, member.invalidOnResponsibility3, member.invalidOnObstruction3,
       ],
       [
-        member.falseStart4,
-        member.lateStartNoResponsibility4,
-        member.lateStartOnResponsibility4,
-        member.withdrawNoResponsibility4,
-        member.withdrawOnResponsibility4,
-        member.invalidNoResponsibility4,
-        member.invalidOnResponsibility4,
-        member.invalidOnObstruction4,
+        member.falseStart4, member.lateStartNoResponsibility4, member.lateStartOnResponsibility4,
+        member.withdrawNoResponsibility4, member.withdrawOnResponsibility4,
+        member.invalidNoResponsibility4, member.invalidOnResponsibility4, member.invalidOnObstruction4,
       ],
       [
-        member.falseStart5,
-        member.lateStartNoResponsibility5,
-        member.lateStartOnResponsibility5,
-        member.withdrawNoResponsibility5,
-        member.withdrawOnResponsibility5,
-        member.invalidNoResponsibility5,
-        member.invalidOnResponsibility5,
-        member.invalidOnObstruction5,
+        member.falseStart5, member.lateStartNoResponsibility5, member.lateStartOnResponsibility5,
+        member.withdrawNoResponsibility5, member.withdrawOnResponsibility5,
+        member.invalidNoResponsibility5, member.invalidOnResponsibility5, member.invalidOnObstruction5,
       ],
       [
-        member.falseStart6,
-        member.lateStartNoResponsibility6,
-        member.lateStartOnResponsibility6,
-        member.withdrawNoResponsibility6,
-        member.withdrawOnResponsibility6,
-        member.invalidNoResponsibility6,
-        member.invalidOnResponsibility6,
-        member.invalidOnObstruction6,
+        member.falseStart6, member.lateStartNoResponsibility6, member.lateStartOnResponsibility6,
+        member.withdrawNoResponsibility6, member.withdrawOnResponsibility6,
+        member.invalidNoResponsibility6, member.invalidOnResponsibility6, member.invalidOnObstruction6,
       ],
     ];
 
-    final totals = List.generate(
-      8,
-      (i) => sum(courseValues.map((c) => c[i]).toList()),
-    );
+    final totals = List.generate(8, (j) {
+      return courseValues.fold<int>(0, (sum, lane) => sum + (lane[j] ?? 0));
+    });
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -520,54 +488,14 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
               ),
               columns: const [
                 DataColumn(label: Center(child: Text("コース"))),
-                DataColumn(
-                  label: Padding(
-                    padding: EdgeInsets.only(left: 10),
-                    child: Text("F"),
-                  ),
-                ),
-                DataColumn(
-                  label: Padding(
-                    padding: EdgeInsets.only(left: 10),
-                    child: Text("L0"),
-                  ),
-                ),
-                DataColumn(
-                  label: Padding(
-                    padding: EdgeInsets.only(left: 10),
-                    child: Text("L1"),
-                  ),
-                ),
-                DataColumn(
-                  label: Padding(
-                    padding: EdgeInsets.only(left: 10),
-                    child: Text("K0"),
-                  ),
-                ),
-                DataColumn(
-                  label: Padding(
-                    padding: EdgeInsets.only(left: 10),
-                    child: Text("K1"),
-                  ),
-                ),
-                DataColumn(
-                  label: Padding(
-                    padding: EdgeInsets.only(left: 10),
-                    child: Text("S0"),
-                  ),
-                ),
-                DataColumn(
-                  label: Padding(
-                    padding: EdgeInsets.only(left: 10),
-                    child: Text("S1"),
-                  ),
-                ),
-                DataColumn(
-                  label: Padding(
-                    padding: EdgeInsets.only(left: 10),
-                    child: Text("S2"),
-                  ),
-                ),
+                DataColumn(label: Padding(padding: EdgeInsets.only(left: 10), child: Text("F"))),
+                DataColumn(label: Padding(padding: EdgeInsets.only(left: 10), child: Text("L0"))),
+                DataColumn(label: Padding(padding: EdgeInsets.only(left: 10), child: Text("L1"))),
+                DataColumn(label: Padding(padding: EdgeInsets.only(left: 10), child: Text("K0"))),
+                DataColumn(label: Padding(padding: EdgeInsets.only(left: 10), child: Text("K1"))),
+                DataColumn(label: Padding(padding: EdgeInsets.only(left: 10), child: Text("S0"))),
+                DataColumn(label: Padding(padding: EdgeInsets.only(left: 10), child: Text("S1"))),
+                DataColumn(label: Padding(padding: EdgeInsets.only(left: 10), child: Text("S2"))),
               ],
               rows: [
                 for (int lane = 0; lane < 6; lane++)
@@ -579,18 +507,11 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                     ],
                   ),
                 DataRow(
-                  color: MaterialStateProperty.all(Colors.grey[200]),
+                  color: WidgetStateProperty.all(Colors.grey[200]),
                   cells: [
-                    const DataCell(
-                      Center(
-                        child: Text(
-                          "合計",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
+                    const DataCell(Center(child: Text("合計", style: TextStyle(fontWeight: FontWeight.bold)))),
                     for (final t in totals)
-                      DataCell(_fixedCell(t.toString(), bold: true)),
+                      DataCell(_fixedCell(t, bold: true)),
                   ],
                 ),
               ],
@@ -615,7 +536,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
         BarChartData(
           maxY: maxY,
           minY: 0,
-          gridData: FlGridData(show: true),
+          gridData: const FlGridData(show: true),
           borderData: FlBorderData(show: false),
           titlesData: FlTitlesData(
             leftTitles: AxisTitles(
@@ -645,12 +566,8 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                 },
               ),
             ),
-            topTitles: const AxisTitles(
-              sideTitles: SideTitles(showTitles: false),
-            ),
-            rightTitles: const AxisTitles(
-              sideTitles: SideTitles(showTitles: false),
-            ),
+            topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+            rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
           ),
           barTouchData: BarTouchData(
             touchTooltipData: BarTouchTooltipData(
@@ -711,7 +628,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
           maxX: values.length - 0.5,
           minY: -0.4,
           maxY: 0,
-          gridData: FlGridData(show: true),
+          gridData: const FlGridData(show: true),
           borderData: FlBorderData(show: false),
           titlesData: FlTitlesData(
             leftTitles: AxisTitles(
@@ -744,12 +661,8 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                 },
               ),
             ),
-            topTitles: const AxisTitles(
-              sideTitles: SideTitles(showTitles: false),
-            ),
-            rightTitles: const AxisTitles(
-              sideTitles: SideTitles(showTitles: false),
-            ),
+            topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+            rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
           ),
           lineTouchData: LineTouchData(
             touchTooltipData: LineTouchTooltipData(
@@ -815,9 +728,8 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
           child: BarChart(
             BarChartData(
               maxY: 50,
-//              maxY: maxY,
               minY: 0,
-              gridData: FlGridData(show: true),
+              gridData: const FlGridData(show: true),
               borderData: FlBorderData(show: false),
               titlesData: FlTitlesData(
                 leftTitles: AxisTitles(
@@ -847,12 +759,8 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
                     },
                   ),
                 ),
-                topTitles: const AxisTitles(
-                  sideTitles: SideTitles(showTitles: false),
-                ),
-                rightTitles: const AxisTitles(
-                  sideTitles: SideTitles(showTitles: false),
-                ),
+                topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
               ),
               barTouchData: BarTouchData(
                 touchTooltipData: BarTouchTooltipData(
@@ -864,7 +772,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
 
                     return BarTooltipItem(
                       '',
-                      const TextStyle(color: Colors.white, fontSize: 0), // Base style, not really used
+                      const TextStyle(color: Colors.white, fontSize: 0),
                       children: <TextSpan>[
                         TextSpan(
                           text: '1着: $f\n',
@@ -941,127 +849,94 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
     );
   }
 
-  double? _toDoubleRaw(String? s) {
-    final raw = (s ?? '').trim().replaceAll('%', '');
-    if (raw.isEmpty) return null;
-    return double.tryParse(raw);
-  }
-
-  double? _toPercent(String? s) {
-    final v = _toDoubleRaw(s);
-    if (v == null) return null;
-    return v <= 1.0 ? v * 100.0 : v;
-  }
-
   List<_CourseRow> _buildCourseRows(Member m) {
-    int? toInt(String? s) => int.tryParse((s ?? '').trim());
-
     return [
       _CourseRow(
         lane: 1,
-        entries: toInt(m.numberOfEntries1),
-        startTime: _toDoubleRaw(m.startTime1),
-        winRate12: _toPercent(m.winRate121),
-        first: toInt(m.firstPlace1),
-        second: toInt(m.secondPlace1),
-        third: toInt(m.thirdPlace1),
+        entries: m.numberOfEntries1,
+        startTime: m.startTime1,
+        winRate12: m.winRate121,
+        first: m.firstPlace1,
+        second: m.secondPlace1,
+        third: m.thirdPlace1,
       ),
       _CourseRow(
         lane: 2,
-        entries: toInt(m.numberOfEntries2),
-        startTime: _toDoubleRaw(m.startTime2),
-        winRate12: _toPercent(m.winRate122),
-        first: toInt(m.firstPlace2),
-        second: toInt(m.secondPlace2),
-        third: toInt(m.thirdPlace2),
+        entries: m.numberOfEntries2,
+        startTime: m.startTime2,
+        winRate12: m.winRate122,
+        first: m.firstPlace2,
+        second: m.secondPlace2,
+        third: m.thirdPlace2,
       ),
       _CourseRow(
         lane: 3,
-        entries: toInt(m.numberOfEntries3),
-        startTime: _toDoubleRaw(m.startTime3),
-        winRate12: _toPercent(m.winRate123),
-        first: toInt(m.firstPlace3),
-        second: toInt(m.secondPlace3),
-        third: toInt(m.thirdPlace3),
+        entries: m.numberOfEntries3,
+        startTime: m.startTime3,
+        winRate12: m.winRate123,
+        first: m.firstPlace3,
+        second: m.secondPlace3,
+        third: m.thirdPlace3,
       ),
       _CourseRow(
         lane: 4,
-        entries: toInt(m.numberOfEntries4),
-        startTime: _toDoubleRaw(m.startTime4),
-        winRate12: _toPercent(m.winRate124),
-        first: toInt(m.firstPlace4),
-        second: toInt(m.secondPlace4),
-        third: toInt(m.thirdPlace4),
+        entries: m.numberOfEntries4,
+        startTime: m.startTime4,
+        winRate12: m.winRate124,
+        first: m.firstPlace4,
+        second: m.secondPlace4,
+        third: m.thirdPlace4,
       ),
       _CourseRow(
         lane: 5,
-        entries: toInt(m.numberOfEntries5),
-        startTime: _toDoubleRaw(m.startTime5),
-        winRate12: _toPercent(m.winRate125),
-        first: toInt(m.firstPlace5),
-        second: toInt(m.secondPlace5),
-        third: toInt(m.thirdPlace5),
+        entries: m.numberOfEntries5,
+        startTime: m.startTime5,
+        winRate12: m.winRate125,
+        first: m.firstPlace5,
+        second: m.secondPlace5,
+        third: m.thirdPlace5,
       ),
       _CourseRow(
         lane: 6,
-        entries: toInt(m.numberOfEntries6),
-        startTime: _toDoubleRaw(m.startTime6),
-        winRate12: _toPercent(m.winRate126),
-        first: toInt(m.firstPlace6),
-        second: toInt(m.secondPlace6),
-        third: toInt(m.thirdPlace6),
+        entries: m.numberOfEntries6,
+        startTime: m.startTime6,
+        winRate12: m.winRate126,
+        first: m.firstPlace6,
+        second: m.secondPlace6,
+        third: m.thirdPlace6,
       ),
     ];
   }
 
   _Totals _calcTotals(List<_CourseRow> rows) {
-    int add(int acc, int? v) => acc + (v ?? 0);
     var entries = 0, first = 0, second = 0, third = 0;
     for (final r in rows) {
-      entries = add(entries, r.entries);
-      first = add(first, r.first);
-      second = add(second, r.second);
-      third = add(third, r.third);
+      entries += (r.entries ?? 0);
+      first += (r.first ?? 0);
+      second += (r.second ?? 0);
+      third += (r.third ?? 0);
     }
-    return _Totals(
-      entries: entries,
-      first: first,
-      second: second,
-      third: third,
-    );
+    return _Totals(entries: entries, first: first, second: second, third: third);
   }
 
   String _fmtInt(int? v) => v?.toString() ?? '-';
-
   String _fmtDouble(double? v) => (v == null) ? '-' : v.toStringAsFixed(2);
-
   String _fmtPercent(double? v) => v == null ? '-' : '${v.toStringAsFixed(1)}%';
 
-  double _niceMax(
-    List<num> values, {
-    required double base,
-    required double minMax,
-  }) {
+  double _niceMax(List<num> values, {required double base, required double minMax}) {
     if (values.isEmpty) return minMax;
     final doubles = values.map((e) => e.toDouble()).toList();
     final maxVal = doubles.reduce((a, b) => a > b ? a : b);
     final padded = (maxVal * 1.0);
-    //    final padded = (maxVal * 1.2);  100% の場合は、maxYが200％になってしまうので、1.0倍に変更
     final step = base;
     final mul = (padded / step).ceil();
     return (mul * step).clamp(minMax, double.infinity);
   }
 
-  // sex → 色決定関数を追加
-  Color genderAccentColor(String? sex) {
-    if (sex == "2") {
-      // 女性
-      return Colors.pinkAccent;
-    } else if (sex == "1") {
-      // 男性
-      return Colors.lightBlueAccent;
-    }
-    return Colors.grey; // 不明時の予備色
+  Color genderAccentColor(int? sex) {
+    if (sex == 2) return Colors.pinkAccent;
+    if (sex == 1) return Colors.lightBlueAccent;
+    return Colors.grey;
   }
 }
 
@@ -1069,34 +944,16 @@ class _CourseRow {
   final int lane;
   final int? entries, first, second, third;
   final double? startTime, winRate12;
-
-  _CourseRow({
-    required this.lane,
-    this.entries,
-    this.startTime,
-    this.winRate12,
-    this.first,
-    this.second,
-    this.third,
-  });
+  _CourseRow({required this.lane, this.entries, this.startTime, this.winRate12, this.first, this.second, this.third});
 }
 
 class _Totals {
   final int entries, first, second, third;
-
-  _Totals({
-    required this.entries,
-    required this.first,
-    required this.second,
-    required this.third,
-  });
+  _Totals({required this.entries, required this.first, required this.second, required this.third});
 }
 
-
-/// showSearch() 用の検索デリゲート
 class _DataTimeSearchDelegate extends SearchDelegate<String> {
   final List<String> items;
-
   _DataTimeSearchDelegate(this.items);
 
   @override

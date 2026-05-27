@@ -32,17 +32,11 @@ class MemberHistoryPage extends StatelessWidget {
     // X軸ラベル（期）
     final terms = all.map((m) => m.dataTime ?? '').toList();
 
-    // 得点率
-    final scoreRates = all.map((m) {
-      final v = double.tryParse((m.winPointRate ?? '').replaceAll('%', ''));
-      return v ?? 0;
-    }).toList();
+    // 得点率 (すでに対象フィールドは double? になっています)
+    final scoreRates = all.map((m) => m.winPointRate ?? 0.0).toList();
 
-    // 複勝率
-    final winRates = all.map((m) {
-      final v = double.tryParse((m.winRate12 ?? '').replaceAll('%', ''));
-      return v ?? 0.0;
-    }).toList();
+    // 複勝率 (すでに対象フィールドは double? になっています)
+    final winRates = all.map((m) => m.winRate12 ?? 0.0).toList();
 
     // 級別を数値化（例：A1=4, A2=3, B1=2, B2=1）
     int rankToNum(String? r) {
@@ -122,10 +116,11 @@ class MemberHistoryPage extends StatelessWidget {
         maxX: (values.length - 1).toDouble(),
         minY: 0,
         maxY: values.map((e) => e.toDouble()).reduce((a, b) => a > b ? a : b) * 1.2,
-        gridData: FlGridData(show: true),
+        gridData: const FlGridData(show: true),
         borderData: FlBorderData(show: false),     // ★ 外枠を非表示
         lineTouchData: LineTouchData(
           touchTooltipData: LineTouchTooltipData(
+            getTooltipColor: (touchedSpot) => Colors.white, // ★ tooltipBgColor から変更
             getTooltipItems: (List<LineBarSpot> touchedBarSpots) {
               return touchedBarSpots.map((barSpot) {
                 final flSpot = barSpot;
@@ -138,9 +133,10 @@ class MemberHistoryPage extends StatelessWidget {
                 );
                 String text;
                 if (label == '複勝率') {
+                  // 複勝率は 0.4 を 40.0% のように表示する
                   text = '${(flSpot.y * 100).toStringAsFixed(1)}%';
                 } else {
-                  text = flSpot.y.toStringAsFixed(1);
+                  text = flSpot.y.toStringAsFixed(2);
                 }
                 return LineTooltipItem(
                   text,
@@ -185,7 +181,7 @@ class MemberHistoryPage extends StatelessWidget {
               getTitlesWidget: (v, meta) {
                 final String text;
                 if (label == '複勝率') {
-                  text = '${(v * 100).toStringAsFixed(1)}%';
+                  text = '${(v * 100).toStringAsFixed(0)}%';
                 } else {
                   text = isInt ? v.toInt().toString() : v.toStringAsFixed(1);
                 }
@@ -205,7 +201,7 @@ class MemberHistoryPage extends StatelessWidget {
               getTitlesWidget: (v, meta) {
                 final String text;
                 if (label == '複勝率') {
-                  text = '${(v * 100).toStringAsFixed(1)}%';
+                  text = '${(v * 100).toStringAsFixed(0)}%';
                 } else {
                   text = isInt ? v.toInt().toString() : v.toStringAsFixed(1);
                 }
@@ -225,7 +221,7 @@ class MemberHistoryPage extends StatelessWidget {
             ],
             isCurved: false,
             barWidth: 2,
-            dotData: FlDotData(show: true),
+            dotData: const FlDotData(show: true),
             color: color,
           ),
         ],
@@ -250,10 +246,11 @@ class MemberHistoryPage extends StatelessWidget {
         maxX: (terms.length - 1).toDouble(),
         minY: 0,
         maxY: 5,
-        gridData: FlGridData(show: true),
+        gridData: const FlGridData(show: true),
         borderData: FlBorderData(show: false), // ★ 外枠を非表示
         lineTouchData: LineTouchData(
           touchTooltipData: LineTouchTooltipData(
+            getTooltipColor: (touchedSpot) => Colors.white, // ★ tooltipBgColor から変更
             getTooltipItems: (List<LineBarSpot> touchedBarSpots) {
               return touchedBarSpots.map((barSpot) {
                 final flSpot = barSpot;
@@ -373,7 +370,7 @@ class MemberHistoryPage extends StatelessWidget {
             ],
             isCurved: false,
             barWidth: 2,
-            dotData: FlDotData(show: true),
+            dotData: const FlDotData(show: true),
             color: Colors.orange,
           ),
         ],

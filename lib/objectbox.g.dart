@@ -69,26 +69,26 @@ final _entities = <obx_int.ModelEntity>[
       obx_int.ModelProperty(
         id: const obx_int.IdUid(8, 919148478547667034),
         name: 'sex',
-        type: 9,
-        flags: 2048,
+        type: 6,
+        flags: 8,
         indexId: const obx_int.IdUid(22, 7608077555231110471),
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(9, 728448588195070265),
         name: 'age',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(10, 4629124996623523366),
         name: 'height',
-        type: 9,
+        type: 8,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(11, 7616541928478159120),
         name: 'weight',
-        type: 9,
+        type: 8,
         flags: 0,
       ),
       obx_int.ModelProperty(
@@ -100,7 +100,7 @@ final _entities = <obx_int.ModelEntity>[
       obx_int.ModelProperty(
         id: const obx_int.IdUid(14, 5563685019089933465),
         name: 'winRate12',
-        type: 9,
+        type: 8,
         flags: 0,
       ),
       obx_int.ModelProperty(
@@ -161,55 +161,55 @@ final _entities = <obx_int.ModelEntity>[
       obx_int.ModelProperty(
         id: const obx_int.IdUid(24, 6256213729802997996),
         name: 'firstPlaceCount',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(25, 8410614239284623814),
         name: 'secondPlaceCount',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(26, 4283913435647663899),
         name: 'numberOfRace',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(27, 74188166824651822),
         name: 'numberOfFinals',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(28, 6922586012684142459),
         name: 'numberOfWins',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(29, 4987575879291559776),
         name: 'startTiming',
-        type: 9,
+        type: 8,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(30, 2651612065980842304),
         name: 'pastAbilityScore',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(31, 8420951689126147285),
         name: 'lastAbilityScore',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(32, 2798287411165930578),
         name: 'dataYear',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
@@ -233,7 +233,7 @@ final _entities = <obx_int.ModelEntity>[
       obx_int.ModelProperty(
         id: const obx_int.IdUid(36, 4307778047163282611),
         name: 'generation',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
@@ -246,655 +246,655 @@ final _entities = <obx_int.ModelEntity>[
       obx_int.ModelProperty(
         id: const obx_int.IdUid(39, 3979181640722378541),
         name: 'winPointRate',
-        type: 9,
+        type: 8,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(40, 5966712961733619181),
         name: 'numberOfEntries1',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(41, 7272732033736783100),
         name: 'numberOfEntries2',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(42, 2730201868099992915),
         name: 'numberOfEntries3',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(43, 2017482494582044620),
         name: 'numberOfEntries4',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(44, 8716060082646541934),
         name: 'numberOfEntries5',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(45, 6382160429419102654),
         name: 'numberOfEntries6',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(46, 1223201796261136228),
         name: 'winRate121',
-        type: 9,
+        type: 8,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(47, 2851744903952615279),
         name: 'winRate122',
-        type: 9,
+        type: 8,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(48, 7922308525436750562),
         name: 'winRate123',
-        type: 9,
+        type: 8,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(49, 1303214568481979397),
         name: 'winRate124',
-        type: 9,
+        type: 8,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(50, 7772243949855843816),
         name: 'winRate125',
-        type: 9,
+        type: 8,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(51, 2279802080753274566),
         name: 'winRate126',
-        type: 9,
+        type: 8,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(52, 1831683497203200924),
         name: 'startTime1',
-        type: 9,
+        type: 8,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(53, 1179079118307699268),
         name: 'startTime2',
-        type: 9,
+        type: 8,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(54, 1084632100062748686),
         name: 'startTime3',
-        type: 9,
+        type: 8,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(55, 986312834272600920),
         name: 'startTime4',
-        type: 9,
+        type: 8,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(56, 5511977770703529733),
         name: 'startTime5',
-        type: 9,
+        type: 8,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(57, 1992376159236877062),
         name: 'startTime6',
-        type: 9,
+        type: 8,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(58, 5625168110149993217),
         name: 'firstPlace1',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(59, 3501619423687194436),
         name: 'firstPlace2',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(60, 9101012003075018622),
         name: 'firstPlace3',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(61, 186986859415417884),
         name: 'firstPlace4',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(62, 140611906653012731),
         name: 'firstPlace5',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(63, 5451532050764726811),
         name: 'firstPlace6',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(64, 160162591682594195),
         name: 'secondPlace1',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(65, 2085641624420259172),
         name: 'secondPlace2',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(66, 4835017876073647929),
         name: 'secondPlace3',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(67, 8808233909118200040),
         name: 'secondPlace4',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(68, 3096648577534871017),
         name: 'secondPlace5',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(69, 7148786480683683442),
         name: 'secondPlace6',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(70, 4328845138461386045),
         name: 'thirdPlace1',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(71, 355604752468557213),
         name: 'thirdPlace2',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(72, 1511689575722365925),
         name: 'thirdPlace3',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(73, 8679674068635237079),
         name: 'thirdPlace4',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(74, 3679817684675493004),
         name: 'thirdPlace5',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(75, 4434854291132245090),
         name: 'thirdPlace6',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(76, 1568219891859641624),
         name: 'startOrder1',
-        type: 9,
+        type: 8,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(77, 7627158537839059773),
         name: 'startOrder2',
-        type: 9,
+        type: 8,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(78, 4207641373928739175),
         name: 'startOrder3',
-        type: 9,
+        type: 8,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(79, 1297290283873219223),
         name: 'startOrder4',
-        type: 9,
+        type: 8,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(80, 1119918827638020856),
         name: 'startOrder5',
-        type: 9,
+        type: 8,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(81, 518218521810983410),
         name: 'startOrder6',
-        type: 9,
+        type: 8,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(82, 4559121263247802264),
         name: 'fourthPlace1',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(83, 1167824539002906696),
         name: 'fourthPlace2',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(84, 90383418783874825),
         name: 'fourthPlace3',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(85, 6076467256813808481),
         name: 'fourthPlace4',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(86, 845589952658832770),
         name: 'fourthPlace5',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(87, 3710935192949033661),
         name: 'fourthPlace6',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(88, 5377376467458640825),
         name: 'fifthPlace1',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(89, 8253065495475114227),
         name: 'fifthPlace2',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(90, 3785725416722233727),
         name: 'fifthPlace3',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(91, 7520713317887825691),
         name: 'fifthPlace4',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(92, 4513865441997794364),
         name: 'fifthPlace5',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(93, 5839185124073202352),
         name: 'fifthPlace6',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(94, 6544559346694866763),
         name: 'sixthPlace1',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(95, 8778283679022670395),
         name: 'sixthPlace2',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(96, 5493946721761732596),
         name: 'sixthPlace3',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(97, 1224172467118361976),
         name: 'sixthPlace4',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(98, 7767271072541307920),
         name: 'sixthPlace5',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(99, 2251982179487880634),
         name: 'sixthPlace6',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(100, 2020582943726298257),
         name: 'falseStart1',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(101, 1987727417436928516),
         name: 'falseStart2',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(102, 3369309099468077662),
         name: 'falseStart3',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(103, 8363118466870779633),
         name: 'falseStart4',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(104, 814682780465991101),
         name: 'falseStart5',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(105, 3538535996957722723),
         name: 'falseStart6',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(106, 7923305736193913347),
         name: 'lateStartNoResponsibility1',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(107, 5136852803556826849),
         name: 'lateStartNoResponsibility2',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(108, 2487726705180941483),
         name: 'lateStartNoResponsibility3',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(109, 5631330239529681656),
         name: 'lateStartNoResponsibility4',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(110, 6453945100150393102),
         name: 'lateStartNoResponsibility5',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(111, 4621315808626266215),
         name: 'lateStartNoResponsibility6',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(112, 6165379246188435110),
         name: 'lateStartOnResponsibility1',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(113, 3545022502038978534),
         name: 'lateStartOnResponsibility2',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(114, 3585406490284940123),
         name: 'lateStartOnResponsibility3',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(115, 4315952601416181834),
         name: 'lateStartOnResponsibility4',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(116, 6399679229125714303),
         name: 'lateStartOnResponsibility5',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(117, 8738803172576163942),
         name: 'lateStartOnResponsibility6',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(118, 4507651018778754065),
         name: 'withdrawNoResponsibility1',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(119, 7955194855331937439),
         name: 'withdrawNoResponsibility2',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(120, 674042785608469397),
         name: 'withdrawNoResponsibility3',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(121, 1334749725829137670),
         name: 'withdrawNoResponsibility4',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(122, 5976316611230233149),
         name: 'withdrawNoResponsibility5',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(123, 3950109959485156018),
         name: 'withdrawNoResponsibility6',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(124, 9002703118198294633),
         name: 'withdrawOnResponsibility1',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(125, 7088104234334458293),
         name: 'withdrawOnResponsibility2',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(126, 7871917534078716626),
         name: 'withdrawOnResponsibility3',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(127, 5026569817708654584),
         name: 'withdrawOnResponsibility4',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(128, 7993340986626817414),
         name: 'withdrawOnResponsibility5',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(129, 6096046824973693344),
         name: 'withdrawOnResponsibility6',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(130, 404342849135427614),
         name: 'invalidNoResponsibility1',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(131, 4808276500341318798),
         name: 'invalidNoResponsibility2',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(132, 7648533001698223086),
         name: 'invalidNoResponsibility3',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(133, 2001131029758196945),
         name: 'invalidNoResponsibility4',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(134, 8368244538265167442),
         name: 'invalidNoResponsibility5',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(135, 7223082873344225697),
         name: 'invalidNoResponsibility6',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(136, 7684779523437102140),
         name: 'invalidOnResponsibility1',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(137, 1851865979569479689),
         name: 'invalidOnResponsibility2',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(138, 598228446332016309),
         name: 'invalidOnResponsibility3',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(139, 6022412676403594674),
         name: 'invalidOnResponsibility4',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(140, 8525397372338349291),
         name: 'invalidOnResponsibility5',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(141, 7095600589025051740),
         name: 'invalidOnResponsibility6',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(142, 3084436651674305025),
         name: 'invalidOnObstruction1',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(143, 5208394959554108125),
         name: 'invalidOnObstruction2',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(144, 5206377896499760499),
         name: 'invalidOnObstruction3',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(145, 4894004812393976172),
         name: 'invalidOnObstruction4',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(146, 1723879679029052258),
         name: 'invalidOnObstruction5',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
         id: const obx_int.IdUid(147, 4346842004957210948),
         name: 'invalidOnObstruction6',
-        type: 9,
+        type: 6,
         flags: 0,
       ),
       obx_int.ModelProperty(
@@ -1004,24 +1004,9 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final rankOffset = object.rank == null
             ? null
             : fbb.writeString(object.rank!);
-        final sexOffset = object.sex == null
-            ? null
-            : fbb.writeString(object.sex!);
-        final ageOffset = object.age == null
-            ? null
-            : fbb.writeString(object.age!);
-        final heightOffset = object.height == null
-            ? null
-            : fbb.writeString(object.height!);
-        final weightOffset = object.weight == null
-            ? null
-            : fbb.writeString(object.weight!);
         final bloodOffset = object.blood == null
             ? null
             : fbb.writeString(object.blood!);
-        final winRate12Offset = object.winRate12 == null
-            ? null
-            : fbb.writeString(object.winRate12!);
         final rankPast1Offset = object.rankPast1 == null
             ? null
             : fbb.writeString(object.rankPast1!);
@@ -1049,33 +1034,6 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final gBirthdayOffset = object.gBirthday == null
             ? null
             : fbb.writeString(object.gBirthday!);
-        final firstPlaceCountOffset = object.firstPlaceCount == null
-            ? null
-            : fbb.writeString(object.firstPlaceCount!);
-        final secondPlaceCountOffset = object.secondPlaceCount == null
-            ? null
-            : fbb.writeString(object.secondPlaceCount!);
-        final numberOfRaceOffset = object.numberOfRace == null
-            ? null
-            : fbb.writeString(object.numberOfRace!);
-        final numberOfFinalsOffset = object.numberOfFinals == null
-            ? null
-            : fbb.writeString(object.numberOfFinals!);
-        final numberOfWinsOffset = object.numberOfWins == null
-            ? null
-            : fbb.writeString(object.numberOfWins!);
-        final startTimingOffset = object.startTiming == null
-            ? null
-            : fbb.writeString(object.startTiming!);
-        final pastAbilityScoreOffset = object.pastAbilityScore == null
-            ? null
-            : fbb.writeString(object.pastAbilityScore!);
-        final lastAbilityScoreOffset = object.lastAbilityScore == null
-            ? null
-            : fbb.writeString(object.lastAbilityScore!);
-        final dataYearOffset = object.dataYear == null
-            ? null
-            : fbb.writeString(object.dataYear!);
         final dataSeasonOffset = object.dataSeason == null
             ? null
             : fbb.writeString(object.dataSeason!);
@@ -1085,375 +1043,9 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final endDateOffset = object.endDate == null
             ? null
             : fbb.writeString(object.endDate!);
-        final generationOffset = object.generation == null
-            ? null
-            : fbb.writeString(object.generation!);
         final nameKanaOffset = object.nameKana == null
             ? null
             : fbb.writeString(object.nameKana!);
-        final winPointRateOffset = object.winPointRate == null
-            ? null
-            : fbb.writeString(object.winPointRate!);
-        final numberOfEntries1Offset = object.numberOfEntries1 == null
-            ? null
-            : fbb.writeString(object.numberOfEntries1!);
-        final numberOfEntries2Offset = object.numberOfEntries2 == null
-            ? null
-            : fbb.writeString(object.numberOfEntries2!);
-        final numberOfEntries3Offset = object.numberOfEntries3 == null
-            ? null
-            : fbb.writeString(object.numberOfEntries3!);
-        final numberOfEntries4Offset = object.numberOfEntries4 == null
-            ? null
-            : fbb.writeString(object.numberOfEntries4!);
-        final numberOfEntries5Offset = object.numberOfEntries5 == null
-            ? null
-            : fbb.writeString(object.numberOfEntries5!);
-        final numberOfEntries6Offset = object.numberOfEntries6 == null
-            ? null
-            : fbb.writeString(object.numberOfEntries6!);
-        final winRate121Offset = object.winRate121 == null
-            ? null
-            : fbb.writeString(object.winRate121!);
-        final winRate122Offset = object.winRate122 == null
-            ? null
-            : fbb.writeString(object.winRate122!);
-        final winRate123Offset = object.winRate123 == null
-            ? null
-            : fbb.writeString(object.winRate123!);
-        final winRate124Offset = object.winRate124 == null
-            ? null
-            : fbb.writeString(object.winRate124!);
-        final winRate125Offset = object.winRate125 == null
-            ? null
-            : fbb.writeString(object.winRate125!);
-        final winRate126Offset = object.winRate126 == null
-            ? null
-            : fbb.writeString(object.winRate126!);
-        final startTime1Offset = object.startTime1 == null
-            ? null
-            : fbb.writeString(object.startTime1!);
-        final startTime2Offset = object.startTime2 == null
-            ? null
-            : fbb.writeString(object.startTime2!);
-        final startTime3Offset = object.startTime3 == null
-            ? null
-            : fbb.writeString(object.startTime3!);
-        final startTime4Offset = object.startTime4 == null
-            ? null
-            : fbb.writeString(object.startTime4!);
-        final startTime5Offset = object.startTime5 == null
-            ? null
-            : fbb.writeString(object.startTime5!);
-        final startTime6Offset = object.startTime6 == null
-            ? null
-            : fbb.writeString(object.startTime6!);
-        final firstPlace1Offset = object.firstPlace1 == null
-            ? null
-            : fbb.writeString(object.firstPlace1!);
-        final firstPlace2Offset = object.firstPlace2 == null
-            ? null
-            : fbb.writeString(object.firstPlace2!);
-        final firstPlace3Offset = object.firstPlace3 == null
-            ? null
-            : fbb.writeString(object.firstPlace3!);
-        final firstPlace4Offset = object.firstPlace4 == null
-            ? null
-            : fbb.writeString(object.firstPlace4!);
-        final firstPlace5Offset = object.firstPlace5 == null
-            ? null
-            : fbb.writeString(object.firstPlace5!);
-        final firstPlace6Offset = object.firstPlace6 == null
-            ? null
-            : fbb.writeString(object.firstPlace6!);
-        final secondPlace1Offset = object.secondPlace1 == null
-            ? null
-            : fbb.writeString(object.secondPlace1!);
-        final secondPlace2Offset = object.secondPlace2 == null
-            ? null
-            : fbb.writeString(object.secondPlace2!);
-        final secondPlace3Offset = object.secondPlace3 == null
-            ? null
-            : fbb.writeString(object.secondPlace3!);
-        final secondPlace4Offset = object.secondPlace4 == null
-            ? null
-            : fbb.writeString(object.secondPlace4!);
-        final secondPlace5Offset = object.secondPlace5 == null
-            ? null
-            : fbb.writeString(object.secondPlace5!);
-        final secondPlace6Offset = object.secondPlace6 == null
-            ? null
-            : fbb.writeString(object.secondPlace6!);
-        final thirdPlace1Offset = object.thirdPlace1 == null
-            ? null
-            : fbb.writeString(object.thirdPlace1!);
-        final thirdPlace2Offset = object.thirdPlace2 == null
-            ? null
-            : fbb.writeString(object.thirdPlace2!);
-        final thirdPlace3Offset = object.thirdPlace3 == null
-            ? null
-            : fbb.writeString(object.thirdPlace3!);
-        final thirdPlace4Offset = object.thirdPlace4 == null
-            ? null
-            : fbb.writeString(object.thirdPlace4!);
-        final thirdPlace5Offset = object.thirdPlace5 == null
-            ? null
-            : fbb.writeString(object.thirdPlace5!);
-        final thirdPlace6Offset = object.thirdPlace6 == null
-            ? null
-            : fbb.writeString(object.thirdPlace6!);
-        final startOrder1Offset = object.startOrder1 == null
-            ? null
-            : fbb.writeString(object.startOrder1!);
-        final startOrder2Offset = object.startOrder2 == null
-            ? null
-            : fbb.writeString(object.startOrder2!);
-        final startOrder3Offset = object.startOrder3 == null
-            ? null
-            : fbb.writeString(object.startOrder3!);
-        final startOrder4Offset = object.startOrder4 == null
-            ? null
-            : fbb.writeString(object.startOrder4!);
-        final startOrder5Offset = object.startOrder5 == null
-            ? null
-            : fbb.writeString(object.startOrder5!);
-        final startOrder6Offset = object.startOrder6 == null
-            ? null
-            : fbb.writeString(object.startOrder6!);
-        final fourthPlace1Offset = object.fourthPlace1 == null
-            ? null
-            : fbb.writeString(object.fourthPlace1!);
-        final fourthPlace2Offset = object.fourthPlace2 == null
-            ? null
-            : fbb.writeString(object.fourthPlace2!);
-        final fourthPlace3Offset = object.fourthPlace3 == null
-            ? null
-            : fbb.writeString(object.fourthPlace3!);
-        final fourthPlace4Offset = object.fourthPlace4 == null
-            ? null
-            : fbb.writeString(object.fourthPlace4!);
-        final fourthPlace5Offset = object.fourthPlace5 == null
-            ? null
-            : fbb.writeString(object.fourthPlace5!);
-        final fourthPlace6Offset = object.fourthPlace6 == null
-            ? null
-            : fbb.writeString(object.fourthPlace6!);
-        final fifthPlace1Offset = object.fifthPlace1 == null
-            ? null
-            : fbb.writeString(object.fifthPlace1!);
-        final fifthPlace2Offset = object.fifthPlace2 == null
-            ? null
-            : fbb.writeString(object.fifthPlace2!);
-        final fifthPlace3Offset = object.fifthPlace3 == null
-            ? null
-            : fbb.writeString(object.fifthPlace3!);
-        final fifthPlace4Offset = object.fifthPlace4 == null
-            ? null
-            : fbb.writeString(object.fifthPlace4!);
-        final fifthPlace5Offset = object.fifthPlace5 == null
-            ? null
-            : fbb.writeString(object.fifthPlace5!);
-        final fifthPlace6Offset = object.fifthPlace6 == null
-            ? null
-            : fbb.writeString(object.fifthPlace6!);
-        final sixthPlace1Offset = object.sixthPlace1 == null
-            ? null
-            : fbb.writeString(object.sixthPlace1!);
-        final sixthPlace2Offset = object.sixthPlace2 == null
-            ? null
-            : fbb.writeString(object.sixthPlace2!);
-        final sixthPlace3Offset = object.sixthPlace3 == null
-            ? null
-            : fbb.writeString(object.sixthPlace3!);
-        final sixthPlace4Offset = object.sixthPlace4 == null
-            ? null
-            : fbb.writeString(object.sixthPlace4!);
-        final sixthPlace5Offset = object.sixthPlace5 == null
-            ? null
-            : fbb.writeString(object.sixthPlace5!);
-        final sixthPlace6Offset = object.sixthPlace6 == null
-            ? null
-            : fbb.writeString(object.sixthPlace6!);
-        final falseStart1Offset = object.falseStart1 == null
-            ? null
-            : fbb.writeString(object.falseStart1!);
-        final falseStart2Offset = object.falseStart2 == null
-            ? null
-            : fbb.writeString(object.falseStart2!);
-        final falseStart3Offset = object.falseStart3 == null
-            ? null
-            : fbb.writeString(object.falseStart3!);
-        final falseStart4Offset = object.falseStart4 == null
-            ? null
-            : fbb.writeString(object.falseStart4!);
-        final falseStart5Offset = object.falseStart5 == null
-            ? null
-            : fbb.writeString(object.falseStart5!);
-        final falseStart6Offset = object.falseStart6 == null
-            ? null
-            : fbb.writeString(object.falseStart6!);
-        final lateStartNoResponsibility1Offset =
-            object.lateStartNoResponsibility1 == null
-            ? null
-            : fbb.writeString(object.lateStartNoResponsibility1!);
-        final lateStartNoResponsibility2Offset =
-            object.lateStartNoResponsibility2 == null
-            ? null
-            : fbb.writeString(object.lateStartNoResponsibility2!);
-        final lateStartNoResponsibility3Offset =
-            object.lateStartNoResponsibility3 == null
-            ? null
-            : fbb.writeString(object.lateStartNoResponsibility3!);
-        final lateStartNoResponsibility4Offset =
-            object.lateStartNoResponsibility4 == null
-            ? null
-            : fbb.writeString(object.lateStartNoResponsibility4!);
-        final lateStartNoResponsibility5Offset =
-            object.lateStartNoResponsibility5 == null
-            ? null
-            : fbb.writeString(object.lateStartNoResponsibility5!);
-        final lateStartNoResponsibility6Offset =
-            object.lateStartNoResponsibility6 == null
-            ? null
-            : fbb.writeString(object.lateStartNoResponsibility6!);
-        final lateStartOnResponsibility1Offset =
-            object.lateStartOnResponsibility1 == null
-            ? null
-            : fbb.writeString(object.lateStartOnResponsibility1!);
-        final lateStartOnResponsibility2Offset =
-            object.lateStartOnResponsibility2 == null
-            ? null
-            : fbb.writeString(object.lateStartOnResponsibility2!);
-        final lateStartOnResponsibility3Offset =
-            object.lateStartOnResponsibility3 == null
-            ? null
-            : fbb.writeString(object.lateStartOnResponsibility3!);
-        final lateStartOnResponsibility4Offset =
-            object.lateStartOnResponsibility4 == null
-            ? null
-            : fbb.writeString(object.lateStartOnResponsibility4!);
-        final lateStartOnResponsibility5Offset =
-            object.lateStartOnResponsibility5 == null
-            ? null
-            : fbb.writeString(object.lateStartOnResponsibility5!);
-        final lateStartOnResponsibility6Offset =
-            object.lateStartOnResponsibility6 == null
-            ? null
-            : fbb.writeString(object.lateStartOnResponsibility6!);
-        final withdrawNoResponsibility1Offset =
-            object.withdrawNoResponsibility1 == null
-            ? null
-            : fbb.writeString(object.withdrawNoResponsibility1!);
-        final withdrawNoResponsibility2Offset =
-            object.withdrawNoResponsibility2 == null
-            ? null
-            : fbb.writeString(object.withdrawNoResponsibility2!);
-        final withdrawNoResponsibility3Offset =
-            object.withdrawNoResponsibility3 == null
-            ? null
-            : fbb.writeString(object.withdrawNoResponsibility3!);
-        final withdrawNoResponsibility4Offset =
-            object.withdrawNoResponsibility4 == null
-            ? null
-            : fbb.writeString(object.withdrawNoResponsibility4!);
-        final withdrawNoResponsibility5Offset =
-            object.withdrawNoResponsibility5 == null
-            ? null
-            : fbb.writeString(object.withdrawNoResponsibility5!);
-        final withdrawNoResponsibility6Offset =
-            object.withdrawNoResponsibility6 == null
-            ? null
-            : fbb.writeString(object.withdrawNoResponsibility6!);
-        final withdrawOnResponsibility1Offset =
-            object.withdrawOnResponsibility1 == null
-            ? null
-            : fbb.writeString(object.withdrawOnResponsibility1!);
-        final withdrawOnResponsibility2Offset =
-            object.withdrawOnResponsibility2 == null
-            ? null
-            : fbb.writeString(object.withdrawOnResponsibility2!);
-        final withdrawOnResponsibility3Offset =
-            object.withdrawOnResponsibility3 == null
-            ? null
-            : fbb.writeString(object.withdrawOnResponsibility3!);
-        final withdrawOnResponsibility4Offset =
-            object.withdrawOnResponsibility4 == null
-            ? null
-            : fbb.writeString(object.withdrawOnResponsibility4!);
-        final withdrawOnResponsibility5Offset =
-            object.withdrawOnResponsibility5 == null
-            ? null
-            : fbb.writeString(object.withdrawOnResponsibility5!);
-        final withdrawOnResponsibility6Offset =
-            object.withdrawOnResponsibility6 == null
-            ? null
-            : fbb.writeString(object.withdrawOnResponsibility6!);
-        final invalidNoResponsibility1Offset =
-            object.invalidNoResponsibility1 == null
-            ? null
-            : fbb.writeString(object.invalidNoResponsibility1!);
-        final invalidNoResponsibility2Offset =
-            object.invalidNoResponsibility2 == null
-            ? null
-            : fbb.writeString(object.invalidNoResponsibility2!);
-        final invalidNoResponsibility3Offset =
-            object.invalidNoResponsibility3 == null
-            ? null
-            : fbb.writeString(object.invalidNoResponsibility3!);
-        final invalidNoResponsibility4Offset =
-            object.invalidNoResponsibility4 == null
-            ? null
-            : fbb.writeString(object.invalidNoResponsibility4!);
-        final invalidNoResponsibility5Offset =
-            object.invalidNoResponsibility5 == null
-            ? null
-            : fbb.writeString(object.invalidNoResponsibility5!);
-        final invalidNoResponsibility6Offset =
-            object.invalidNoResponsibility6 == null
-            ? null
-            : fbb.writeString(object.invalidNoResponsibility6!);
-        final invalidOnResponsibility1Offset =
-            object.invalidOnResponsibility1 == null
-            ? null
-            : fbb.writeString(object.invalidOnResponsibility1!);
-        final invalidOnResponsibility2Offset =
-            object.invalidOnResponsibility2 == null
-            ? null
-            : fbb.writeString(object.invalidOnResponsibility2!);
-        final invalidOnResponsibility3Offset =
-            object.invalidOnResponsibility3 == null
-            ? null
-            : fbb.writeString(object.invalidOnResponsibility3!);
-        final invalidOnResponsibility4Offset =
-            object.invalidOnResponsibility4 == null
-            ? null
-            : fbb.writeString(object.invalidOnResponsibility4!);
-        final invalidOnResponsibility5Offset =
-            object.invalidOnResponsibility5 == null
-            ? null
-            : fbb.writeString(object.invalidOnResponsibility5!);
-        final invalidOnResponsibility6Offset =
-            object.invalidOnResponsibility6 == null
-            ? null
-            : fbb.writeString(object.invalidOnResponsibility6!);
-        final invalidOnObstruction1Offset = object.invalidOnObstruction1 == null
-            ? null
-            : fbb.writeString(object.invalidOnObstruction1!);
-        final invalidOnObstruction2Offset = object.invalidOnObstruction2 == null
-            ? null
-            : fbb.writeString(object.invalidOnObstruction2!);
-        final invalidOnObstruction3Offset = object.invalidOnObstruction3 == null
-            ? null
-            : fbb.writeString(object.invalidOnObstruction3!);
-        final invalidOnObstruction4Offset = object.invalidOnObstruction4 == null
-            ? null
-            : fbb.writeString(object.invalidOnObstruction4!);
-        final invalidOnObstruction5Offset = object.invalidOnObstruction5 == null
-            ? null
-            : fbb.writeString(object.invalidOnObstruction5!);
-        final invalidOnObstruction6Offset = object.invalidOnObstruction6 == null
-            ? null
-            : fbb.writeString(object.invalidOnObstruction6!);
         final branchOffset = object.branch == null
             ? null
             : fbb.writeString(object.branch!);
@@ -1464,12 +1056,12 @@ obx_int.ModelDefinition getObjectBoxModel() {
         fbb.addOffset(3, nameOffset);
         fbb.addOffset(4, kana3Offset);
         fbb.addOffset(6, rankOffset);
-        fbb.addOffset(7, sexOffset);
-        fbb.addOffset(8, ageOffset);
-        fbb.addOffset(9, heightOffset);
-        fbb.addOffset(10, weightOffset);
+        fbb.addInt64(7, object.sex);
+        fbb.addInt64(8, object.age);
+        fbb.addFloat64(9, object.height);
+        fbb.addFloat64(10, object.weight);
         fbb.addOffset(11, bloodOffset);
-        fbb.addOffset(13, winRate12Offset);
+        fbb.addFloat64(13, object.winRate12);
         fbb.addOffset(14, rankPast1Offset);
         fbb.addOffset(15, rankPast2Offset);
         fbb.addOffset(16, rankPast3Offset);
@@ -1479,129 +1071,129 @@ obx_int.ModelDefinition getObjectBoxModel() {
         fbb.addOffset(20, kana2Offset);
         fbb.addOffset(21, wBirthdayOffset);
         fbb.addOffset(22, gBirthdayOffset);
-        fbb.addOffset(23, firstPlaceCountOffset);
-        fbb.addOffset(24, secondPlaceCountOffset);
-        fbb.addOffset(25, numberOfRaceOffset);
-        fbb.addOffset(26, numberOfFinalsOffset);
-        fbb.addOffset(27, numberOfWinsOffset);
-        fbb.addOffset(28, startTimingOffset);
-        fbb.addOffset(29, pastAbilityScoreOffset);
-        fbb.addOffset(30, lastAbilityScoreOffset);
-        fbb.addOffset(31, dataYearOffset);
+        fbb.addInt64(23, object.firstPlaceCount);
+        fbb.addInt64(24, object.secondPlaceCount);
+        fbb.addInt64(25, object.numberOfRace);
+        fbb.addInt64(26, object.numberOfFinals);
+        fbb.addInt64(27, object.numberOfWins);
+        fbb.addFloat64(28, object.startTiming);
+        fbb.addInt64(29, object.pastAbilityScore);
+        fbb.addInt64(30, object.lastAbilityScore);
+        fbb.addInt64(31, object.dataYear);
         fbb.addOffset(32, dataSeasonOffset);
         fbb.addOffset(33, startDateOffset);
         fbb.addOffset(34, endDateOffset);
-        fbb.addOffset(35, generationOffset);
+        fbb.addInt64(35, object.generation);
         fbb.addOffset(36, nameKanaOffset);
-        fbb.addOffset(38, winPointRateOffset);
-        fbb.addOffset(39, numberOfEntries1Offset);
-        fbb.addOffset(40, numberOfEntries2Offset);
-        fbb.addOffset(41, numberOfEntries3Offset);
-        fbb.addOffset(42, numberOfEntries4Offset);
-        fbb.addOffset(43, numberOfEntries5Offset);
-        fbb.addOffset(44, numberOfEntries6Offset);
-        fbb.addOffset(45, winRate121Offset);
-        fbb.addOffset(46, winRate122Offset);
-        fbb.addOffset(47, winRate123Offset);
-        fbb.addOffset(48, winRate124Offset);
-        fbb.addOffset(49, winRate125Offset);
-        fbb.addOffset(50, winRate126Offset);
-        fbb.addOffset(51, startTime1Offset);
-        fbb.addOffset(52, startTime2Offset);
-        fbb.addOffset(53, startTime3Offset);
-        fbb.addOffset(54, startTime4Offset);
-        fbb.addOffset(55, startTime5Offset);
-        fbb.addOffset(56, startTime6Offset);
-        fbb.addOffset(57, firstPlace1Offset);
-        fbb.addOffset(58, firstPlace2Offset);
-        fbb.addOffset(59, firstPlace3Offset);
-        fbb.addOffset(60, firstPlace4Offset);
-        fbb.addOffset(61, firstPlace5Offset);
-        fbb.addOffset(62, firstPlace6Offset);
-        fbb.addOffset(63, secondPlace1Offset);
-        fbb.addOffset(64, secondPlace2Offset);
-        fbb.addOffset(65, secondPlace3Offset);
-        fbb.addOffset(66, secondPlace4Offset);
-        fbb.addOffset(67, secondPlace5Offset);
-        fbb.addOffset(68, secondPlace6Offset);
-        fbb.addOffset(69, thirdPlace1Offset);
-        fbb.addOffset(70, thirdPlace2Offset);
-        fbb.addOffset(71, thirdPlace3Offset);
-        fbb.addOffset(72, thirdPlace4Offset);
-        fbb.addOffset(73, thirdPlace5Offset);
-        fbb.addOffset(74, thirdPlace6Offset);
-        fbb.addOffset(75, startOrder1Offset);
-        fbb.addOffset(76, startOrder2Offset);
-        fbb.addOffset(77, startOrder3Offset);
-        fbb.addOffset(78, startOrder4Offset);
-        fbb.addOffset(79, startOrder5Offset);
-        fbb.addOffset(80, startOrder6Offset);
-        fbb.addOffset(81, fourthPlace1Offset);
-        fbb.addOffset(82, fourthPlace2Offset);
-        fbb.addOffset(83, fourthPlace3Offset);
-        fbb.addOffset(84, fourthPlace4Offset);
-        fbb.addOffset(85, fourthPlace5Offset);
-        fbb.addOffset(86, fourthPlace6Offset);
-        fbb.addOffset(87, fifthPlace1Offset);
-        fbb.addOffset(88, fifthPlace2Offset);
-        fbb.addOffset(89, fifthPlace3Offset);
-        fbb.addOffset(90, fifthPlace4Offset);
-        fbb.addOffset(91, fifthPlace5Offset);
-        fbb.addOffset(92, fifthPlace6Offset);
-        fbb.addOffset(93, sixthPlace1Offset);
-        fbb.addOffset(94, sixthPlace2Offset);
-        fbb.addOffset(95, sixthPlace3Offset);
-        fbb.addOffset(96, sixthPlace4Offset);
-        fbb.addOffset(97, sixthPlace5Offset);
-        fbb.addOffset(98, sixthPlace6Offset);
-        fbb.addOffset(99, falseStart1Offset);
-        fbb.addOffset(100, falseStart2Offset);
-        fbb.addOffset(101, falseStart3Offset);
-        fbb.addOffset(102, falseStart4Offset);
-        fbb.addOffset(103, falseStart5Offset);
-        fbb.addOffset(104, falseStart6Offset);
-        fbb.addOffset(105, lateStartNoResponsibility1Offset);
-        fbb.addOffset(106, lateStartNoResponsibility2Offset);
-        fbb.addOffset(107, lateStartNoResponsibility3Offset);
-        fbb.addOffset(108, lateStartNoResponsibility4Offset);
-        fbb.addOffset(109, lateStartNoResponsibility5Offset);
-        fbb.addOffset(110, lateStartNoResponsibility6Offset);
-        fbb.addOffset(111, lateStartOnResponsibility1Offset);
-        fbb.addOffset(112, lateStartOnResponsibility2Offset);
-        fbb.addOffset(113, lateStartOnResponsibility3Offset);
-        fbb.addOffset(114, lateStartOnResponsibility4Offset);
-        fbb.addOffset(115, lateStartOnResponsibility5Offset);
-        fbb.addOffset(116, lateStartOnResponsibility6Offset);
-        fbb.addOffset(117, withdrawNoResponsibility1Offset);
-        fbb.addOffset(118, withdrawNoResponsibility2Offset);
-        fbb.addOffset(119, withdrawNoResponsibility3Offset);
-        fbb.addOffset(120, withdrawNoResponsibility4Offset);
-        fbb.addOffset(121, withdrawNoResponsibility5Offset);
-        fbb.addOffset(122, withdrawNoResponsibility6Offset);
-        fbb.addOffset(123, withdrawOnResponsibility1Offset);
-        fbb.addOffset(124, withdrawOnResponsibility2Offset);
-        fbb.addOffset(125, withdrawOnResponsibility3Offset);
-        fbb.addOffset(126, withdrawOnResponsibility4Offset);
-        fbb.addOffset(127, withdrawOnResponsibility5Offset);
-        fbb.addOffset(128, withdrawOnResponsibility6Offset);
-        fbb.addOffset(129, invalidNoResponsibility1Offset);
-        fbb.addOffset(130, invalidNoResponsibility2Offset);
-        fbb.addOffset(131, invalidNoResponsibility3Offset);
-        fbb.addOffset(132, invalidNoResponsibility4Offset);
-        fbb.addOffset(133, invalidNoResponsibility5Offset);
-        fbb.addOffset(134, invalidNoResponsibility6Offset);
-        fbb.addOffset(135, invalidOnResponsibility1Offset);
-        fbb.addOffset(136, invalidOnResponsibility2Offset);
-        fbb.addOffset(137, invalidOnResponsibility3Offset);
-        fbb.addOffset(138, invalidOnResponsibility4Offset);
-        fbb.addOffset(139, invalidOnResponsibility5Offset);
-        fbb.addOffset(140, invalidOnResponsibility6Offset);
-        fbb.addOffset(141, invalidOnObstruction1Offset);
-        fbb.addOffset(142, invalidOnObstruction2Offset);
-        fbb.addOffset(143, invalidOnObstruction3Offset);
-        fbb.addOffset(144, invalidOnObstruction4Offset);
-        fbb.addOffset(145, invalidOnObstruction5Offset);
-        fbb.addOffset(146, invalidOnObstruction6Offset);
+        fbb.addFloat64(38, object.winPointRate);
+        fbb.addInt64(39, object.numberOfEntries1);
+        fbb.addInt64(40, object.numberOfEntries2);
+        fbb.addInt64(41, object.numberOfEntries3);
+        fbb.addInt64(42, object.numberOfEntries4);
+        fbb.addInt64(43, object.numberOfEntries5);
+        fbb.addInt64(44, object.numberOfEntries6);
+        fbb.addFloat64(45, object.winRate121);
+        fbb.addFloat64(46, object.winRate122);
+        fbb.addFloat64(47, object.winRate123);
+        fbb.addFloat64(48, object.winRate124);
+        fbb.addFloat64(49, object.winRate125);
+        fbb.addFloat64(50, object.winRate126);
+        fbb.addFloat64(51, object.startTime1);
+        fbb.addFloat64(52, object.startTime2);
+        fbb.addFloat64(53, object.startTime3);
+        fbb.addFloat64(54, object.startTime4);
+        fbb.addFloat64(55, object.startTime5);
+        fbb.addFloat64(56, object.startTime6);
+        fbb.addInt64(57, object.firstPlace1);
+        fbb.addInt64(58, object.firstPlace2);
+        fbb.addInt64(59, object.firstPlace3);
+        fbb.addInt64(60, object.firstPlace4);
+        fbb.addInt64(61, object.firstPlace5);
+        fbb.addInt64(62, object.firstPlace6);
+        fbb.addInt64(63, object.secondPlace1);
+        fbb.addInt64(64, object.secondPlace2);
+        fbb.addInt64(65, object.secondPlace3);
+        fbb.addInt64(66, object.secondPlace4);
+        fbb.addInt64(67, object.secondPlace5);
+        fbb.addInt64(68, object.secondPlace6);
+        fbb.addInt64(69, object.thirdPlace1);
+        fbb.addInt64(70, object.thirdPlace2);
+        fbb.addInt64(71, object.thirdPlace3);
+        fbb.addInt64(72, object.thirdPlace4);
+        fbb.addInt64(73, object.thirdPlace5);
+        fbb.addInt64(74, object.thirdPlace6);
+        fbb.addFloat64(75, object.startOrder1);
+        fbb.addFloat64(76, object.startOrder2);
+        fbb.addFloat64(77, object.startOrder3);
+        fbb.addFloat64(78, object.startOrder4);
+        fbb.addFloat64(79, object.startOrder5);
+        fbb.addFloat64(80, object.startOrder6);
+        fbb.addInt64(81, object.fourthPlace1);
+        fbb.addInt64(82, object.fourthPlace2);
+        fbb.addInt64(83, object.fourthPlace3);
+        fbb.addInt64(84, object.fourthPlace4);
+        fbb.addInt64(85, object.fourthPlace5);
+        fbb.addInt64(86, object.fourthPlace6);
+        fbb.addInt64(87, object.fifthPlace1);
+        fbb.addInt64(88, object.fifthPlace2);
+        fbb.addInt64(89, object.fifthPlace3);
+        fbb.addInt64(90, object.fifthPlace4);
+        fbb.addInt64(91, object.fifthPlace5);
+        fbb.addInt64(92, object.fifthPlace6);
+        fbb.addInt64(93, object.sixthPlace1);
+        fbb.addInt64(94, object.sixthPlace2);
+        fbb.addInt64(95, object.sixthPlace3);
+        fbb.addInt64(96, object.sixthPlace4);
+        fbb.addInt64(97, object.sixthPlace5);
+        fbb.addInt64(98, object.sixthPlace6);
+        fbb.addInt64(99, object.falseStart1);
+        fbb.addInt64(100, object.falseStart2);
+        fbb.addInt64(101, object.falseStart3);
+        fbb.addInt64(102, object.falseStart4);
+        fbb.addInt64(103, object.falseStart5);
+        fbb.addInt64(104, object.falseStart6);
+        fbb.addInt64(105, object.lateStartNoResponsibility1);
+        fbb.addInt64(106, object.lateStartNoResponsibility2);
+        fbb.addInt64(107, object.lateStartNoResponsibility3);
+        fbb.addInt64(108, object.lateStartNoResponsibility4);
+        fbb.addInt64(109, object.lateStartNoResponsibility5);
+        fbb.addInt64(110, object.lateStartNoResponsibility6);
+        fbb.addInt64(111, object.lateStartOnResponsibility1);
+        fbb.addInt64(112, object.lateStartOnResponsibility2);
+        fbb.addInt64(113, object.lateStartOnResponsibility3);
+        fbb.addInt64(114, object.lateStartOnResponsibility4);
+        fbb.addInt64(115, object.lateStartOnResponsibility5);
+        fbb.addInt64(116, object.lateStartOnResponsibility6);
+        fbb.addInt64(117, object.withdrawNoResponsibility1);
+        fbb.addInt64(118, object.withdrawNoResponsibility2);
+        fbb.addInt64(119, object.withdrawNoResponsibility3);
+        fbb.addInt64(120, object.withdrawNoResponsibility4);
+        fbb.addInt64(121, object.withdrawNoResponsibility5);
+        fbb.addInt64(122, object.withdrawNoResponsibility6);
+        fbb.addInt64(123, object.withdrawOnResponsibility1);
+        fbb.addInt64(124, object.withdrawOnResponsibility2);
+        fbb.addInt64(125, object.withdrawOnResponsibility3);
+        fbb.addInt64(126, object.withdrawOnResponsibility4);
+        fbb.addInt64(127, object.withdrawOnResponsibility5);
+        fbb.addInt64(128, object.withdrawOnResponsibility6);
+        fbb.addInt64(129, object.invalidNoResponsibility1);
+        fbb.addInt64(130, object.invalidNoResponsibility2);
+        fbb.addInt64(131, object.invalidNoResponsibility3);
+        fbb.addInt64(132, object.invalidNoResponsibility4);
+        fbb.addInt64(133, object.invalidNoResponsibility5);
+        fbb.addInt64(134, object.invalidNoResponsibility6);
+        fbb.addInt64(135, object.invalidOnResponsibility1);
+        fbb.addInt64(136, object.invalidOnResponsibility2);
+        fbb.addInt64(137, object.invalidOnResponsibility3);
+        fbb.addInt64(138, object.invalidOnResponsibility4);
+        fbb.addInt64(139, object.invalidOnResponsibility5);
+        fbb.addInt64(140, object.invalidOnResponsibility6);
+        fbb.addInt64(141, object.invalidOnObstruction1);
+        fbb.addInt64(142, object.invalidOnObstruction2);
+        fbb.addInt64(143, object.invalidOnObstruction3);
+        fbb.addInt64(144, object.invalidOnObstruction4);
+        fbb.addInt64(145, object.invalidOnObstruction5);
+        fbb.addInt64(146, object.invalidOnObstruction6);
         fbb.addOffset(147, branchOffset);
         fbb.finish(fbb.endTable());
         return object.id;
@@ -1648,18 +1240,26 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final gBirthdayParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGetNullable(buffer, rootOffset, 48);
-        final sexParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 18);
-        final ageParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 20);
-        final heightParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 22);
-        final weightParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 24);
+        final sexParam = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          18,
+        );
+        final ageParam = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          20,
+        );
+        final heightParam = const fb.Float64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          22,
+        );
+        final weightParam = const fb.Float64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          24,
+        );
         final bloodParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGetNullable(buffer, rootOffset, 26);
@@ -1669,30 +1269,46 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final photoParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGetNullable(buffer, rootOffset, 40);
-        final winPointRateParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 80);
-        final winRate12Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 30);
-        final firstPlaceCountParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 50);
-        final secondPlaceCountParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 52);
-        final numberOfRaceParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 54);
-        final numberOfFinalsParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 56);
-        final numberOfWinsParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 58);
-        final startTimingParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 60);
+        final winPointRateParam = const fb.Float64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          80,
+        );
+        final winRate12Param = const fb.Float64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          30,
+        );
+        final firstPlaceCountParam = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          50,
+        );
+        final secondPlaceCountParam = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          52,
+        );
+        final numberOfRaceParam = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          54,
+        );
+        final numberOfFinalsParam = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          56,
+        );
+        final numberOfWinsParam = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          58,
+        );
+        final startTimingParam = const fb.Float64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          60,
+        );
         final rankPast1Param = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGetNullable(buffer, rootOffset, 32);
@@ -1702,15 +1318,21 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final rankPast3Param = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGetNullable(buffer, rootOffset, 36);
-        final pastAbilityScoreParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 62);
-        final lastAbilityScoreParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 64);
-        final dataYearParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 66);
+        final pastAbilityScoreParam = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          62,
+        );
+        final lastAbilityScoreParam = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          64,
+        );
+        final dataYearParam = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          66,
+        );
         final dataSeasonParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGetNullable(buffer, rootOffset, 68);
@@ -1720,333 +1342,425 @@ obx_int.ModelDefinition getObjectBoxModel() {
         final endDateParam = const fb.StringReader(
           asciiOptimization: true,
         ).vTableGetNullable(buffer, rootOffset, 72);
-        final generationParam = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 74);
-        final numberOfEntries1Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 82);
-        final numberOfEntries2Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 84);
-        final numberOfEntries3Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 86);
-        final numberOfEntries4Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 88);
-        final numberOfEntries5Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 90);
-        final numberOfEntries6Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 92);
-        final winRate121Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 94);
-        final winRate122Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 96);
-        final winRate123Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 98);
-        final winRate124Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 100);
-        final winRate125Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 102);
-        final winRate126Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 104);
-        final startTime1Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 106);
-        final startTime2Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 108);
-        final startTime3Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 110);
-        final startTime4Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 112);
-        final startTime5Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 114);
-        final startTime6Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 116);
-        final startOrder1Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 154);
-        final startOrder2Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 156);
-        final startOrder3Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 158);
-        final startOrder4Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 160);
-        final startOrder5Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 162);
-        final startOrder6Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 164);
-        final firstPlace1Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 118);
-        final firstPlace2Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 120);
-        final firstPlace3Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 122);
-        final firstPlace4Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 124);
-        final firstPlace5Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 126);
-        final firstPlace6Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 128);
-        final secondPlace1Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 130);
-        final secondPlace2Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 132);
-        final secondPlace3Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 134);
-        final secondPlace4Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 136);
-        final secondPlace5Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 138);
-        final secondPlace6Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 140);
-        final thirdPlace1Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 142);
-        final thirdPlace2Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 144);
-        final thirdPlace3Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 146);
-        final thirdPlace4Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 148);
-        final thirdPlace5Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 150);
-        final thirdPlace6Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 152);
-        final fourthPlace1Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 166);
-        final fourthPlace2Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 168);
-        final fourthPlace3Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 170);
-        final fourthPlace4Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 172);
-        final fourthPlace5Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 174);
-        final fourthPlace6Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 176);
-        final fifthPlace1Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 178);
-        final fifthPlace2Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 180);
-        final fifthPlace3Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 182);
-        final fifthPlace4Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 184);
-        final fifthPlace5Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 186);
-        final fifthPlace6Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 188);
-        final sixthPlace1Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 190);
-        final sixthPlace2Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 192);
-        final sixthPlace3Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 194);
-        final sixthPlace4Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 196);
-        final sixthPlace5Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 198);
-        final sixthPlace6Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 200);
-        final falseStart1Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 202);
-        final falseStart2Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 204);
-        final falseStart3Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 206);
-        final falseStart4Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 208);
-        final falseStart5Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 210);
-        final falseStart6Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 212);
-        final lateStartNoResponsibility1Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 214);
-        final lateStartNoResponsibility2Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 216);
-        final lateStartNoResponsibility3Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 218);
-        final lateStartNoResponsibility4Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 220);
-        final lateStartNoResponsibility5Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 222);
-        final lateStartNoResponsibility6Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 224);
-        final lateStartOnResponsibility1Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 226);
-        final lateStartOnResponsibility2Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 228);
-        final lateStartOnResponsibility3Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 230);
-        final lateStartOnResponsibility4Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 232);
-        final lateStartOnResponsibility5Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 234);
-        final lateStartOnResponsibility6Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 236);
-        final withdrawNoResponsibility1Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 238);
-        final withdrawNoResponsibility2Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 240);
-        final withdrawNoResponsibility3Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 242);
-        final withdrawNoResponsibility4Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 244);
-        final withdrawNoResponsibility5Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 246);
-        final withdrawNoResponsibility6Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 248);
-        final withdrawOnResponsibility1Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 250);
-        final withdrawOnResponsibility2Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 252);
-        final withdrawOnResponsibility3Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 254);
-        final withdrawOnResponsibility4Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 256);
-        final withdrawOnResponsibility5Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 258);
-        final withdrawOnResponsibility6Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 260);
-        final invalidNoResponsibility1Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 262);
-        final invalidNoResponsibility2Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 264);
-        final invalidNoResponsibility3Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 266);
-        final invalidNoResponsibility4Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 268);
-        final invalidNoResponsibility5Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 270);
-        final invalidNoResponsibility6Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 272);
-        final invalidOnResponsibility1Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 274);
-        final invalidOnResponsibility2Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 276);
-        final invalidOnResponsibility3Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 278);
-        final invalidOnResponsibility4Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 280);
-        final invalidOnResponsibility5Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 282);
-        final invalidOnResponsibility6Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 284);
-        final invalidOnObstruction1Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 286);
-        final invalidOnObstruction2Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 288);
-        final invalidOnObstruction3Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 290);
-        final invalidOnObstruction4Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 292);
-        final invalidOnObstruction5Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 294);
-        final invalidOnObstruction6Param = const fb.StringReader(
-          asciiOptimization: true,
-        ).vTableGetNullable(buffer, rootOffset, 296);
+        final generationParam = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          74,
+        );
+        final numberOfEntries1Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          82,
+        );
+        final numberOfEntries2Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          84,
+        );
+        final numberOfEntries3Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          86,
+        );
+        final numberOfEntries4Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          88,
+        );
+        final numberOfEntries5Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          90,
+        );
+        final numberOfEntries6Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          92,
+        );
+        final winRate121Param = const fb.Float64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          94,
+        );
+        final winRate122Param = const fb.Float64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          96,
+        );
+        final winRate123Param = const fb.Float64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          98,
+        );
+        final winRate124Param = const fb.Float64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          100,
+        );
+        final winRate125Param = const fb.Float64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          102,
+        );
+        final winRate126Param = const fb.Float64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          104,
+        );
+        final startTime1Param = const fb.Float64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          106,
+        );
+        final startTime2Param = const fb.Float64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          108,
+        );
+        final startTime3Param = const fb.Float64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          110,
+        );
+        final startTime4Param = const fb.Float64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          112,
+        );
+        final startTime5Param = const fb.Float64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          114,
+        );
+        final startTime6Param = const fb.Float64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          116,
+        );
+        final startOrder1Param = const fb.Float64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          154,
+        );
+        final startOrder2Param = const fb.Float64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          156,
+        );
+        final startOrder3Param = const fb.Float64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          158,
+        );
+        final startOrder4Param = const fb.Float64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          160,
+        );
+        final startOrder5Param = const fb.Float64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          162,
+        );
+        final startOrder6Param = const fb.Float64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          164,
+        );
+        final firstPlace1Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          118,
+        );
+        final firstPlace2Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          120,
+        );
+        final firstPlace3Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          122,
+        );
+        final firstPlace4Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          124,
+        );
+        final firstPlace5Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          126,
+        );
+        final firstPlace6Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          128,
+        );
+        final secondPlace1Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          130,
+        );
+        final secondPlace2Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          132,
+        );
+        final secondPlace3Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          134,
+        );
+        final secondPlace4Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          136,
+        );
+        final secondPlace5Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          138,
+        );
+        final secondPlace6Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          140,
+        );
+        final thirdPlace1Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          142,
+        );
+        final thirdPlace2Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          144,
+        );
+        final thirdPlace3Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          146,
+        );
+        final thirdPlace4Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          148,
+        );
+        final thirdPlace5Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          150,
+        );
+        final thirdPlace6Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          152,
+        );
+        final fourthPlace1Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          166,
+        );
+        final fourthPlace2Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          168,
+        );
+        final fourthPlace3Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          170,
+        );
+        final fourthPlace4Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          172,
+        );
+        final fourthPlace5Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          174,
+        );
+        final fourthPlace6Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          176,
+        );
+        final fifthPlace1Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          178,
+        );
+        final fifthPlace2Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          180,
+        );
+        final fifthPlace3Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          182,
+        );
+        final fifthPlace4Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          184,
+        );
+        final fifthPlace5Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          186,
+        );
+        final fifthPlace6Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          188,
+        );
+        final sixthPlace1Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          190,
+        );
+        final sixthPlace2Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          192,
+        );
+        final sixthPlace3Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          194,
+        );
+        final sixthPlace4Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          196,
+        );
+        final sixthPlace5Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          198,
+        );
+        final sixthPlace6Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          200,
+        );
+        final falseStart1Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          202,
+        );
+        final falseStart2Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          204,
+        );
+        final falseStart3Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          206,
+        );
+        final falseStart4Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          208,
+        );
+        final falseStart5Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          210,
+        );
+        final falseStart6Param = const fb.Int64Reader().vTableGetNullable(
+          buffer,
+          rootOffset,
+          212,
+        );
+        final lateStartNoResponsibility1Param = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 214);
+        final lateStartNoResponsibility2Param = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 216);
+        final lateStartNoResponsibility3Param = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 218);
+        final lateStartNoResponsibility4Param = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 220);
+        final lateStartNoResponsibility5Param = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 222);
+        final lateStartNoResponsibility6Param = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 224);
+        final lateStartOnResponsibility1Param = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 226);
+        final lateStartOnResponsibility2Param = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 228);
+        final lateStartOnResponsibility3Param = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 230);
+        final lateStartOnResponsibility4Param = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 232);
+        final lateStartOnResponsibility5Param = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 234);
+        final lateStartOnResponsibility6Param = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 236);
+        final withdrawNoResponsibility1Param = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 238);
+        final withdrawNoResponsibility2Param = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 240);
+        final withdrawNoResponsibility3Param = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 242);
+        final withdrawNoResponsibility4Param = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 244);
+        final withdrawNoResponsibility5Param = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 246);
+        final withdrawNoResponsibility6Param = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 248);
+        final withdrawOnResponsibility1Param = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 250);
+        final withdrawOnResponsibility2Param = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 252);
+        final withdrawOnResponsibility3Param = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 254);
+        final withdrawOnResponsibility4Param = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 256);
+        final withdrawOnResponsibility5Param = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 258);
+        final withdrawOnResponsibility6Param = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 260);
+        final invalidNoResponsibility1Param = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 262);
+        final invalidNoResponsibility2Param = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 264);
+        final invalidNoResponsibility3Param = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 266);
+        final invalidNoResponsibility4Param = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 268);
+        final invalidNoResponsibility5Param = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 270);
+        final invalidNoResponsibility6Param = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 272);
+        final invalidOnResponsibility1Param = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 274);
+        final invalidOnResponsibility2Param = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 276);
+        final invalidOnResponsibility3Param = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 278);
+        final invalidOnResponsibility4Param = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 280);
+        final invalidOnResponsibility5Param = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 282);
+        final invalidOnResponsibility6Param = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 284);
+        final invalidOnObstruction1Param = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 286);
+        final invalidOnObstruction2Param = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 288);
+        final invalidOnObstruction3Param = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 290);
+        final invalidOnObstruction4Param = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 292);
+        final invalidOnObstruction5Param = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 294);
+        final invalidOnObstruction6Param = const fb.Int64Reader()
+            .vTableGetNullable(buffer, rootOffset, 296);
         final object = Member(
           id: idParam,
           dataTime: dataTimeParam,
@@ -2236,22 +1950,22 @@ class Member_ {
   );
 
   /// See [Member.sex].
-  static final sex = obx.QueryStringProperty<Member>(
+  static final sex = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[6],
   );
 
   /// See [Member.age].
-  static final age = obx.QueryStringProperty<Member>(
+  static final age = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[7],
   );
 
   /// See [Member.height].
-  static final height = obx.QueryStringProperty<Member>(
+  static final height = obx.QueryDoubleProperty<Member>(
     _entities[0].properties[8],
   );
 
   /// See [Member.weight].
-  static final weight = obx.QueryStringProperty<Member>(
+  static final weight = obx.QueryDoubleProperty<Member>(
     _entities[0].properties[9],
   );
 
@@ -2261,7 +1975,7 @@ class Member_ {
   );
 
   /// See [Member.winRate12].
-  static final winRate12 = obx.QueryStringProperty<Member>(
+  static final winRate12 = obx.QueryDoubleProperty<Member>(
     _entities[0].properties[11],
   );
 
@@ -2311,47 +2025,47 @@ class Member_ {
   );
 
   /// See [Member.firstPlaceCount].
-  static final firstPlaceCount = obx.QueryStringProperty<Member>(
+  static final firstPlaceCount = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[21],
   );
 
   /// See [Member.secondPlaceCount].
-  static final secondPlaceCount = obx.QueryStringProperty<Member>(
+  static final secondPlaceCount = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[22],
   );
 
   /// See [Member.numberOfRace].
-  static final numberOfRace = obx.QueryStringProperty<Member>(
+  static final numberOfRace = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[23],
   );
 
   /// See [Member.numberOfFinals].
-  static final numberOfFinals = obx.QueryStringProperty<Member>(
+  static final numberOfFinals = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[24],
   );
 
   /// See [Member.numberOfWins].
-  static final numberOfWins = obx.QueryStringProperty<Member>(
+  static final numberOfWins = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[25],
   );
 
   /// See [Member.startTiming].
-  static final startTiming = obx.QueryStringProperty<Member>(
+  static final startTiming = obx.QueryDoubleProperty<Member>(
     _entities[0].properties[26],
   );
 
   /// See [Member.pastAbilityScore].
-  static final pastAbilityScore = obx.QueryStringProperty<Member>(
+  static final pastAbilityScore = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[27],
   );
 
   /// See [Member.lastAbilityScore].
-  static final lastAbilityScore = obx.QueryStringProperty<Member>(
+  static final lastAbilityScore = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[28],
   );
 
   /// See [Member.dataYear].
-  static final dataYear = obx.QueryStringProperty<Member>(
+  static final dataYear = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[29],
   );
 
@@ -2371,7 +2085,7 @@ class Member_ {
   );
 
   /// See [Member.generation].
-  static final generation = obx.QueryStringProperty<Member>(
+  static final generation = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[33],
   );
 
@@ -2381,547 +2095,547 @@ class Member_ {
   );
 
   /// See [Member.winPointRate].
-  static final winPointRate = obx.QueryStringProperty<Member>(
+  static final winPointRate = obx.QueryDoubleProperty<Member>(
     _entities[0].properties[35],
   );
 
   /// See [Member.numberOfEntries1].
-  static final numberOfEntries1 = obx.QueryStringProperty<Member>(
+  static final numberOfEntries1 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[36],
   );
 
   /// See [Member.numberOfEntries2].
-  static final numberOfEntries2 = obx.QueryStringProperty<Member>(
+  static final numberOfEntries2 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[37],
   );
 
   /// See [Member.numberOfEntries3].
-  static final numberOfEntries3 = obx.QueryStringProperty<Member>(
+  static final numberOfEntries3 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[38],
   );
 
   /// See [Member.numberOfEntries4].
-  static final numberOfEntries4 = obx.QueryStringProperty<Member>(
+  static final numberOfEntries4 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[39],
   );
 
   /// See [Member.numberOfEntries5].
-  static final numberOfEntries5 = obx.QueryStringProperty<Member>(
+  static final numberOfEntries5 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[40],
   );
 
   /// See [Member.numberOfEntries6].
-  static final numberOfEntries6 = obx.QueryStringProperty<Member>(
+  static final numberOfEntries6 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[41],
   );
 
   /// See [Member.winRate121].
-  static final winRate121 = obx.QueryStringProperty<Member>(
+  static final winRate121 = obx.QueryDoubleProperty<Member>(
     _entities[0].properties[42],
   );
 
   /// See [Member.winRate122].
-  static final winRate122 = obx.QueryStringProperty<Member>(
+  static final winRate122 = obx.QueryDoubleProperty<Member>(
     _entities[0].properties[43],
   );
 
   /// See [Member.winRate123].
-  static final winRate123 = obx.QueryStringProperty<Member>(
+  static final winRate123 = obx.QueryDoubleProperty<Member>(
     _entities[0].properties[44],
   );
 
   /// See [Member.winRate124].
-  static final winRate124 = obx.QueryStringProperty<Member>(
+  static final winRate124 = obx.QueryDoubleProperty<Member>(
     _entities[0].properties[45],
   );
 
   /// See [Member.winRate125].
-  static final winRate125 = obx.QueryStringProperty<Member>(
+  static final winRate125 = obx.QueryDoubleProperty<Member>(
     _entities[0].properties[46],
   );
 
   /// See [Member.winRate126].
-  static final winRate126 = obx.QueryStringProperty<Member>(
+  static final winRate126 = obx.QueryDoubleProperty<Member>(
     _entities[0].properties[47],
   );
 
   /// See [Member.startTime1].
-  static final startTime1 = obx.QueryStringProperty<Member>(
+  static final startTime1 = obx.QueryDoubleProperty<Member>(
     _entities[0].properties[48],
   );
 
   /// See [Member.startTime2].
-  static final startTime2 = obx.QueryStringProperty<Member>(
+  static final startTime2 = obx.QueryDoubleProperty<Member>(
     _entities[0].properties[49],
   );
 
   /// See [Member.startTime3].
-  static final startTime3 = obx.QueryStringProperty<Member>(
+  static final startTime3 = obx.QueryDoubleProperty<Member>(
     _entities[0].properties[50],
   );
 
   /// See [Member.startTime4].
-  static final startTime4 = obx.QueryStringProperty<Member>(
+  static final startTime4 = obx.QueryDoubleProperty<Member>(
     _entities[0].properties[51],
   );
 
   /// See [Member.startTime5].
-  static final startTime5 = obx.QueryStringProperty<Member>(
+  static final startTime5 = obx.QueryDoubleProperty<Member>(
     _entities[0].properties[52],
   );
 
   /// See [Member.startTime6].
-  static final startTime6 = obx.QueryStringProperty<Member>(
+  static final startTime6 = obx.QueryDoubleProperty<Member>(
     _entities[0].properties[53],
   );
 
   /// See [Member.firstPlace1].
-  static final firstPlace1 = obx.QueryStringProperty<Member>(
+  static final firstPlace1 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[54],
   );
 
   /// See [Member.firstPlace2].
-  static final firstPlace2 = obx.QueryStringProperty<Member>(
+  static final firstPlace2 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[55],
   );
 
   /// See [Member.firstPlace3].
-  static final firstPlace3 = obx.QueryStringProperty<Member>(
+  static final firstPlace3 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[56],
   );
 
   /// See [Member.firstPlace4].
-  static final firstPlace4 = obx.QueryStringProperty<Member>(
+  static final firstPlace4 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[57],
   );
 
   /// See [Member.firstPlace5].
-  static final firstPlace5 = obx.QueryStringProperty<Member>(
+  static final firstPlace5 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[58],
   );
 
   /// See [Member.firstPlace6].
-  static final firstPlace6 = obx.QueryStringProperty<Member>(
+  static final firstPlace6 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[59],
   );
 
   /// See [Member.secondPlace1].
-  static final secondPlace1 = obx.QueryStringProperty<Member>(
+  static final secondPlace1 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[60],
   );
 
   /// See [Member.secondPlace2].
-  static final secondPlace2 = obx.QueryStringProperty<Member>(
+  static final secondPlace2 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[61],
   );
 
   /// See [Member.secondPlace3].
-  static final secondPlace3 = obx.QueryStringProperty<Member>(
+  static final secondPlace3 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[62],
   );
 
   /// See [Member.secondPlace4].
-  static final secondPlace4 = obx.QueryStringProperty<Member>(
+  static final secondPlace4 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[63],
   );
 
   /// See [Member.secondPlace5].
-  static final secondPlace5 = obx.QueryStringProperty<Member>(
+  static final secondPlace5 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[64],
   );
 
   /// See [Member.secondPlace6].
-  static final secondPlace6 = obx.QueryStringProperty<Member>(
+  static final secondPlace6 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[65],
   );
 
   /// See [Member.thirdPlace1].
-  static final thirdPlace1 = obx.QueryStringProperty<Member>(
+  static final thirdPlace1 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[66],
   );
 
   /// See [Member.thirdPlace2].
-  static final thirdPlace2 = obx.QueryStringProperty<Member>(
+  static final thirdPlace2 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[67],
   );
 
   /// See [Member.thirdPlace3].
-  static final thirdPlace3 = obx.QueryStringProperty<Member>(
+  static final thirdPlace3 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[68],
   );
 
   /// See [Member.thirdPlace4].
-  static final thirdPlace4 = obx.QueryStringProperty<Member>(
+  static final thirdPlace4 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[69],
   );
 
   /// See [Member.thirdPlace5].
-  static final thirdPlace5 = obx.QueryStringProperty<Member>(
+  static final thirdPlace5 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[70],
   );
 
   /// See [Member.thirdPlace6].
-  static final thirdPlace6 = obx.QueryStringProperty<Member>(
+  static final thirdPlace6 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[71],
   );
 
   /// See [Member.startOrder1].
-  static final startOrder1 = obx.QueryStringProperty<Member>(
+  static final startOrder1 = obx.QueryDoubleProperty<Member>(
     _entities[0].properties[72],
   );
 
   /// See [Member.startOrder2].
-  static final startOrder2 = obx.QueryStringProperty<Member>(
+  static final startOrder2 = obx.QueryDoubleProperty<Member>(
     _entities[0].properties[73],
   );
 
   /// See [Member.startOrder3].
-  static final startOrder3 = obx.QueryStringProperty<Member>(
+  static final startOrder3 = obx.QueryDoubleProperty<Member>(
     _entities[0].properties[74],
   );
 
   /// See [Member.startOrder4].
-  static final startOrder4 = obx.QueryStringProperty<Member>(
+  static final startOrder4 = obx.QueryDoubleProperty<Member>(
     _entities[0].properties[75],
   );
 
   /// See [Member.startOrder5].
-  static final startOrder5 = obx.QueryStringProperty<Member>(
+  static final startOrder5 = obx.QueryDoubleProperty<Member>(
     _entities[0].properties[76],
   );
 
   /// See [Member.startOrder6].
-  static final startOrder6 = obx.QueryStringProperty<Member>(
+  static final startOrder6 = obx.QueryDoubleProperty<Member>(
     _entities[0].properties[77],
   );
 
   /// See [Member.fourthPlace1].
-  static final fourthPlace1 = obx.QueryStringProperty<Member>(
+  static final fourthPlace1 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[78],
   );
 
   /// See [Member.fourthPlace2].
-  static final fourthPlace2 = obx.QueryStringProperty<Member>(
+  static final fourthPlace2 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[79],
   );
 
   /// See [Member.fourthPlace3].
-  static final fourthPlace3 = obx.QueryStringProperty<Member>(
+  static final fourthPlace3 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[80],
   );
 
   /// See [Member.fourthPlace4].
-  static final fourthPlace4 = obx.QueryStringProperty<Member>(
+  static final fourthPlace4 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[81],
   );
 
   /// See [Member.fourthPlace5].
-  static final fourthPlace5 = obx.QueryStringProperty<Member>(
+  static final fourthPlace5 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[82],
   );
 
   /// See [Member.fourthPlace6].
-  static final fourthPlace6 = obx.QueryStringProperty<Member>(
+  static final fourthPlace6 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[83],
   );
 
   /// See [Member.fifthPlace1].
-  static final fifthPlace1 = obx.QueryStringProperty<Member>(
+  static final fifthPlace1 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[84],
   );
 
   /// See [Member.fifthPlace2].
-  static final fifthPlace2 = obx.QueryStringProperty<Member>(
+  static final fifthPlace2 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[85],
   );
 
   /// See [Member.fifthPlace3].
-  static final fifthPlace3 = obx.QueryStringProperty<Member>(
+  static final fifthPlace3 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[86],
   );
 
   /// See [Member.fifthPlace4].
-  static final fifthPlace4 = obx.QueryStringProperty<Member>(
+  static final fifthPlace4 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[87],
   );
 
   /// See [Member.fifthPlace5].
-  static final fifthPlace5 = obx.QueryStringProperty<Member>(
+  static final fifthPlace5 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[88],
   );
 
   /// See [Member.fifthPlace6].
-  static final fifthPlace6 = obx.QueryStringProperty<Member>(
+  static final fifthPlace6 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[89],
   );
 
   /// See [Member.sixthPlace1].
-  static final sixthPlace1 = obx.QueryStringProperty<Member>(
+  static final sixthPlace1 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[90],
   );
 
   /// See [Member.sixthPlace2].
-  static final sixthPlace2 = obx.QueryStringProperty<Member>(
+  static final sixthPlace2 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[91],
   );
 
   /// See [Member.sixthPlace3].
-  static final sixthPlace3 = obx.QueryStringProperty<Member>(
+  static final sixthPlace3 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[92],
   );
 
   /// See [Member.sixthPlace4].
-  static final sixthPlace4 = obx.QueryStringProperty<Member>(
+  static final sixthPlace4 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[93],
   );
 
   /// See [Member.sixthPlace5].
-  static final sixthPlace5 = obx.QueryStringProperty<Member>(
+  static final sixthPlace5 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[94],
   );
 
   /// See [Member.sixthPlace6].
-  static final sixthPlace6 = obx.QueryStringProperty<Member>(
+  static final sixthPlace6 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[95],
   );
 
   /// See [Member.falseStart1].
-  static final falseStart1 = obx.QueryStringProperty<Member>(
+  static final falseStart1 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[96],
   );
 
   /// See [Member.falseStart2].
-  static final falseStart2 = obx.QueryStringProperty<Member>(
+  static final falseStart2 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[97],
   );
 
   /// See [Member.falseStart3].
-  static final falseStart3 = obx.QueryStringProperty<Member>(
+  static final falseStart3 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[98],
   );
 
   /// See [Member.falseStart4].
-  static final falseStart4 = obx.QueryStringProperty<Member>(
+  static final falseStart4 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[99],
   );
 
   /// See [Member.falseStart5].
-  static final falseStart5 = obx.QueryStringProperty<Member>(
+  static final falseStart5 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[100],
   );
 
   /// See [Member.falseStart6].
-  static final falseStart6 = obx.QueryStringProperty<Member>(
+  static final falseStart6 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[101],
   );
 
   /// See [Member.lateStartNoResponsibility1].
-  static final lateStartNoResponsibility1 = obx.QueryStringProperty<Member>(
+  static final lateStartNoResponsibility1 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[102],
   );
 
   /// See [Member.lateStartNoResponsibility2].
-  static final lateStartNoResponsibility2 = obx.QueryStringProperty<Member>(
+  static final lateStartNoResponsibility2 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[103],
   );
 
   /// See [Member.lateStartNoResponsibility3].
-  static final lateStartNoResponsibility3 = obx.QueryStringProperty<Member>(
+  static final lateStartNoResponsibility3 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[104],
   );
 
   /// See [Member.lateStartNoResponsibility4].
-  static final lateStartNoResponsibility4 = obx.QueryStringProperty<Member>(
+  static final lateStartNoResponsibility4 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[105],
   );
 
   /// See [Member.lateStartNoResponsibility5].
-  static final lateStartNoResponsibility5 = obx.QueryStringProperty<Member>(
+  static final lateStartNoResponsibility5 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[106],
   );
 
   /// See [Member.lateStartNoResponsibility6].
-  static final lateStartNoResponsibility6 = obx.QueryStringProperty<Member>(
+  static final lateStartNoResponsibility6 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[107],
   );
 
   /// See [Member.lateStartOnResponsibility1].
-  static final lateStartOnResponsibility1 = obx.QueryStringProperty<Member>(
+  static final lateStartOnResponsibility1 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[108],
   );
 
   /// See [Member.lateStartOnResponsibility2].
-  static final lateStartOnResponsibility2 = obx.QueryStringProperty<Member>(
+  static final lateStartOnResponsibility2 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[109],
   );
 
   /// See [Member.lateStartOnResponsibility3].
-  static final lateStartOnResponsibility3 = obx.QueryStringProperty<Member>(
+  static final lateStartOnResponsibility3 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[110],
   );
 
   /// See [Member.lateStartOnResponsibility4].
-  static final lateStartOnResponsibility4 = obx.QueryStringProperty<Member>(
+  static final lateStartOnResponsibility4 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[111],
   );
 
   /// See [Member.lateStartOnResponsibility5].
-  static final lateStartOnResponsibility5 = obx.QueryStringProperty<Member>(
+  static final lateStartOnResponsibility5 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[112],
   );
 
   /// See [Member.lateStartOnResponsibility6].
-  static final lateStartOnResponsibility6 = obx.QueryStringProperty<Member>(
+  static final lateStartOnResponsibility6 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[113],
   );
 
   /// See [Member.withdrawNoResponsibility1].
-  static final withdrawNoResponsibility1 = obx.QueryStringProperty<Member>(
+  static final withdrawNoResponsibility1 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[114],
   );
 
   /// See [Member.withdrawNoResponsibility2].
-  static final withdrawNoResponsibility2 = obx.QueryStringProperty<Member>(
+  static final withdrawNoResponsibility2 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[115],
   );
 
   /// See [Member.withdrawNoResponsibility3].
-  static final withdrawNoResponsibility3 = obx.QueryStringProperty<Member>(
+  static final withdrawNoResponsibility3 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[116],
   );
 
   /// See [Member.withdrawNoResponsibility4].
-  static final withdrawNoResponsibility4 = obx.QueryStringProperty<Member>(
+  static final withdrawNoResponsibility4 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[117],
   );
 
   /// See [Member.withdrawNoResponsibility5].
-  static final withdrawNoResponsibility5 = obx.QueryStringProperty<Member>(
+  static final withdrawNoResponsibility5 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[118],
   );
 
   /// See [Member.withdrawNoResponsibility6].
-  static final withdrawNoResponsibility6 = obx.QueryStringProperty<Member>(
+  static final withdrawNoResponsibility6 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[119],
   );
 
   /// See [Member.withdrawOnResponsibility1].
-  static final withdrawOnResponsibility1 = obx.QueryStringProperty<Member>(
+  static final withdrawOnResponsibility1 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[120],
   );
 
   /// See [Member.withdrawOnResponsibility2].
-  static final withdrawOnResponsibility2 = obx.QueryStringProperty<Member>(
+  static final withdrawOnResponsibility2 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[121],
   );
 
   /// See [Member.withdrawOnResponsibility3].
-  static final withdrawOnResponsibility3 = obx.QueryStringProperty<Member>(
+  static final withdrawOnResponsibility3 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[122],
   );
 
   /// See [Member.withdrawOnResponsibility4].
-  static final withdrawOnResponsibility4 = obx.QueryStringProperty<Member>(
+  static final withdrawOnResponsibility4 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[123],
   );
 
   /// See [Member.withdrawOnResponsibility5].
-  static final withdrawOnResponsibility5 = obx.QueryStringProperty<Member>(
+  static final withdrawOnResponsibility5 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[124],
   );
 
   /// See [Member.withdrawOnResponsibility6].
-  static final withdrawOnResponsibility6 = obx.QueryStringProperty<Member>(
+  static final withdrawOnResponsibility6 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[125],
   );
 
   /// See [Member.invalidNoResponsibility1].
-  static final invalidNoResponsibility1 = obx.QueryStringProperty<Member>(
+  static final invalidNoResponsibility1 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[126],
   );
 
   /// See [Member.invalidNoResponsibility2].
-  static final invalidNoResponsibility2 = obx.QueryStringProperty<Member>(
+  static final invalidNoResponsibility2 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[127],
   );
 
   /// See [Member.invalidNoResponsibility3].
-  static final invalidNoResponsibility3 = obx.QueryStringProperty<Member>(
+  static final invalidNoResponsibility3 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[128],
   );
 
   /// See [Member.invalidNoResponsibility4].
-  static final invalidNoResponsibility4 = obx.QueryStringProperty<Member>(
+  static final invalidNoResponsibility4 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[129],
   );
 
   /// See [Member.invalidNoResponsibility5].
-  static final invalidNoResponsibility5 = obx.QueryStringProperty<Member>(
+  static final invalidNoResponsibility5 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[130],
   );
 
   /// See [Member.invalidNoResponsibility6].
-  static final invalidNoResponsibility6 = obx.QueryStringProperty<Member>(
+  static final invalidNoResponsibility6 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[131],
   );
 
   /// See [Member.invalidOnResponsibility1].
-  static final invalidOnResponsibility1 = obx.QueryStringProperty<Member>(
+  static final invalidOnResponsibility1 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[132],
   );
 
   /// See [Member.invalidOnResponsibility2].
-  static final invalidOnResponsibility2 = obx.QueryStringProperty<Member>(
+  static final invalidOnResponsibility2 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[133],
   );
 
   /// See [Member.invalidOnResponsibility3].
-  static final invalidOnResponsibility3 = obx.QueryStringProperty<Member>(
+  static final invalidOnResponsibility3 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[134],
   );
 
   /// See [Member.invalidOnResponsibility4].
-  static final invalidOnResponsibility4 = obx.QueryStringProperty<Member>(
+  static final invalidOnResponsibility4 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[135],
   );
 
   /// See [Member.invalidOnResponsibility5].
-  static final invalidOnResponsibility5 = obx.QueryStringProperty<Member>(
+  static final invalidOnResponsibility5 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[136],
   );
 
   /// See [Member.invalidOnResponsibility6].
-  static final invalidOnResponsibility6 = obx.QueryStringProperty<Member>(
+  static final invalidOnResponsibility6 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[137],
   );
 
   /// See [Member.invalidOnObstruction1].
-  static final invalidOnObstruction1 = obx.QueryStringProperty<Member>(
+  static final invalidOnObstruction1 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[138],
   );
 
   /// See [Member.invalidOnObstruction2].
-  static final invalidOnObstruction2 = obx.QueryStringProperty<Member>(
+  static final invalidOnObstruction2 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[139],
   );
 
   /// See [Member.invalidOnObstruction3].
-  static final invalidOnObstruction3 = obx.QueryStringProperty<Member>(
+  static final invalidOnObstruction3 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[140],
   );
 
   /// See [Member.invalidOnObstruction4].
-  static final invalidOnObstruction4 = obx.QueryStringProperty<Member>(
+  static final invalidOnObstruction4 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[141],
   );
 
   /// See [Member.invalidOnObstruction5].
-  static final invalidOnObstruction5 = obx.QueryStringProperty<Member>(
+  static final invalidOnObstruction5 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[142],
   );
 
   /// See [Member.invalidOnObstruction6].
-  static final invalidOnObstruction6 = obx.QueryStringProperty<Member>(
+  static final invalidOnObstruction6 = obx.QueryIntegerProperty<Member>(
     _entities[0].properties[143],
   );
 
