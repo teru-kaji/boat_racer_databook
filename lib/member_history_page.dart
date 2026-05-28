@@ -32,10 +32,10 @@ class MemberHistoryPage extends StatelessWidget {
     // X軸ラベル（期）
     final terms = all.map((m) => m.dataTime ?? '').toList();
 
-    // 得点率 (すでに対象フィールドは double? になっています)
+    // 得点率
     final scoreRates = all.map((m) => m.winPointRate ?? 0.0).toList();
 
-    // 複勝率 (すでに対象フィールドは double? になっています)
+    // 複勝率
     final winRates = all.map((m) => m.winRate12 ?? 0.0).toList();
 
     // 級別を数値化（例：A1=4, A2=3, B1=2, B2=1）
@@ -68,7 +68,7 @@ class MemberHistoryPage extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: _kTitleFontSize),
             ),
             SizedBox(
-              height: 260, // Increased height
+              height: 260,
               child: _lineChart(terms, scoreRates, '得点率', Colors.blue),
             ),
 
@@ -78,7 +78,7 @@ class MemberHistoryPage extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: _kTitleFontSize),
             ),
             SizedBox(
-              height: 260, // Increased height
+              height: 260,
               child: _lineChart(terms, winRates, '複勝率', Colors.green),
             ),
 
@@ -88,7 +88,7 @@ class MemberHistoryPage extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: _kTitleFontSize),
             ),
             SizedBox(
-              height: 260, // Increased height
+              height: 260,
               child: _rankChart(terms, ranks),
             ),
             const SizedBox(height: 24),
@@ -117,10 +117,10 @@ class MemberHistoryPage extends StatelessWidget {
         minY: 0,
         maxY: values.map((e) => e.toDouble()).reduce((a, b) => a > b ? a : b) * 1.2,
         gridData: const FlGridData(show: true),
-        borderData: FlBorderData(show: false),     // ★ 外枠を非表示
+        borderData: FlBorderData(show: false),
         lineTouchData: LineTouchData(
           touchTooltipData: LineTouchTooltipData(
-            getTooltipColor: (touchedSpot) => Colors.white, // ★ tooltipBgColor から変更
+            getTooltipColor: (touchedSpot) => Colors.white,
             getTooltipItems: (List<LineBarSpot> touchedBarSpots) {
               return touchedBarSpots.map((barSpot) {
                 final flSpot = barSpot;
@@ -131,17 +131,15 @@ class MemberHistoryPage extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   fontSize: 14,
                 );
+                
                 String text;
                 if (label == '複勝率') {
-                  // 複勝率は 0.4 を 40.0% のように表示する
-                  text = '${(flSpot.y * 100).toStringAsFixed(1)}%';
+                  // DB内の値が既に 81.5 のような形式のため、そのまま表示
+                  text = '${flSpot.y.toStringAsFixed(1)}%';
                 } else {
                   text = flSpot.y.toStringAsFixed(2);
                 }
-                return LineTooltipItem(
-                  text,
-                  textStyle,
-                );
+                return LineTooltipItem(text, textStyle);
               }).toList();
             },
           ),
@@ -151,7 +149,7 @@ class MemberHistoryPage extends StatelessWidget {
             sideTitles: SideTitles(
               showTitles: true,
               interval: 1,
-              reservedSize: 60, // Adjusted for 45 degree rotation
+              reservedSize: 60,
               getTitlesWidget: (v, meta) {
                 if (v < 0 || v > terms.length - 1) {
                   return const SizedBox.shrink();
@@ -161,9 +159,8 @@ class MemberHistoryPage extends StatelessWidget {
                 if (labelText.length > 2) {
                   labelText = labelText.substring(2);
                 }
-                // Changed from RotatedBox to Transform.rotate for 45 degree angle
                 return Transform.rotate(
-                  angle: -math.pi / 4, // -45 degrees
+                  angle: -math.pi / 4,
                   alignment: Alignment.centerRight,
                   child: Text(
                     labelText,
@@ -177,11 +174,11 @@ class MemberHistoryPage extends StatelessWidget {
           leftTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
-              reservedSize: 50, // Increased reserved size for longer labels
+              reservedSize: 50,
               getTitlesWidget: (v, meta) {
                 final String text;
                 if (label == '複勝率') {
-                  text = '${(v * 100).toStringAsFixed(0)}%';
+                  text = '${v.toStringAsFixed(0)}%';
                 } else {
                   text = isInt ? v.toInt().toString() : v.toStringAsFixed(1);
                 }
@@ -192,26 +189,8 @@ class MemberHistoryPage extends StatelessWidget {
               },
             ),
           ),
-          topTitles:
-          const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          rightTitles: AxisTitles(
-            sideTitles: SideTitles(
-              showTitles: true,
-              reservedSize: 50, // Increased reserved size for longer labels
-              getTitlesWidget: (v, meta) {
-                final String text;
-                if (label == '複勝率') {
-                  text = '${(v * 100).toStringAsFixed(0)}%';
-                } else {
-                  text = isInt ? v.toInt().toString() : v.toStringAsFixed(1);
-                }
-                return Text(
-                  text,
-                  style: const TextStyle(fontSize: _kChartLabelFontSize),
-                );
-              },
-            ),
-          ),
+          topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
         ),
         lineBarsData: [
           LineChartBarData(
@@ -230,7 +209,7 @@ class MemberHistoryPage extends StatelessWidget {
 
     return _AutoScrolledHorizontalChart(
       chart: chart,
-      width: terms.length * 60.0, // Adjusted width for rotated labels
+      width: terms.length * 60.0,
     );
   }
 
@@ -247,10 +226,10 @@ class MemberHistoryPage extends StatelessWidget {
         minY: 0,
         maxY: 5,
         gridData: const FlGridData(show: true),
-        borderData: FlBorderData(show: false), // ★ 外枠を非表示
+        borderData: FlBorderData(show: false),
         lineTouchData: LineTouchData(
           touchTooltipData: LineTouchTooltipData(
-            getTooltipColor: (touchedSpot) => Colors.white, // ★ tooltipBgColor から変更
+            getTooltipColor: (touchedSpot) => Colors.white,
             getTooltipItems: (List<LineBarSpot> touchedBarSpots) {
               return touchedBarSpots.map((barSpot) {
                 final flSpot = barSpot;
@@ -264,27 +243,13 @@ class MemberHistoryPage extends StatelessWidget {
 
                 String text;
                 switch (flSpot.y.toInt()) {
-                  case 1:
-                    text = 'B2';
-                    break;
-                  case 2:
-                    text = 'B1';
-                    break;
-                  case 3:
-                    text = 'A2';
-                    break;
-                  case 4:
-                    text = 'A1';
-                    break;
-                  default:
-                    text = '';
-                    break;
+                  case 1: text = 'B2'; break;
+                  case 2: text = 'B1'; break;
+                  case 3: text = 'A2'; break;
+                  case 4: text = 'A1'; break;
+                  default: text = ''; break;
                 }
-
-                return LineTooltipItem(
-                  text,
-                  textStyle,
-                );
+                return LineTooltipItem(text, textStyle);
               }).toList();
             },
           ),
@@ -294,7 +259,7 @@ class MemberHistoryPage extends StatelessWidget {
             sideTitles: SideTitles(
               showTitles: true,
               interval: 1,
-              reservedSize: 60, // Adjusted for 45 degree rotation
+              reservedSize: 60,
               getTitlesWidget: (v, meta) {
                 if (v < 0 || v > terms.length - 1) {
                   return const SizedBox.shrink();
@@ -304,9 +269,8 @@ class MemberHistoryPage extends StatelessWidget {
                 if (label.length > 2) {
                   label = label.substring(2);
                 }
-                // Changed from RotatedBox to Transform.rotate for 45 degree angle
                 return Transform.rotate(
-                  angle: -math.pi / 4, // -45 degrees
+                  angle: -math.pi / 4,
                   alignment: Alignment.centerRight,
                   child: Text(
                     label,
@@ -324,43 +288,17 @@ class MemberHistoryPage extends StatelessWidget {
               reservedSize: 40,
               getTitlesWidget: (v, meta) {
                 switch (v.toInt()) {
-                  case 1:
-                    return const Text('B2', style: TextStyle(fontSize: _kChartLabelFontSize));
-                  case 2:
-                    return const Text('B1', style: TextStyle(fontSize: _kChartLabelFontSize));
-                  case 3:
-                    return const Text('A2', style: TextStyle(fontSize: _kChartLabelFontSize));
-                  case 4:
-                    return const Text('A1', style: TextStyle(fontSize: _kChartLabelFontSize));
-                  default:
-                    return const Text('');
+                  case 1: return const Text('B2', style: TextStyle(fontSize: _kChartLabelFontSize));
+                  case 2: return const Text('B1', style: TextStyle(fontSize: _kChartLabelFontSize));
+                  case 3: return const Text('A2', style: TextStyle(fontSize: _kChartLabelFontSize));
+                  case 4: return const Text('A1', style: TextStyle(fontSize: _kChartLabelFontSize));
+                  default: return const Text('');
                 }
               },
             ),
           ),
-          topTitles:
-          const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          rightTitles: AxisTitles(
-            sideTitles: SideTitles(
-              showTitles: true,
-              interval: 1,
-              reservedSize: 40,
-              getTitlesWidget: (v, meta) {
-                switch (v.toInt()) {
-                  case 1:
-                    return const Text('B2', style: TextStyle(fontSize: _kChartLabelFontSize));
-                  case 2:
-                    return const Text('B1', style: TextStyle(fontSize: _kChartLabelFontSize));
-                  case 3:
-                    return const Text('A2', style: TextStyle(fontSize: _kChartLabelFontSize));
-                  case 4:
-                    return const Text('A1', style: TextStyle(fontSize: _kChartLabelFontSize));
-                  default:
-                    return const Text('');
-                }
-              },
-            ),
-          ),
+          topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
         ),
         lineBarsData: [
           LineChartBarData(
@@ -379,13 +317,11 @@ class MemberHistoryPage extends StatelessWidget {
 
     return _AutoScrolledHorizontalChart(
       chart: chart,
-      width: terms.length * 60.0, // Adjusted width for rotated labels
+      width: terms.length * 60.0,
     );
   }
 }
 
-/// A widget that wraps a chart in a horizontally scrolling view
-/// and automatically scrolls to the end on initial display.
 class _AutoScrolledHorizontalChart extends StatefulWidget {
   final Widget chart;
   final double width;
@@ -402,10 +338,7 @@ class _AutoScrolledHorizontalChartState extends State<_AutoScrolledHorizontalCha
   @override
   void initState() {
     super.initState();
-    // Initialize the scroll controller.
     _scrollController = ScrollController();
-
-    // After the widget is built, scroll to the end.
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted && _scrollController.hasClients) {
         _scrollController.jumpTo(_scrollController.position.maxScrollExtent);

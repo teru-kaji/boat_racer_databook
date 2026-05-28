@@ -1,5 +1,4 @@
 // lib/models/member.dart
-//
 import 'package:objectbox/objectbox.dart';
 
 @Entity()
@@ -29,45 +28,40 @@ class Member {
   String? rank;
 
   @Index()
-  int? sex; // String -> int
+  int? sex;
 
-  // 基本情報
   String? kana2;
   String? branch;
   String? wBirthday;
   String? gBirthday;
-  int? age;       // String -> int
-  double? height; // String -> double
-  double? weight; // String -> double
+  int? age;
+  double? height;
+  double? weight;
   String? blood;
   String? birthplace;
   String? photo;
 
-  // 成績関連
-  double? winPointRate;    // String -> double
-  double? winRate12;       // String -> double
-  int? firstPlaceCount;    // String -> int
-  int? secondPlaceCount;   // String -> int
-  int? numberOfRace;       // String -> int
-  int? numberOfFinals;     // String -> int
-  int? numberOfWins;       // String -> int
-  double? startTiming;     // String -> double
+  double? winPointRate;
+  double? winRate12;
+  int? firstPlaceCount;
+  int? secondPlaceCount;
+  int? numberOfRace;
+  int? numberOfFinals;
+  int? numberOfWins;
+  double? startTiming;
 
-  // 過去ランク・能力値
   String? rankPast1;
   String? rankPast2;
   String? rankPast3;
-  int? pastAbilityScore;   // String -> int
-  int? lastAbilityScore;   // String -> int
+  int? pastAbilityScore;
+  int? lastAbilityScore;
 
-  // データ年度・期
-  int? dataYear;           // String -> int
+  int? dataYear;
   String? dataSeason;
   String? startDate;
   String? endDate;
-  int? generation;         // String -> int
+  int? generation;
 
-  // ===== コース別 (String -> int/double) =====
   int? numberOfEntries1, numberOfEntries2, numberOfEntries3, numberOfEntries4, numberOfEntries5, numberOfEntries6;
   double? winRate121, winRate122, winRate123, winRate124, winRate125, winRate126;
   double? startTime1, startTime2, startTime3, startTime4, startTime5, startTime6;
@@ -153,13 +147,17 @@ class Member {
     int? pi(String key) {
       final val = s(key);
       if (val == null || val.isEmpty) return null;
-      return int.tryParse(val.replaceAll(RegExp(r'[^0-9-]'), ''));
+      return double.tryParse(val.replaceAll(RegExp(r'[^0-9.-]'), ''))?.toInt();
     }
     
-    double? pd(String key) {
+    double? pd(String key, {bool isPercent = false}) {
       final val = s(key);
       if (val == null || val.isEmpty) return null;
-      return double.tryParse(val.replaceAll('%', ''));
+      double? d = double.tryParse(val.replaceAll('%', ''));
+      if (isPercent && d != null && d >= 0 && d <= 1.0) {
+        d *= 100.0;
+      }
+      return d;
     }
 
     return Member(
@@ -183,7 +181,7 @@ class Member {
       birthplace: s('Birthplace'),
       photo: s('Photo'),
       winPointRate: pd('WinPointRate'),
-      winRate12: pd('WinRate12'),
+      winRate12: pd('WinRate12', isPercent: true),
       firstPlaceCount: pi('1stPlaceCount'),
       secondPlaceCount: pi('2ndPlaceCount'),
       numberOfRace: pi('NumberOfRace'),
@@ -199,7 +197,7 @@ class Member {
       dataSeason: s('DataSeason'),
       startDate: s('StartDate'),
       endDate: s('EndDate'),
-      generation: pi('Genetation'),
+      generation: pi('Generation') ?? pi('Genetation'), 
 
       numberOfEntries1: pi('NumberOfEntries#1'),
       numberOfEntries2: pi('NumberOfEntries#2'),
@@ -208,12 +206,12 @@ class Member {
       numberOfEntries5: pi('NumberOfEntries#5'),
       numberOfEntries6: pi('NumberOfEntries#6'),
 
-      winRate121: pd('WinRate12#1'),
-      winRate122: pd('WinRate12#2'),
-      winRate123: pd('WinRate12#3'),
-      winRate124: pd('WinRate12#4'),
-      winRate125: pd('WinRate12#5'),
-      winRate126: pd('WinRate12#6'),
+      winRate121: pd('WinRate12#1', isPercent: true),
+      winRate122: pd('WinRate12#2', isPercent: true),
+      winRate123: pd('WinRate12#3', isPercent: true),
+      winRate124: pd('WinRate12#4', isPercent: true),
+      winRate125: pd('WinRate12#5', isPercent: true),
+      winRate126: pd('WinRate12#6', isPercent: true),
 
       startTime1: pd('StartTime#1'),
       startTime2: pd('StartTime#2'),

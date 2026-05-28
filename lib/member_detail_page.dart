@@ -278,6 +278,22 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
 
   // 2列のテーブル形式で選手情報を表示する
   Widget _buildMemberInfoTable(Member m) {
+    // ローカル変数にコピーすることで型プロモーション（Promotion）を有効にする
+    final h = m.height;
+    final w = m.weight;
+    final wpr = m.winPointRate;
+    final wr12 = m.winRate12;
+    final st = m.startTiming;
+    final sex = m.sex;
+    final age = m.age;
+    final firstCount = m.firstPlaceCount;
+    final secondCount = m.secondPlaceCount;
+    final raceCount = m.numberOfRace;
+    final finalsCount = m.numberOfFinals;
+    final winsCount = m.numberOfWins;
+    final pas = m.pastAbilityScore;
+    final las = m.lastAbilityScore;
+
     return Table(
       columnWidths: const {
         0: FixedColumnWidth(100),
@@ -292,20 +308,20 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
         _tableRow('支部', m.branch),
         _tableRow('出身地', m.birthplace?.replaceAll(RegExp(r'\s+'), '')),
         _tableRow('誕生日', m.gBirthday),
-        _tableRow('性別', m.sex == 1 ? "男性" : m.sex == 2 ? "女性" : m.sex?.toString()),
-        _tableRow('年齢', m.age?.toString()),
-        _tableRow('身長', m.height != null ? '${m.height} cm' : null),
-        _tableRow('体重', m.weight != null ? '${m.weight} kg' : null),
+        _tableRow('性別', sex == 1 ? "男性" : sex == 2 ? "女性" : sex?.toString()),
+        _tableRow('年齢', age?.toString()),
+        _tableRow('身長', h != null ? '${h.toStringAsFixed(0)} cm' : null),
+        _tableRow('体重', w != null ? '${w.toStringAsFixed(1)} kg' : null),
         _tableRow('血液型', m.blood),
-        _tableRow('勝率', m.winPointRate?.toStringAsFixed(2)),
-        _tableRow('複勝率', _fmtPercent(m.winRate12)),
-        _tableRow('1着回数', m.firstPlaceCount?.toString()),
-        _tableRow('2着回数', m.secondPlaceCount?.toString()),
-        _tableRow('出走回数', m.numberOfRace?.toString()),
-        _tableRow('優出回数', m.numberOfFinals?.toString()),
-        _tableRow('優勝回数', m.numberOfWins?.toString()),
-        _tableRow('平均ST', m.startTiming?.toStringAsFixed(2)),
-        _tableRow('能力指数', '${m.lastAbilityScore ?? "-"} / ${m.pastAbilityScore ?? "-"}'),
+        _tableRow('勝率', wpr != null ? wpr.toStringAsFixed(2) : null),
+        _tableRow('複勝率', _fmtPercent(wr12)),
+        _tableRow('1着回数', firstCount?.toString()),
+        _tableRow('2着回数', secondCount?.toString()),
+        _tableRow('出走回数', raceCount?.toString()),
+        _tableRow('優出回数', finalsCount?.toString()),
+        _tableRow('優勝回数', winsCount?.toString()),
+        _tableRow('平均ST', st != null ? st.toStringAsFixed(2) : null),
+        _tableRow('能力指数', '${las ?? "-"} / ${pas ?? "-"}'),
       ],
     );
   }
@@ -913,7 +929,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
     for (final r in rows) {
       entries += (r.entries ?? 0);
       first += (r.first ?? 0);
-      second += (r.second ?? 0);
+      second += (r.second ?? 0);      
       third += (r.third ?? 0);
     }
     return _Totals(entries: entries, first: first, second: second, third: third);
