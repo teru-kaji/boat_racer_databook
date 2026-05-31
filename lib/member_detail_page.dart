@@ -67,7 +67,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
         children: [
           CircleAvatar(
             radius: 60,
-            backgroundColor: accent.withValues(alpha: 0.2), // withOpacity(0.2) から変更
+            backgroundColor: accent.withValues(alpha: 0.2),
             child: CircleAvatar(
               radius: 50,
               backgroundColor: Colors.white,
@@ -291,8 +291,8 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
     final raceCount = m.numberOfRace;
     final winsCount = m.numberOfWins;
     final finalsCount = m.numberOfFinals;
-    final pas = m.pastAbilityScore;
     final las = m.lastAbilityScore;
+    final pas = m.pastAbilityScore;
 
     return Table(
       columnWidths: const {
@@ -303,14 +303,14 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
       children: [
         _tableRow('登録番号', m.number),
         _tableRow('ランク', '${m.rank ?? "-"} ⇐ ${m.rankPast1 ?? "-"} ← ${m.rankPast2 ?? "-"} ← ${m.rankPast3 ?? "-"}'),
-        _tableRow('名前', '${m.name}  ${m.kana3}' ),
-        _tableRow('支部  出身地', '${m.branch}   ${m.birthplace?.replaceAll(RegExp(r'\s+'), '')}'),
+        _tableRow('名前', '${m.name ?? ""}  ${m.kana3 ?? ""}' ),
+        _tableRow('支部  出身地', '${m.branch ?? ""}   ${m.birthplace?.replaceAll(RegExp(r'\s+'), '') ?? ""}'),
         _tableRow('年齢  誕生日','${age?.toString() ?? "-"} 才   ${m.gBirthday ?? "-"}'),
-        _tableRow('身長  体重  血液型', '${h != null ? h.toStringAsFixed(0) : "-"} cm  ${w != null ? w.toStringAsFixed(1) : "-"} kg  ${m.blood ?? "-"}'),
-        _tableRow('勝率  複勝率','${wpr != null ? wpr.toStringAsFixed(2) : "-"}  ${_fmtPercent(wr12)}'),
-        _tableRow('1着 2着 出走数', '${firstCount?.toString() ?? "0"}  ${secondCount?.toString() ?? "0"}  ${raceCount?.toString() ?? "0"}'  ),
-        _tableRow('優勝数 優出数', '${winsCount?.toString() ?? "0"}  ${finalsCount?.toString() ?? "0"}'),
-        _tableRow('平均ST', st != null ? st.toStringAsFixed(2) : "-"),
+        _tableRow('身長  体重  血液型', '${h?.toStringAsFixed(0) ?? "-"} cm  ${w?.toStringAsFixed(1) ?? "-"} kg  ${m.blood ?? "-"}'),
+        _tableRow('勝率  複勝率','${wpr?.toStringAsFixed(2) ?? "-"}  ${_fmtPercent(wr12)}'),
+        _tableRow('1着 2着 出走数', '${firstCount?.toString() ?? "0"}  ${secondCount?.toString() ?? "0"}  ${rCount?.toString() ?? "0"}'  ),
+        _tableRow('優勝数 優出数', '${wCount?.toString() ?? "0"}  ${fnCount?.toString() ?? "0"}'),
+        _tableRow('平均ST', st?.toStringAsFixed(2) ?? "-"),
         _tableRow('能力指数', '${las ?? "-"} ← ${pas ?? "-"}'),
       ],
     );
