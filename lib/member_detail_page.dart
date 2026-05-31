@@ -67,7 +67,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
         children: [
           CircleAvatar(
             radius: 60,
-            backgroundColor: accent.withOpacity(0.2),
+            backgroundColor: accent.withValues(alpha: 0.2), // withOpacity(0.2) から変更
             child: CircleAvatar(
               radius: 50,
               backgroundColor: Colors.white,
@@ -278,34 +278,40 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
 
   // 2列のテーブル形式で選手情報を表示する
   Widget _buildMemberInfoTable(Member m) {
+    // ローカル変数にコピーすることで型プロモーションを有効にする
+    final h = m.height;
+    final w = m.weight;
+    final wpr = m.winPointRate;
+    final wr12 = m.winRate12;
+    final st = m.startTiming;
+    final sex = m.sex;
+    final age = m.age;
+    final firstCount = m.firstPlaceCount;
+    final secondCount = m.secondPlaceCount;
+    final raceCount = m.numberOfRace;
+    final winsCount = m.numberOfWins;
+    final finalsCount = m.numberOfFinals;
+    final pas = m.pastAbilityScore;
+    final las = m.lastAbilityScore;
+
     return Table(
       columnWidths: const {
-        0: FixedColumnWidth(100),
+        0: FixedColumnWidth(150),
         1: FlexColumnWidth(),
       },
       border: TableBorder.all(color: Colors.grey.shade300, width: 1),
       children: [
         _tableRow('登録番号', m.number),
-        _tableRow('級', '${m.rank ?? "-"} / ${m.rankPast1 ?? "-"} / ${m.rankPast2 ?? "-"} / ${m.rankPast3 ?? "-"}'),
-        _tableRow('名前', m.name),
-        _tableRow('よみ', m.kana3),
-        _tableRow('支部', m.branch),
-        _tableRow('出身地', m.birthplace?.replaceAll(RegExp(r'\s+'), '')),
-        _tableRow('誕生日', m.gBirthday),
-        _tableRow('性別', m.sex == 1 ? "男性" : m.sex == 2 ? "女性" : m.sex?.toString()),
-        _tableRow('年齢', m.age?.toString()),
-        _tableRow('身長', m.height != null ? '${m.height} cm' : null),
-        _tableRow('体重', m.weight != null ? '${m.weight} kg' : null),
-        _tableRow('血液型', m.blood),
-        _tableRow('勝率', m.winPointRate?.toStringAsFixed(2)),
-        _tableRow('複勝率', _fmtPercent(m.winRate12)),
-        _tableRow('1着回数', m.firstPlaceCount?.toString()),
-        _tableRow('2着回数', m.secondPlaceCount?.toString()),
-        _tableRow('出走回数', m.numberOfRace?.toString()),
-        _tableRow('優出回数', m.numberOfFinals?.toString()),
-        _tableRow('優勝回数', m.numberOfWins?.toString()),
-        _tableRow('平均ST', m.startTiming?.toStringAsFixed(2)),
-        _tableRow('能力指数', '${m.lastAbilityScore ?? "-"} / ${m.pastAbilityScore ?? "-"}'),
+        _tableRow('ランク', '${m.rank ?? "-"} ⇐ ${m.rankPast1 ?? "-"} ← ${m.rankPast2 ?? "-"} ← ${m.rankPast3 ?? "-"}'),
+        _tableRow('名前', '${m.name}  ${m.kana3}' ),
+        _tableRow('支部  出身地', '${m.branch}   ${m.birthplace?.replaceAll(RegExp(r'\s+'), '')}'),
+        _tableRow('年齢  誕生日','${age?.toString() ?? "-"} 才   ${m.gBirthday ?? "-"}'),
+        _tableRow('身長  体重  血液型', '${h != null ? h.toStringAsFixed(0) : "-"} cm  ${w != null ? w.toStringAsFixed(1) : "-"} kg  ${m.blood ?? "-"}'),
+        _tableRow('勝率  複勝率','${wpr != null ? wpr.toStringAsFixed(2) : "-"}  ${_fmtPercent(wr12)}'),
+        _tableRow('1着 2着 出走数', '${firstCount?.toString() ?? "0"}  ${secondCount?.toString() ?? "0"}  ${raceCount?.toString() ?? "0"}'  ),
+        _tableRow('優勝数 優出数', '${winsCount?.toString() ?? "0"}  ${finalsCount?.toString() ?? "0"}'),
+        _tableRow('平均ST', st != null ? st.toStringAsFixed(2) : "-"),
+        _tableRow('能力指数', '${las ?? "-"} ← ${pas ?? "-"}'),
       ],
     );
   }
@@ -913,7 +919,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
     for (final r in rows) {
       entries += (r.entries ?? 0);
       first += (r.first ?? 0);
-      second += (r.second ?? 0);
+      second += (r.second ?? 0);      
       third += (r.third ?? 0);
     }
     return _Totals(entries: entries, first: first, second: second, third: third);

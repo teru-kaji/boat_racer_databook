@@ -17,7 +17,7 @@ class MemberListPage extends StatefulWidget {
 class _MemberListPageState extends State<MemberListPage> {
   // --- Font Size Constants ---
   static const double _kListItemTitleSize = 16.0;
-  static const double _kListItemSubtitleSize = 14.0;
+  static const double _kListItemSubtitleSize = 16.0;
   // ---
 
   String? _selectedDataTime;
