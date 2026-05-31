@@ -119,7 +119,20 @@ class _MemberListPageState extends State<MemberListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('レーサー検索')),
+      appBar: AppBar(
+        title: const Text('レーサー検索'),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16.0),
+            child: Center(
+              child: Text(
+                '該当: ${_results.length}名',
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(
@@ -211,8 +224,6 @@ class _MemberListPageState extends State<MemberListPage> {
               onPressed: _applyFilters,
             ),
             const SizedBox(height: 16),
-            Text('該当数: ${_results.length}名'),
-            const SizedBox(height: 8),
             Expanded(
               child: _results.isEmpty
                   ? const Center(child: Text('該当データがありません'))
