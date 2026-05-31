@@ -1,5 +1,4 @@
 // lib/models/member.dart
-//
 import 'package:objectbox/objectbox.dart';
 
 @Entity()
@@ -7,331 +6,135 @@ class Member {
   @Id()
   int id = 0;
 
+  // v + JSONキー名 で統一
   @Index()
-  String? dataTime;
-
+  String? vdt;    // dt
   @Index()
-  String? number;
-
+  String? vno;    // no
   @Index()
-  String? name;
-
+  String? vname;  // name
   @Index()
-  String? nameKana;
-
+  String? vkana;  // kana
   @Index()
-  String? kana3;
-
+  String? vkana2; // kana2
   @Index()
-  String? kana;
-
+  String? vkana3; // kana3
   @Index()
-  String? rank;
-
+  String? vbr;    // br
   @Index()
-  int? sex; // String -> int
+  String? vrank;  // rank
+  @Index()
+  int? vsex;      // sex
+  @Index()
+  int? vGene;     // Gene
 
-  // 基本情報
-  String? kana2;
-  String? branch;
-  String? wBirthday;
-  String? gBirthday;
-  int? age;       // String -> int
-  double? height; // String -> double
-  double? weight; // String -> double
-  String? blood;
-  String? birthplace;
-  String? photo;
+  String? vwbday; // wbday
+  String? vgbday; // gbday
+  int? vage;      // age
+  double? vht;    // ht
+  double? vwt;    // wt
+  String? vblood; // blood
+  String? vbirth; // birth
+  String? vphurl; // phurl
 
-  // 成績関連
-  double? winPointRate;    // String -> double
-  double? winRate12;       // String -> double
-  int? firstPlaceCount;    // String -> int
-  int? secondPlaceCount;   // String -> int
-  int? numberOfRace;       // String -> int
-  int? numberOfFinals;     // String -> int
-  int? numberOfWins;       // String -> int
-  double? startTiming;     // String -> double
+  double? vwinPt; // winPt
+  double? vwr12;  // wr12
+  int? vp1Cnt;    // p1Cnt
+  int? vp2Cnt;    // p2Cnt
+  int? vraceN;    // raceN
+  int? vfinalN;   // finalN
+  int? vwinN;     // vwinN
+  double? vstAvg; // stAvg
 
-  // 過去ランク・能力値
-  String? rankPast1;
-  String? rankPast2;
-  String? rankPast3;
-  int? pastAbilityScore;   // String -> int
-  int? lastAbilityScore;   // String -> int
+  String? vrkP1, vrkP2, vrkP3; // rkP1, rkP2, rkP3
+  int? vabPast, vabLast;       // abPast, abLast
+  int? vyear;                  // year
+  String? vseason, vsDate, veDate; // season, sDate, eDate
 
-  // データ年度・期
-  int? dataYear;           // String -> int
-  String? dataSeason;
-  String? startDate;
-  String? endDate;
-  int? generation;         // String -> int
-
-  // ===== コース別 (String -> int/double) =====
-  int? numberOfEntries1, numberOfEntries2, numberOfEntries3, numberOfEntries4, numberOfEntries5, numberOfEntries6;
-  double? winRate121, winRate122, winRate123, winRate124, winRate125, winRate126;
-  double? startTime1, startTime2, startTime3, startTime4, startTime5, startTime6;
-  double? startOrder1, startOrder2, startOrder3, startOrder4, startOrder5, startOrder6;
-
-  int? firstPlace1, firstPlace2, firstPlace3, firstPlace4, firstPlace5, firstPlace6;
-  int? secondPlace1, secondPlace2, secondPlace3, secondPlace4, secondPlace5, secondPlace6;
-  int? thirdPlace1, thirdPlace2, thirdPlace3, thirdPlace4, thirdPlace5, thirdPlace6;
-  int? fourthPlace1, fourthPlace2, fourthPlace3, fourthPlace4, fourthPlace5, fourthPlace6;
-  int? fifthPlace1, fifthPlace2, fifthPlace3, fifthPlace4, fifthPlace5, fifthPlace6;
-  int? sixthPlace1, sixthPlace2, sixthPlace3, sixthPlace4, sixthPlace5, sixthPlace6;
-
-  int? falseStart1, falseStart2, falseStart3, falseStart4, falseStart5, falseStart6;
-  int? lateStartNoResponsibility1, lateStartNoResponsibility2, lateStartNoResponsibility3, lateStartNoResponsibility4, lateStartNoResponsibility5, lateStartNoResponsibility6;
-  int? lateStartOnResponsibility1, lateStartOnResponsibility2, lateStartOnResponsibility3, lateStartOnResponsibility4, lateStartOnResponsibility5, lateStartOnResponsibility6;
-  int? withdrawNoResponsibility1, withdrawNoResponsibility2, withdrawNoResponsibility3, withdrawNoResponsibility4, withdrawNoResponsibility5, withdrawNoResponsibility6;
-  int? withdrawOnResponsibility1, withdrawOnResponsibility2, withdrawOnResponsibility3, withdrawOnResponsibility4, withdrawOnResponsibility5, withdrawOnResponsibility6;
-  int? invalidNoResponsibility1, invalidNoResponsibility2, invalidNoResponsibility3, invalidNoResponsibility4, invalidNoResponsibility5, invalidNoResponsibility6;
-  int? invalidOnResponsibility1, invalidOnResponsibility2, invalidOnResponsibility3, invalidOnResponsibility4, invalidOnResponsibility5, invalidOnResponsibility6;
-  int? invalidOnObstruction1, invalidOnObstruction2, invalidOnObstruction3, invalidOnObstruction4, invalidOnObstruction5, invalidOnObstruction6;
+  // コース別 (vc1...vc6)
+  int? vc1Ent, vc2Ent, vc3Ent, vc4Ent, vc5Ent, vc6Ent;
+  double? vc1Wr, vc2Wr, vc3Wr, vc4Wr, vc5Wr, vc6Wr;
+  double? vc1St, vc2St, vc3St, vc4St, vc5St, vc6St;
+  double? vc1So, vc2So, vc3So, vc4So, vc5So, vc6So;
+  int? vc1P1, vc2P1, vc3P1, vc4P1, vc5P1, vc6P1;
+  int? vc1P2, vc2P2, vc3P2, vc4P2, vc5P2, vc6P2;
+  int? vc1P3, vc2P3, vc3P3, vc4P3, vc5P3, vc6P3;
+  int? vc1P4, vc2P4, vc3P4, vc4P4, vc5P4, vc6P4;
+  int? vc1P5, vc2P5, vc3P5, vc4P5, vc5P5, vc6P5;
+  int? vc1P6, vc2P6, vc3P6, vc4P6, vc5P6, vc6P6;
+  int? vc1Fs, vc2Fs, vc3Fs, vc4Fs, vc5Fs, vc6Fs;
+  int? vc1LsNr, vc2LsNr, vc3LsNr, vc4LsNr, vc5LsNr, vc6LsNr;
+  int? vc1LsR, vc2LsR, vc3LsR, vc4LsR, vc5LsR, vc6LsR;
+  int? vc1WdNr, vc2WdNr, vc3WdNr, vc4WdNr, vc5WdNr, vc6WdNr;
+  int? vc1WdR, vc2WdR, vc3WdR, vc4WdR, vc5WdR, vc6WdR;
+  int? vc1InvNr, vc2InvNr, vc3InvNr, vc4InvNr, vc5InvNr, vc6InvNr;
+  int? vc1InvR, vc2InvR, vc3InvR, vc4InvR, vc5InvR, vc6InvR;
+  int? vc1InvOb, vc2InvOb, vc3InvOb, vc4InvOb, vc5InvOb, vc6InvOb;
 
   Member({
-    this.id = 0,
-    this.dataTime,
-    this.number,
-    this.name,
-    this.nameKana,
-    this.kana,
-    this.kana2,
-    this.kana3,
-    this.branch,
-    this.rank,
-    this.wBirthday,
-    this.gBirthday,
-    this.sex,
-    this.age,
-    this.height,
-    this.weight,
-    this.blood,
-    this.birthplace,
-    this.photo,
-    this.winPointRate,
-    this.winRate12,
-    this.firstPlaceCount,
-    this.secondPlaceCount,
-    this.numberOfRace,
-    this.numberOfFinals,
-    this.numberOfWins,
-    this.startTiming,
-    this.rankPast1,
-    this.rankPast2,
-    this.rankPast3,
-    this.pastAbilityScore,
-    this.lastAbilityScore,
-    this.dataYear,
-    this.dataSeason,
-    this.startDate,
-    this.endDate,
-    this.generation,
-    this.numberOfEntries1, this.numberOfEntries2, this.numberOfEntries3, this.numberOfEntries4, this.numberOfEntries5, this.numberOfEntries6,
-    this.winRate121, this.winRate122, this.winRate123, this.winRate124, this.winRate125, this.winRate126,
-    this.startTime1, this.startTime2, this.startTime3, this.startTime4, this.startTime5, this.startTime6,
-    this.startOrder1, this.startOrder2, this.startOrder3, this.startOrder4, this.startOrder5, this.startOrder6,
-    this.firstPlace1, this.firstPlace2, this.firstPlace3, this.firstPlace4, this.firstPlace5, this.firstPlace6,
-    this.secondPlace1, this.secondPlace2, this.secondPlace3, this.secondPlace4, this.secondPlace5, this.secondPlace6,
-    this.thirdPlace1, this.thirdPlace2, this.thirdPlace3, this.thirdPlace4, this.thirdPlace5, this.thirdPlace6,
-    this.fourthPlace1, this.fourthPlace2, this.fourthPlace3, this.fourthPlace4, this.fourthPlace5, this.fourthPlace6,
-    this.fifthPlace1, this.fifthPlace2, this.fifthPlace3, this.fifthPlace4, this.fifthPlace5, this.fifthPlace6,
-    this.sixthPlace1, this.sixthPlace2, this.sixthPlace3, this.sixthPlace4, this.sixthPlace5, this.sixthPlace6,
-    this.falseStart1, this.falseStart2, this.falseStart3, this.falseStart4, this.falseStart5, this.falseStart6,
-    this.lateStartNoResponsibility1, this.lateStartNoResponsibility2, this.lateStartNoResponsibility3, this.lateStartNoResponsibility4, this.lateStartNoResponsibility5, this.lateStartNoResponsibility6,
-    this.lateStartOnResponsibility1, this.lateStartOnResponsibility2, this.lateStartOnResponsibility3, this.lateStartOnResponsibility4, this.lateStartOnResponsibility5, this.lateStartOnResponsibility6,
-    this.withdrawNoResponsibility1, this.withdrawNoResponsibility2, this.withdrawNoResponsibility3, this.withdrawNoResponsibility4, this.withdrawNoResponsibility5, this.withdrawNoResponsibility6,
-    this.withdrawOnResponsibility1, this.withdrawOnResponsibility2, this.withdrawOnResponsibility3, this.withdrawOnResponsibility4, this.withdrawOnResponsibility5, this.withdrawOnResponsibility6,
-    this.invalidNoResponsibility1, this.invalidNoResponsibility2, this.invalidNoResponsibility3, this.invalidNoResponsibility4, this.invalidNoResponsibility5, this.invalidNoResponsibility6,
-    this.invalidOnResponsibility1, this.invalidOnResponsibility2, this.invalidOnResponsibility3, this.invalidOnResponsibility4, this.invalidOnResponsibility5, this.invalidOnResponsibility6,
-    this.invalidOnObstruction1, this.invalidOnObstruction2, this.invalidOnObstruction3, this.invalidOnObstruction4, this.invalidOnObstruction5, this.invalidOnObstruction6,
+    this.id = 0, this.vdt, this.vno, this.vname, this.vkana, this.vkana2, this.vkana3, this.vbr, this.vrank, this.vsex, this.vGene,
+    this.vwbday, this.vgbday, this.vage, this.vht, this.vwt, this.vblood, this.vbirth, this.vphurl,
+    this.vwinPt, this.vwr12, this.vp1Cnt, this.vp2Cnt, this.vraceN, this.vfinalN, this.vwinN, this.vstAvg,
+    this.vrkP1, this.vrkP2, this.vrkP3, this.vabPast, this.vabLast, this.vyear, this.vseason, this.vsDate, this.veDate,
+    this.vc1Ent, this.vc2Ent, this.vc3Ent, this.vc4Ent, this.vc5Ent, this.vc6Ent,
+    this.vc1Wr, this.vc2Wr, this.vc3Wr, this.vc4Wr, this.vc5Wr, this.vc6Wr,
+    this.vc1St, this.vc2St, this.vc3St, this.vc4St, this.vc5St, this.vc6St,
+    this.vc1So, this.vc2So, this.vc3So, this.vc4So, this.vc5So, this.vc6So,
+    this.vc1P1, this.vc2P1, this.vc3P1, this.vc4P1, this.vc5P1, this.vc6P1,
+    this.vc1P2, this.vc2P2, this.vc3P2, this.vc4P2, this.vc5P2, this.vc6P2,
+    this.vc1P3, this.vc2P3, this.vc3P3, this.vc4P3, this.vc5P3, this.vc6P3,
+    this.vc1P4, this.vc2P4, this.vc3P4, this.vc4P4, this.vc5P4, this.vc6P4,
+    this.vc1P5, this.vc2P5, this.vc3P5, this.vc4P5, this.vc5P5, this.vc6P5,
+    this.vc1P6, this.vc2P6, this.vc3P6, this.vc4P6, this.vc5P6, this.vc6P6,
+    this.vc1Fs, this.vc2Fs, this.vc3Fs, this.vc4Fs, this.vc5Fs, this.vc6Fs,
+    this.vc1LsNr, this.vc2LsNr, this.vc3LsNr, this.vc4LsNr, this.vc5LsNr, this.vc6LsNr,
+    this.vc1LsR, this.vc2LsR, this.vc3LsR, this.vc4LsR, this.vc5LsR, this.vc6LsR,
+    this.vc1WdNr, this.vc2WdNr, this.vc3WdNr, this.vc4WdNr, this.vc5WdNr, this.vc6WdNr,
+    this.vc1WdR, this.vc2WdR, this.vc3WdR, this.vc4WdR, this.vc5WdR, this.vc6WdR,
+    this.vc1InvNr, this.vc2InvNr, this.vc3InvNr, this.vc4InvNr, this.vc5InvNr, this.vc6InvNr,
+    this.vc1InvR, this.vc2InvR, this.vc3InvR, this.vc4InvR, this.vc5InvR, this.vc6InvR,
+    this.vc1InvOb, this.vc2InvOb, this.vc3InvOb, this.vc4InvOb, this.vc5InvOb, this.vc6InvOb,
   });
 
   factory Member.fromJson(Map<String, dynamic> json) {
-    String? s(String key) => json[key]?.toString();
-    
+    String? s(String key) => json[key]?.toString().trim();
     int? pi(String key) {
       final val = s(key);
       if (val == null || val.isEmpty) return null;
-      // 小数点（.）を維持したままパースし、最後に整数化することで "12.00" -> 12 に対応
       return double.tryParse(val.replaceAll(RegExp(r'[^0-9.-]'), ''))?.toInt();
     }
-    
     double? pd(String key, {bool isPercent = false}) {
       final val = s(key);
       if (val == null || val.isEmpty) return null;
       double? d = double.tryParse(val.replaceAll('%', ''));
-      // 比率(0.815)で入っている場合に 100倍してパーセント(81.5)に変換
-      if (isPercent && d != null && d >= 0 && d <= 1.0) {
-        d *= 100.0;
-      }
+      if (isPercent && d != null && d >= 0 && d <= 1.0) d *= 100.0;
       return d;
     }
 
     return Member(
-      id: pi('Id') ?? 0,
-      dataTime: s('DataTime'),
-      number: s('Number'),
-      name: s('Name'),
-      nameKana: s('NameKana'),
-      kana: s('Kana'),
-      kana2: s('Kana2'),
-      kana3: s('Kana3'),
-      branch: s('Branch'),
-      rank: s('Rank'),
-      wBirthday: s('WBirthday'),
-      gBirthday: s('GBirthday'),
-      sex: pi('Sex'),
-      age: pi('Age'),
-      height: pd('Height'),
-      weight: pd('Weight'),
-      blood: s('Blood'),
-      birthplace: s('Birthplace'),
-      photo: s('Photo'),
-      winPointRate: pd('WinPointRate'),
-      winRate12: pd('WinRate12', isPercent: true),
-      firstPlaceCount: pi('1stPlaceCount'),
-      secondPlaceCount: pi('2ndPlaceCount'),
-      numberOfRace: pi('NumberOfRace'),
-      numberOfFinals: pi('NumberOfFinals'),
-      numberOfWins: pi('NumberOfWins'),
-      startTiming: pd('StartTiming'),
-      rankPast1: s('RankPast1'),
-      rankPast2: s('RankPast2'),
-      rankPast3: s('RankPast3'),
-      pastAbilityScore: pi('PastAbilityScore'),
-      lastAbilityScore: pi('LastAbilityScore'),
-      dataYear: pi('DataYear'),
-      dataSeason: s('DataSeason'),
-      startDate: s('StartDate'),
-      endDate: s('EndDate'),
-      generation: pi('Generation') ?? pi('Genetation'), 
-
-      numberOfEntries1: pi('NumberOfEntries#1'),
-      numberOfEntries2: pi('NumberOfEntries#2'),
-      numberOfEntries3: pi('NumberOfEntries#3'),
-      numberOfEntries4: pi('NumberOfEntries#4'),
-      numberOfEntries5: pi('NumberOfEntries#5'),
-      numberOfEntries6: pi('NumberOfEntries#6'),
-
-      winRate121: pd('WinRate12#1', isPercent: true),
-      winRate122: pd('WinRate12#2', isPercent: true),
-      winRate123: pd('WinRate12#3', isPercent: true),
-      winRate124: pd('WinRate12#4', isPercent: true),
-      winRate125: pd('WinRate12#5', isPercent: true),
-      winRate126: pd('WinRate12#6', isPercent: true),
-
-      startTime1: pd('StartTime#1'),
-      startTime2: pd('StartTime#2'),
-      startTime3: pd('StartTime#3'),
-      startTime4: pd('StartTime#4'),
-      startTime5: pd('StartTime#5'),
-      startTime6: pd('StartTime#6'),
-
-      startOrder1: pd('StartOrder#1'),
-      startOrder2: pd('StartOrder#2'),
-      startOrder3: pd('StartOrder#3'),
-      startOrder4: pd('StartOrder#4'),
-      startOrder5: pd('StartOrder#5'),
-      startOrder6: pd('StartOrder#6'),
-
-      firstPlace1: pi('1stPlace#1'),
-      firstPlace2: pi('1stPlace#2'),
-      firstPlace3: pi('1stPlace#3'),
-      firstPlace4: pi('1stPlace#4'),
-      firstPlace5: pi('1stPlace#5'),
-      firstPlace6: pi('1stPlace#6'),
-
-      secondPlace1: pi('2ndPlace#1'),
-      secondPlace2: pi('2ndPlace#2'),
-      secondPlace3: pi('2ndPlace#3'),
-      secondPlace4: pi('2ndPlace#4'),
-      secondPlace5: pi('2ndPlace#5'),
-      secondPlace6: pi('2ndPlace#6'),
-
-      thirdPlace1: pi('3rdPlace#1'),
-      thirdPlace2: pi('3rdPlace#2'),
-      thirdPlace3: pi('3rdPlace#3'),
-      thirdPlace4: pi('3rdPlace#4'),
-      thirdPlace5: pi('3rdPlace#5'),
-      thirdPlace6: pi('3rdPlace#6'),
-
-      fourthPlace1: pi('4thPlace#1'),
-      fourthPlace2: pi('4thPlace#2'),
-      fourthPlace3: pi('4thPlace#3'),
-      fourthPlace4: pi('4thPlace#4'),
-      fourthPlace5: pi('4thPlace#5'),
-      fourthPlace6: pi('4thPlace#6'),
-
-      fifthPlace1: pi('5thPlace#1'),
-      fifthPlace2: pi('5thPlace#2'),
-      fifthPlace3: pi('5thPlace#3'),
-      fifthPlace4: pi('5thPlace#4'),
-      fifthPlace5: pi('5thPlace#5'),
-      fifthPlace6: pi('5thPlace#6'),
-
-      sixthPlace1: pi('6thPlace#1'),
-      sixthPlace2: pi('6thPlace#2'),
-      sixthPlace3: pi('6thPlace#3'),
-      sixthPlace4: pi('6thPlace#4'),
-      sixthPlace5: pi('6thPlace#5'),
-      sixthPlace6: pi('6thPlace#6'),
-
-      falseStart1: pi('FalseStart#1'),
-      falseStart2: pi('FalseStart#2'),
-      falseStart3: pi('FalseStart#3'),
-      falseStart4: pi('FalseStart#4'),
-      falseStart5: pi('FalseStart#5'),
-      falseStart6: pi('FalseStart#6'),
-
-      lateStartNoResponsibility1: pi('LateStartNoResponsibility#1'),
-      lateStartNoResponsibility2: pi('LateStartNoResponsibility#2'),
-      lateStartNoResponsibility3: pi('LateStartNoResponsibility#3'),
-      lateStartNoResponsibility4: pi('LateStartNoResponsibility#4'),
-      lateStartNoResponsibility5: pi('LateStartNoResponsibility#5'),
-      lateStartNoResponsibility6: pi('LateStartNoResponsibility#6'),
-
-      lateStartOnResponsibility1: pi('LateStartOnResponsibility#1'),
-      lateStartOnResponsibility2: pi('LateStartOnResponsibility#2'),
-      lateStartOnResponsibility3: pi('LateStartOnResponsibility#3'),
-      lateStartOnResponsibility4: pi('LateStartOnResponsibility#4'),
-      lateStartOnResponsibility5: pi('LateStartOnResponsibility#5'),
-      lateStartOnResponsibility6: pi('LateStartOnResponsibility#6'),
-
-      withdrawNoResponsibility1: pi('WithdrawNoResponsibility#1'),
-      withdrawNoResponsibility2: pi('WithdrawNoResponsibility#2'),
-      withdrawNoResponsibility3: pi('WithdrawNoResponsibility#3'),
-      withdrawNoResponsibility4: pi('WithdrawNoResponsibility#4'),
-      withdrawNoResponsibility5: pi('WithdrawNoResponsibility#5'),
-      withdrawNoResponsibility6: pi('WithdrawNoResponsibility#6'),
-
-      withdrawOnResponsibility1: pi('WithdrawOnResponsibility#1'),
-      withdrawOnResponsibility2: pi('WithdrawOnResponsibility#2'),
-      withdrawOnResponsibility3: pi('WithdrawOnResponsibility#3'),
-      withdrawOnResponsibility4: pi('WithdrawOnResponsibility#4'),
-      withdrawOnResponsibility5: pi('WithdrawOnResponsibility#5'),
-      withdrawOnResponsibility6: pi('WithdrawOnResponsibility#6'),
-
-      invalidNoResponsibility1: pi('InvalidNoResponsibility#1'),
-      invalidNoResponsibility2: pi('InvalidNoResponsibility#2'),
-      invalidNoResponsibility3: pi('InvalidNoResponsibility#3'),
-      invalidNoResponsibility4: pi('InvalidNoResponsibility#4'),
-      invalidNoResponsibility5: pi('InvalidNoResponsibility#5'),
-      invalidNoResponsibility6: pi('InvalidNoResponsibility#6'),
-
-      invalidOnResponsibility1: pi('InvalidOnResponsibility#1'),
-      invalidOnResponsibility2: pi('InvalidOnResponsibility#2'),
-      invalidOnResponsibility3: pi('InvalidOnResponsibility#3'),
-      invalidOnResponsibility4: pi('InvalidOnResponsibility#4'),
-      invalidOnResponsibility5: pi('InvalidOnResponsibility#5'),
-      invalidOnResponsibility6: pi('InvalidOnResponsibility#6'),
-
-      invalidOnObstruction1: pi('InvalidOnObstruction#1'),
-      invalidOnObstruction2: pi('InvalidOnObstruction#2'),
-      invalidOnObstruction3: pi('InvalidOnObstruction#3'),
-      invalidOnObstruction4: pi('InvalidOnObstruction#4'),
-      invalidOnObstruction5: pi('InvalidOnObstruction#5'),
-      invalidOnObstruction6: pi('InvalidOnObstruction#6'),
+      id: pi('id') ?? 0,
+      vdt: s('dt'), vno: s('no'), vname: s('name'), vkana: s('kana'), vkana2: s('kana2'), vkana3: s('kana3'), vbr: s('br'), vrank: s('rank'), vsex: pi('sex'), vGene: pi('Gene'),
+      vwbday: s('wbday'), vgbday: s('gbday'), vage: pi('age'), vht: pd('ht'), vwt: pd('wt'), vblood: s('blood'), vbirth: s('birth'), vphurl: s('phurl'),
+      vwinPt: pd('winPt'), vwr12: pd('wr12', isPercent: true), vp1Cnt: pi('p1Cnt'), vp2Cnt: pi('p2Cnt'), vraceN: pi('raceN'), vfinalN: pi('finalN'), vwinN: pi('winN'), vstAvg: pd('stAvg'),
+      vrkP1: s('rkP1'), vrkP2: s('rkP2'), vrkP3: s('rkP3'), vabPast: pi('abPast'), vabLast: pi('abLast'), vyear: pi('year'), vseason: s('season'), vsDate: s('sDate'), veDate: s('eDate'),
+      vc1Ent: pi('c1Ent'), vc2Ent: pi('c2Ent'), vc3Ent: pi('c3Ent'), vc4Ent: pi('c4Ent'), vc5Ent: pi('c5Ent'), vc6Ent: pi('c6Ent'),
+      vc1Wr: pd('c1Wr', isPercent: true), vc2Wr: pd('c2Wr', isPercent: true), vc3Wr: pd('c3Wr', isPercent: true), vc4Wr: pd('c4Wr', isPercent: true), vc5Wr: pd('c5Wr', isPercent: true), vc6Wr: pd('c6Wr', isPercent: true),
+      vc1St: pd('c1St'), vc2St: pd('c2St'), vc3St: pd('c3St'), vc4St: pd('c4St'), vc5St: pd('c5St'), vc6St: pd('c6St'),
+      vc1So: pd('c1So'), vc2So: pd('c2So'), vc3So: pd('c3So'), vc4So: pd('c4So'), vc5So: pd('c5So'), vc6So: pd('c6So'),
+      vc1P1: pi('c1P1'), vc2P1: pi('c2P1'), vc3P1: pi('c3P1'), vc4P1: pi('c4P1'), vc5P1: pi('c5P1'), vc6P1: pi('c6P1'),
+      vc1P2: pi('c1P2'), vc2P2: pi('c2P2'), vc3P2: pi('c3P2'), vc4P2: pi('c4P2'), vc5P2: pi('c5P2'), vc6P2: pi('c6P2'),
+      vc1P3: pi('c1P3'), vc2P3: pi('c2P3'), vc3P3: pi('c3P3'), vc4P3: pi('c4P3'), vc5P3: pi('c5P3'), vc6P3: pi('c6P3'),
+      vc1P4: pi('c1P4'), vc2P4: pi('c2P4'), vc3P4: pi('c3P4'), vc4P4: pi('c4P4'), vc5P4: pi('c5P4'), vc6P4: pi('c6P4'),
+      vc1P5: pi('c1P5'), vc2P5: pi('c2P5'), vc3P5: pi('c3P5'), vc4P5: pi('c4P5'), vc5P5: pi('c5P5'), vc6P5: pi('c6P5'),
+      vc1P6: pi('c1P6'), vc2P6: pi('c2P6'), vc3P6: pi('c3P6'), vc4P6: pi('c4P6'), vc5P6: pi('c5P6'), vc6P6: pi('c6P6'),
+      vc1Fs: pi('c1Fs'), vc2Fs: pi('c2Fs'), vc3Fs: pi('c3Fs'), vc4Fs: pi('c4Fs'), vc5Fs: pi('c5Fs'), vc6Fs: pi('c6Fs'),
+      vc1LsNr: pi('c1LsNr'), vc2LsNr: pi('c2LsNr'), vc3LsNr: pi('c3LsNr'), vc4LsNr: pi('c4LsNr'), vc5LsNr: pi('c5LsNr'), vc6LsNr: pi('c6LsNr'),
+      vc1LsR: pi('c1LsR'), vc2LsR: pi('c2LsR'), vc3LsR: pi('c3LsR'), vc4LsR: pi('c4LsR'), vc5LsR: pi('c5LsR'), vc6LsR: pi('c6LsR'),
+      vc1WdNr: pi('c1WdNr'), vc2WdNr: pi('c2WdNr'), vc3WdNr: pi('c3WdNr'), vc4WdNr: pi('c4WdNr'), vc5WdNr: pi('c5WdNr'), vc6WdNr: pi('c6WdNr'),
+      vc1WdR: pi('c1WdR'), vc2WdR: pi('c2WdR'), vc3WdR: pi('c3WdR'), vc4WdR: pi('c4WdR'), vc5WdR: pi('c5WdR'), vc6WdR: pi('c6WdR'),
+      vc1InvNr: pi('c1InvNr'), vc2InvNr: pi('c2InvNr'), vc3InvNr: pi('c3InvNr'), vc4InvNr: pi('c4InvNr'), vc5InvNr: pi('c5InvNr'), vc6InvNr: pi('c6InvNr'),
+      vc1InvR: pi('c1InvR'), vc2InvR: pi('c2InvR'), vc3InvR: pi('c3InvR'), vc4InvR: pi('c4InvR'), vc5InvR: pi('c5InvR'), vc6InvR: pi('c6InvR'),
+      vc1InvOb: pi('c1InvOb'), vc2InvOb: pi('c2InvOb'), vc3InvOb: pi('c3InvOb'), vc4InvOb: pi('c4InvOb'), vc5InvOb: pi('c5InvOb'), vc6InvOb: pi('c6InvOb'),
     );
   }
 }

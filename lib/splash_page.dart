@@ -66,12 +66,12 @@ class _SplashPageState extends State<SplashPage>
 
   Future<void> _importJson() async {
     try {
-      debugPrint('Starting import from members.json...');
+      debugPrint('Starting import from smember.json...');
       final stopwatch = Stopwatch()..start();
 
-      // 270MBのファイルをロード
-      final jsonString = await rootBundle.loadString('assets/members.json');
-      debugPrint('members.json loaded. Parsing...');
+      // 短縮版ファイルをロード
+      final jsonString = await rootBundle.loadString('assets/smember.json');
+      debugPrint('smember.json loaded. Parsing...');
 
       // 重いパース処理をバックグラウンド（別スレッド）で実行
       final List<Member> members = await compute(_parseMembersRobust, jsonString);

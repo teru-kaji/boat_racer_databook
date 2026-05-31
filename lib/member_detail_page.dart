@@ -41,14 +41,14 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
 
   // アイコン＋"公式プロフィールを見る" テキスト付き
   Widget buildMemberIcon(Member m) {
-    final accent = genderAccentColor(m.sex);
+    final accent = genderAccentColor(m.vsex);
 
     return GestureDetector(
       onTap: () async {
-        if (m.number == null || m.number!.isEmpty) return;
+        if (m.vno == null || m.vno!.isEmpty) return;
 
         final url = Uri.parse(
-          "https://www.boatrace.jp/owsp/sp/data/racersearch/profile?toban=${m.number}",
+          "https://www.boatrace.jp/owsp/sp/data/racersearch/profile?toban=${m.vno}",
         );
 
         final ok = await launchUrl(
@@ -104,11 +104,11 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
     }
 
     _selectedMember = member;
-    _selectedDataTime = member.dataTime;
+    _selectedDataTime = member.vdt;
 
-    if (member.number != null && member.number!.isNotEmpty) {
+    if (member.vno != null && member.vno!.isNotEmpty) {
       final query = objectbox.memberBox
-          .query(Member_.number.equals(member.number!))
+          .query(Member_.vno.equals(member.vno!))
           .build();
       _history = query.find();
     } else {
@@ -117,7 +117,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
 
     _dataTimeOptions =
         _history
-            .map((m) => m.dataTime ?? '')
+            .map((m) => m.vdt ?? '')
             .where((s) => s.isNotEmpty)
             .toList()
           ..sort((a, b) => b.compareTo(a));
@@ -126,7 +126,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
         _dataTimeOptions.isNotEmpty) {
       _selectedDataTime = _dataTimeOptions.first;
       _selectedMember = _history.firstWhere(
-        (m) => m.dataTime == _selectedDataTime,
+        (m) => m.vdt == _selectedDataTime,
         orElse: () => member,
       );
     }
@@ -147,7 +147,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
     if (selected != null && selected.isNotEmpty && selected != _selectedDataTime) {
       setState(() {
         _selectedDataTime = selected;
-        _selectedMember = _history.firstWhere((m) => m.dataTime == selected,
+        _selectedMember = _history.firstWhere((m) => m.vdt == selected,
             orElse: () => _selectedMember!); 
       });
     }
@@ -183,7 +183,7 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '${m.name ?? '詳細情報'}（${formatDataTimePeriod(_selectedDataTime ?? '')}）',
+          '${m.vname ?? '詳細情報'}（${formatDataTimePeriod(_selectedDataTime ?? '')}）',
         ),
       ),
       body: SingleChildScrollView(
@@ -279,20 +279,19 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
   // 2列のテーブル形式で選手情報を表示する
   Widget _buildMemberInfoTable(Member m) {
     // ローカル変数にコピーすることで型プロモーションを有効にする
-    final h = m.height;
-    final w = m.weight;
-    final wpr = m.winPointRate;
-    final wr12 = m.winRate12;
-    final st = m.startTiming;
-    final sex = m.sex;
-    final age = m.age;
-    final firstCount = m.firstPlaceCount;
-    final secondCount = m.secondPlaceCount;
-    final raceCount = m.numberOfRace;
-    final winsCount = m.numberOfWins;
-    final finalsCount = m.numberOfFinals;
-    final las = m.lastAbilityScore;
-    final pas = m.pastAbilityScore;
+    final h = m.vht;
+    final w = m.vwt;
+    final wpr = m.vwinPt;
+    final wr12 = m.vwr12;
+    final st = m.vstAvg;
+    final age = m.vage;
+    final firstCount = m.vp1Cnt;
+    final secondCount = m.vp2Cnt;
+    final raceCount = m.vraceN;
+    final winsCount = m.vwinN;
+    final finalsCount = m.vfinalN;
+    final las = m.vabLast;
+    final pas = m.vabPast;
 
     return Table(
       columnWidths: const {
@@ -301,12 +300,12 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
       },
       border: TableBorder.all(color: Colors.grey.shade300, width: 1),
       children: [
-        _tableRow('登録番号', m.number),
-        _tableRow('ランク', '${m.rank ?? "-"} ⇐ ${m.rankPast1 ?? "-"} ← ${m.rankPast2 ?? "-"} ← ${m.rankPast3 ?? "-"}'),
-        _tableRow('名前', '${m.name ?? ""}  ${m.kana3 ?? ""}' ),
-        _tableRow('支部  出身地', '${m.branch ?? ""}   ${m.birthplace?.replaceAll(RegExp(r'\s+'), '') ?? ""}'),
-        _tableRow('年齢  誕生日','${age?.toString() ?? "-"} 才   ${m.gBirthday ?? "-"}'),
-        _tableRow('身長  体重  血液型', '${h?.toStringAsFixed(0) ?? "-"} cm  ${w?.toStringAsFixed(1) ?? "-"} kg  ${m.blood ?? "-"}'),
+        _tableRow('登録番号', m.vno),
+        _tableRow('ランク', '${m.vrank ?? "-"} ⇐ ${m.vrkP1 ?? "-"} ← ${m.vrkP2 ?? "-"} ← ${m.vrkP3 ?? "-"}'),
+        _tableRow('名前', '${m.vname ?? ""}  ${m.vkana3 ?? ""}' ),
+        _tableRow('支部  出身地', '${m.vbr ?? ""}   ${m.vbirth?.replaceAll(RegExp(r'\s+'), '') ?? ""}'),
+        _tableRow('年齢  誕生日','${age?.toString() ?? "-"} 才   ${m.vgbday ?? "-"}'),
+        _tableRow('身長  体重  血液型', '${h?.toStringAsFixed(0) ?? "-"} cm  ${w?.toStringAsFixed(1) ?? "-"} kg  ${m.vblood ?? "-"}'),
         _tableRow('勝率  複勝率','${wpr?.toStringAsFixed(2) ?? "-"}  ${_fmtPercent(wr12)}'),
         _tableRow('1着 2着 出走数', '${firstCount?.toString() ?? "0"}  ${secondCount?.toString() ?? "0"}  ${raceCount?.toString() ?? "0"}'  ),
         _tableRow('優勝数 優出数', '${winsCount?.toString() ?? "0"}  ${finalsCount?.toString() ?? "0"}'),
@@ -444,34 +443,34 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
 
     final List<List<int?>> courseValues = [
       [
-        member.falseStart1, member.lateStartNoResponsibility1, member.lateStartOnResponsibility1,
-        member.withdrawNoResponsibility1, member.withdrawOnResponsibility1,
-        member.invalidNoResponsibility1, member.invalidOnResponsibility1, member.invalidOnObstruction1,
+        member.vc1Fs, member.vc1LsNr, member.vc1LsR,
+        member.vc1WdNr, member.vc1WdR,
+        member.vc1InvNr, member.vc1InvR, member.vc1InvOb,
       ],
       [
-        member.falseStart2, member.lateStartNoResponsibility2, member.lateStartOnResponsibility2,
-        member.withdrawNoResponsibility2, member.withdrawOnResponsibility2,
-        member.invalidNoResponsibility2, member.invalidOnResponsibility2, member.invalidOnObstruction2,
+        member.vc2Fs, member.vc2LsNr, member.vc2LsR,
+        member.vc2WdNr, member.vc2WdR,
+        member.vc2InvNr, member.vc2InvR, member.vc2InvOb,
       ],
       [
-        member.falseStart3, member.lateStartNoResponsibility3, member.lateStartOnResponsibility3,
-        member.withdrawNoResponsibility3, member.withdrawOnResponsibility3,
-        member.invalidNoResponsibility3, member.invalidOnResponsibility3, member.invalidOnObstruction3,
+        member.vc3Fs, member.vc3LsNr, member.vc3LsR,
+        member.vc3WdNr, member.vc3WdR,
+        member.vc3InvNr, member.vc3InvR, member.vc3InvOb,
       ],
       [
-        member.falseStart4, member.lateStartNoResponsibility4, member.lateStartOnResponsibility4,
-        member.withdrawNoResponsibility4, member.withdrawOnResponsibility4,
-        member.invalidNoResponsibility4, member.invalidOnResponsibility4, member.invalidOnObstruction4,
+        member.vc4Fs, member.vc4LsNr, member.vc4LsR,
+        member.vc4WdNr, member.vc4WdR,
+        member.vc4InvNr, member.vc4InvR, member.vc4InvOb,
       ],
       [
-        member.falseStart5, member.lateStartNoResponsibility5, member.lateStartOnResponsibility5,
-        member.withdrawNoResponsibility5, member.withdrawOnResponsibility5,
-        member.invalidNoResponsibility5, member.invalidOnResponsibility5, member.invalidOnObstruction5,
+        member.vc5Fs, member.vc5LsNr, member.vc5LsR,
+        member.vc5WdNr, member.vc5WdR,
+        member.vc5InvNr, member.vc5InvR, member.vc5InvOb,
       ],
       [
-        member.falseStart6, member.lateStartNoResponsibility6, member.lateStartOnResponsibility6,
-        member.withdrawNoResponsibility6, member.withdrawOnResponsibility6,
-        member.invalidNoResponsibility6, member.invalidOnResponsibility6, member.invalidOnObstruction6,
+        member.vc6Fs, member.vc6LsNr, member.vc6LsR,
+        member.vc6WdNr, member.vc6WdR,
+        member.vc6InvNr, member.vc6InvR, member.vc6InvOb,
       ],
     ];
 
@@ -859,57 +858,57 @@ class _MemberDetailPageState extends State<MemberDetailPage> {
     return [
       _CourseRow(
         lane: 1,
-        entries: m.numberOfEntries1,
-        startTime: m.startTime1,
-        winRate12: m.winRate121,
-        first: m.firstPlace1,
-        second: m.secondPlace1,
-        third: m.thirdPlace1,
+        entries: m.vc1Ent,
+        startTime: m.vc1St,
+        winRate12: m.vc1Wr,
+        first: m.vc1P1,
+        second: m.vc1P2,
+        third: m.vc1P3,
       ),
       _CourseRow(
         lane: 2,
-        entries: m.numberOfEntries2,
-        startTime: m.startTime2,
-        winRate12: m.winRate122,
-        first: m.firstPlace2,
-        second: m.secondPlace2,
-        third: m.thirdPlace2,
+        entries: m.vc2Ent,
+        startTime: m.vc2St,
+        winRate12: m.vc2Wr,
+        first: m.vc2P1,
+        second: m.vc2P2,
+        third: m.vc2P3,
       ),
       _CourseRow(
         lane: 3,
-        entries: m.numberOfEntries3,
-        startTime: m.startTime3,
-        winRate12: m.winRate123,
-        first: m.firstPlace3,
-        second: m.secondPlace3,
-        third: m.thirdPlace3,
+        entries: m.vc3Ent,
+        startTime: m.vc3St,
+        winRate12: m.vc3Wr,
+        first: m.vc3P1,
+        second: m.vc3P2,
+        third: m.vc3P3,
       ),
       _CourseRow(
         lane: 4,
-        entries: m.numberOfEntries4,
-        startTime: m.startTime4,
-        winRate12: m.winRate124,
-        first: m.firstPlace4,
-        second: m.secondPlace4,
-        third: m.thirdPlace4,
+        entries: m.vc4Ent,
+        startTime: m.vc4St,
+        winRate12: m.vc4Wr,
+        first: m.vc4P1,
+        second: m.vc4P2,
+        third: m.vc4P3,
       ),
       _CourseRow(
         lane: 5,
-        entries: m.numberOfEntries5,
-        startTime: m.startTime5,
-        winRate12: m.winRate125,
-        first: m.firstPlace5,
-        second: m.secondPlace5,
-        third: m.thirdPlace5,
+        entries: m.vc5Ent,
+        startTime: m.vc5St,
+        winRate12: m.vc5Wr,
+        first: m.vc5P1,
+        second: m.vc5P2,
+        third: m.vc5P3,
       ),
       _CourseRow(
         lane: 6,
-        entries: m.numberOfEntries6,
-        startTime: m.startTime6,
-        winRate12: m.winRate126,
-        first: m.firstPlace6,
-        second: m.secondPlace6,
-        third: m.thirdPlace6,
+        entries: m.vc6Ent,
+        startTime: m.vc6St,
+        winRate12: m.vc6Wr,
+        first: m.vc6P1,
+        second: m.vc6P2,
+        third: m.vc6P3,
       ),
     ];
   }

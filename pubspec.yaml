@@ -29,7 +29,7 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/members.json
+    - assets/smember.json
     - assets/icon.png
     - assets/icon_foreground.png
 
