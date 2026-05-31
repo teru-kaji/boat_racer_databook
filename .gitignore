@@ -45,7 +45,7 @@ app.*.map.json
 /android/app/release
 
 # Ignore members.json
-assets/members.json
+assets/smember.json
 
 # key.properties(2026/1/31)
 /android/key.properties
