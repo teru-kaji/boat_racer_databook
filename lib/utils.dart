@@ -12,7 +12,7 @@ String formatDataTimePeriod(String dataTime) {
     return '${year - 1}年後期';
   } else if (term == 2) {
     // 審査期間は当年の前期
-    return '${year}年前期';
+    return '$year年前期';
   } else {
     return dataTime;
   }
